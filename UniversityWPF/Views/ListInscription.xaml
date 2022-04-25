@@ -7,6 +7,12 @@
         mc:Ignorable="d"
         Title="ListInscription" Height="450" Width="800">
     <Grid>
-        
+        <Label Content="Lista de Inscripciones" HorizontalAlignment="Left" Margin="260,28,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold"/>
+        <DataGrid x:Name="datagridInscription" HorizontalAlignment="Left" Height="100" Margin="110,96,0,0" VerticalAlignment="Top" Width="585"/>
+        <Button x:Name="MostrarBtn" Content="Mostrar todos" HorizontalAlignment="Left" Margin="320,332,0,0" VerticalAlignment="Top" Width="135" FontSize="18" FontWeight="Bold" Height="48" Click="MostrarBtn_Click"/>
+        <Button x:Name="BuscarBtn" Content="Buscar" HorizontalAlignment="Left" Margin="595,235,0,0" VerticalAlignment="Top" Width="100" FontSize="18" FontWeight="Bold" Height="48" Click="BuscarBtn_Click"/>
+        <Label Content="ID" HorizontalAlignment="Left" Margin="160,240,0,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
+        <TextBox x:Name="idBuscar" HorizontalAlignment="Left" Height="48" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="355" Margin="210,235,0,0"/>
+
     </Grid>
 </Window>

@@ -7,11 +7,12 @@
         mc:Ignorable="d"
         Title="ListPerson" Height="450" Width="800">
     <Grid>
-        <DataGrid x:Name="datagridPerson" HorizontalAlignment="Left" Height="192" Margin="118,92,0,0" VerticalAlignment="Top" Width="547"/>
+        <DataGrid x:Name="datagridPerson" HorizontalAlignment="Left" Height="113" Margin="60,92,0,0" VerticalAlignment="Top" Width="651"/>
         <Label Content="Lista de Personas" HorizontalAlignment="Left" Margin="285,35,0,0" VerticalAlignment="Top" Height="52" Width="211" FontSize="24" FontWeight="Bold"/>
-        <Button Content="MostrarBtn" HorizontalAlignment="Left" Height="48" Margin="100,318,0,0" VerticalAlignment="Top" Width="151" FontSize="18" FontWeight="Bold" Click="MostrarBtn_Click"/>
-        <Button Content="BuscarBtn" HorizontalAlignment="Left" Height="48" Margin="312,318,0,0" VerticalAlignment="Top" Width="184" FontSize="18" FontWeight="Bold"/>
-        <Button Content="VolverBtn" HorizontalAlignment="Left" Height="48" Margin="556,318,0,0" VerticalAlignment="Top" Width="155" FontSize="18" FontWeight="Bold"/>
+        <Button x:Name="mostrarBtn" Content="Mostrar todo" HorizontalAlignment="Left" Height="48" Margin="305,330,0,0" VerticalAlignment="Top" Width="151" FontSize="18" FontWeight="Bold" Click="MostrarBtn_Click"/>
+        <Button x:Name="buscarBtn" Content="Buscar" HorizontalAlignment="Left" Height="42" Margin="527,240,0,0" VerticalAlignment="Top" Width="184" FontSize="18" FontWeight="Bold" Click="BuscarBtn_Click"/>
+        <Label Content="ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160,240,0,0" Height="45" Width="65" FontSize="18" FontWeight="Bold"/>
+        <TextBox x:Name="idBuscar" HorizontalAlignment="Left" Height="42" Margin="230,240,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontSize="18"/>
 
     </Grid>
 </Window>

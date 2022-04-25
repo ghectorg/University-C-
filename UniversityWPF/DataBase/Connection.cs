@@ -55,7 +55,7 @@ namespace UniversityWPF.DataBase
             }
         }
 
-        public void ConnectToDataBaseCON_DBCRUD()
+        public void ConnectToDataBaseCON_dbUniversity()
         {
             ConnectToDataBase(ConnectionStringdbUniversity());
         }

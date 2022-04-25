@@ -21,6 +21,9 @@ namespace UniversityWPF.Views
     /// </summary>
     public partial class ListPerson : Window
     {
+        DataBase.Connection con = new DataBase.Connection();
+        DataSet ds = new DataSet();
+
         public ListPerson()
         {
             InitializeComponent();
@@ -28,12 +31,25 @@ namespace UniversityWPF.Views
 
         private void MostrarBtn_Click(object sender, RoutedEventArgs e)
         {
-            DataBase.Connection con = new DataBase.Connection();
-            DataSet ds = new DataSet();
+            //DataBase.Connection con = new DataBase.Connection();
+            //DataSet ds = new DataSet();
             ds = con.ExecuteQueryDS("SelectAllPerson", true, con.ConnectionStringdbUniversity());
             DataTable dt = new DataTable();
             dt.Load(ds.CreateDataReader());
             datagridPerson.ItemsSource = dt.DefaultView;
+        }
+
+        private void BuscarBtn_Click(object sender, RoutedEventArgs e)
+        {
+           // DataBase.Connection con = new DataBase.Connection();
+           // DataSet ds = new DataSet();
+            string id = idBuscar.Text;
+            con.AddParameters("id", id, SqlDbType.BigInt);
+            ds = con.ExecuteQueryDS("SelectAllPerson", true, con.ConnectionStringdbUniversity());
+            DataTable dt = new DataTable();
+            dt.Load(ds.CreateDataReader());
+            datagridPerson.ItemsSource = dt.DefaultView;    
+
         }
     }
 }
