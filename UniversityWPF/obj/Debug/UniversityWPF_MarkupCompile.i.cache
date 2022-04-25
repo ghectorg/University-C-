@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Hector Garcia\Documents\C#\UniversityWPF\UniversityWPF\obj\Debug\
+C:\Users\Miguel Abdallah\Documents\C#\University-C-\UniversityWPF\obj\Debug\
 UniversityWPF
 none
 false
 DEBUG;TRACE
-C:\Users\Hector Garcia\Documents\C#\UniversityWPF\UniversityWPF\App.xaml
+C:\Users\Miguel Abdallah\Documents\C#\University-C-\UniversityWPF\App.xaml
 91421294733
 
-211692964768
+25-1119420600
 14-799888181
 Forms\FormDocument.xaml;Forms\FormInscription.xaml;Forms\FormMatter.xaml;Forms\FormPerson.xaml;MainWindow.xaml;Views\ListDocument.xaml;Views\ListInscription.xaml;Views\ListMatter.xaml;Views\ListPerson.xaml;
 
-True
+False
 
