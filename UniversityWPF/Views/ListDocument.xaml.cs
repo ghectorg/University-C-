@@ -36,14 +36,5 @@ namespace UniversityWPF.Views
             datagridDocuments.ItemsSource = dt.DefaultView;
         }
 
-        private void BuscarBtn_Click(object sender, RoutedEventArgs e)
-        {
-            string id = idBuscar.Text;
-            con.AddParameters("id", id, SqlDbType.BigInt);
-            ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
-            DataTable dt = new DataTable();
-            dt.Load(ds.CreateDataReader());
-            datagridDocuments.ItemsSource = dt.DefaultView;
-        }
     }
 }
