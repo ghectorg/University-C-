@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data;
 using System.Data.SqlClient;
+using System.Collections.ObjectModel;
 
 namespace UniversityWPF.Views
 {
@@ -24,6 +25,8 @@ namespace UniversityWPF.Views
         DataBase.Connection con = new DataBase.Connection();
         DataSet ds = new DataSet();
         DataTable dt = new DataTable();
+        Class.Document dc = new Class.Document();
+        ObservableCollection<Class.Document> documents = new ObservableCollection<Class.Document>();
 
         public ListDocument()
         {
@@ -34,7 +37,9 @@ namespace UniversityWPF.Views
         {
             ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
             dt.Load(ds.CreateDataReader());
-            datagridDocuments.ItemsSource = dt.DefaultView;
+            documents = dc.getDocument(dt);
+            //datagridDocuments.ItemsSource = dt.DefaultView;
+            datagridDocuments.DataContext = documents;
             
         }
 

@@ -10,9 +10,12 @@
         <Label Content="Lista de Documentos" HorizontalAlignment="Left" Margin="270,30,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold"/>
         <DataGrid x:Name="datagridDocuments" HorizontalAlignment="Left" Height="215" Margin="95,95,0,0" VerticalAlignment="Top" Width="595">
             <DataGrid.Columns>
-                <DataGridComboBoxColumn x:Name="acciones"/>
-            </DataGrid.Columns>
+                <DataGridTextColumn Header="ID Documento"  Binding="{Binding id}"/>
+                <DataGridTextColumn Header="Codigo"  Binding="{Binding code}"/>
+                <DataGridTextColumn Header="Nombre"  Binding="{Binding name}"/>
+                <DataGridTextColumn Header="Descripcion"  Binding="{Binding descrip}"/>
 
+            </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="MostrarBtn" Content="Mostrar todos" HorizontalAlignment="Left" Margin="95,340,0,0" VerticalAlignment="Top" Width="160" FontSize="18" FontWeight="Bold" Height="45" Click="MostrarBtn_Click"/>
         <ComboBox HorizontalAlignment="Left" Margin="315,340,0,0" VerticalAlignment="Top" Width="170" Height="45" FontSize="18" FontWeight="Bold">

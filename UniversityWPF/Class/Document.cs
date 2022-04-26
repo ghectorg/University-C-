@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace UniversityWPF.Class
 {
@@ -44,10 +45,28 @@ namespace UniversityWPF.Class
             set { isActive = value; }
         }
 
-        public static ObservableCollection<Document> getDocument(int id, string cd, string name, string decrip, bool active)
+        public ObservableCollection<Document> getDocument(DataTable dt)
         {
             var docs = new ObservableCollection<Document>();
-            docs.Add(new Document() { IdDocument = id, Code = cd, Name = name, Description = decrip, IsActive = active});
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                Document doc = new Document();
+                doc.IdDocument = Convert.ToInt32(dt.Rows[i]["idDocumentType"]);
+                doc.Code = dt.Rows[i]["code"].ToString();
+                doc.Name = dt.Rows[i]["name"].ToString();
+                if (dt.Rows[i]["description"].ToString() == null)
+                {
+                    doc.Description = "";
+                }
+                else
+                {
+                    doc.Description = dt.Rows[i]["description"].ToString();
+                }
+                doc.IsActive = Convert.ToBoolean(dt.Rows[i]["isActive"]);
+
+                docs.Add(doc);
+            }
+            
             return docs;
         }
 
