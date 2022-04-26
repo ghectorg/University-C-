@@ -7,18 +7,18 @@
         mc:Ignorable="d"
         Title="FormDocument" Height="507" Width="800">
     <Grid Margin="0,0,0,-31">
-        <DataGrid HorizontalAlignment="Left" Height="180" Margin="70,265,0,0" VerticalAlignment="Top" Width="640"/>
+        <DataGrid SelectedCellsChanged="DgDoc_SelectedCellsChanged" x:Name="dgDoc" HorizontalAlignment="Left" Height="180" Margin="70,265,0,0" VerticalAlignment="Top" Width="640"/>
         <Label Content="Nombre" HorizontalAlignment="Left" Margin="108,25,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold"/>
         <Label Content="Codigo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,61,0,0" FontSize="14" FontWeight="Bold"/>
         <Label Content="Descripcion" HorizontalAlignment="Left" Margin="85,116,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold"/>
         <Label Content="ID" HorizontalAlignment="Left" Margin="147,160,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="405" Margin="210,22,0,0" FontSize="14"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="405" Margin="210,67,0,0" FontSize="14"/>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="405" Margin="210,116,0,0" FontSize="14"/>
-        <Button Content="Crear" HorizontalAlignment="Left" Margin="70,225,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Editar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="355,225,0,0"/>
-        <Button Content="Eliminar" HorizontalAlignment="Left" Margin="635,225,0,0" VerticalAlignment="Top" Width="75"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="210,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="405" FontSize="14"/>
+        <TextBox x:Name="name_txt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="405" Margin="210,22,0,0" FontSize="14"/>
+        <TextBox x:Name="code_txt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="405" Margin="210,67,0,0" FontSize="14"/>
+        <TextBox x:Name="description_txt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="405" Margin="210,116,0,0" FontSize="14"/>
+        <Button x:Name="CrearBtn" Content="Crear" HorizontalAlignment="Left" Margin="70,210,0,0" VerticalAlignment="Top" Width="102" FontSize="14" FontWeight="Bold" Height="38"/>
+        <Button x:Name="EditBtn" Content="Editar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="330,210,0,0" FontSize="14" FontWeight="Bold" Height="38"/>
+        <Button x:Name="DeleteBtn" Content="Eliminar" HorizontalAlignment="Left" Margin="610,210,0,0" VerticalAlignment="Top" Width="100" FontSize="14" FontWeight="Bold" Height="38"/>
+        <TextBox x:Name="id_txt" HorizontalAlignment="Left" Height="23" Margin="210,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="405" FontSize="14"/>
 
     </Grid>
 </Window>

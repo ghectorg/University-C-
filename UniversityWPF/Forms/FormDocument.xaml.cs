@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data;
 
 namespace UniversityWPF.Forms
 {
@@ -19,9 +20,34 @@ namespace UniversityWPF.Forms
     /// </summary>
     public partial class FormDocument : Window
     {
-        public FormDocument()
+        DataBase.Connection con = new DataBase.Connection();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+
+        public FormDocument(DataTable dt)
         {
             InitializeComponent();
+            this.dt = dt;
+            dgDoc.ItemsSource = dt.DefaultView;
+        }
+        class Document
+        {
+            public int idDocumentType;
+            public string code;
+            public string name;
+            public string description;
+            public bool isActive;
+
+            Document(int id, string cd, string nm, string descrip, bool isActive)
+            {
+            }
+        }
+
+        private void DgDoc_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            Object doc = dgDoc.SelectedItem;
+            MessageBox.Show("info: " + doc);
+            
         }
     }
 }
