@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Actions.cs" />
     <Compile Include="Class\Document.cs" />
     <Compile Include="Class\Iscription.cs" />
     <Compile Include="Class\Matter.cs" />

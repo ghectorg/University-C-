@@ -20,6 +20,7 @@ namespace UniversityWPF.Views
     /// <summary>
     /// Lógica de interacción para ListDocument.xaml
     /// </summary>
+   
     public partial class ListDocument : Window
     {
         DataBase.Connection con = new DataBase.Connection();
@@ -30,7 +31,7 @@ namespace UniversityWPF.Views
 
         public ListDocument()
         {
-            InitializeComponent();
+            InitializeComponent();    
         }
 
         private void MostrarBtn_Click(object sender, RoutedEventArgs e)
@@ -40,14 +41,14 @@ namespace UniversityWPF.Views
             documents = dc.getDocument(dt);
             //datagridDocuments.ItemsSource = dt.DefaultView;
             datagridDocuments.DataContext = documents;
-            
+            datagridDocuments.ItemsSource = documents;
         }
 
         private void EdicionBtn_Click(object sender, RoutedEventArgs e)
         {
-            Forms.FormDocument view1 = new Forms.FormDocument(dt);
-            view1.Owner = this;
-            view1.ShowDialog();
+           // Forms.FormDocument view1 = new Forms.FormDocument(dt);
+            //view1.Owner = this;
+            //view1.ShowDialog();
         }
     }
 }

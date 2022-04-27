@@ -45,6 +45,8 @@ namespace UniversityWPF.Class
             set { isActive = value; }
         }
 
+        public Actions Action { get; set; }
+
         public ObservableCollection<Document> getDocument(DataTable dt)
         {
             var docs = new ObservableCollection<Document>();
