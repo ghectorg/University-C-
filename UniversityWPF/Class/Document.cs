@@ -56,7 +56,7 @@ namespace UniversityWPF.Class
                 doc.IdDocument = Convert.ToInt32(dt.Rows[i]["idDocumentType"]);
                 doc.Code = dt.Rows[i]["code"].ToString();
                 doc.Name = dt.Rows[i]["name"].ToString();
-                if (dt.Rows[i]["description"].ToString() == null)
+                if (dt.Rows[i]["description"] == null)
                 {
                     doc.Description = "";
                 }

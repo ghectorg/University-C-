@@ -7,12 +7,29 @@
         mc:Ignorable="d"
         Title="ListMatter" Height="450" Width="800">
     <Grid>
-        <Label Content="Lista de Cursos" HorizontalAlignment="Left" Margin="310,23,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold"/>
-        <DataGrid x:Name="datagridMatter" HorizontalAlignment="Left" Height="135" Margin="95,90,0,0" VerticalAlignment="Top" Width="605"/>
-        <Button x:Name="BuscarBtn" Content="Buscar" HorizontalAlignment="Left" Margin="595,262,0,0" VerticalAlignment="Top" Width="105" Height="48" FontSize="18" FontWeight="Bold" Click="BuscarBtn_Click"/>
-        <Button x:Name="MostrarBtn" Content="Mostrar Todos" HorizontalAlignment="Left" Margin="310,325,0,0" VerticalAlignment="Top" Width="145" FontSize="18" FontWeight="Bold" Height="48" Click="MostrarBtn_Click"/>
-        <Label Content="ID" HorizontalAlignment="Left" Margin="135,262,0,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
-        <TextBox x:Name="idBuscar" HorizontalAlignment="Left" Height="40" Margin="205,262,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="330" FontSize="18"/>
+        <Grid.Resources>
+            <DataTemplate x:Key="ActionTemplate">
+                <ComboBox x:Name="ComboBtn">
+
+                    <Button x:Name="editarBtn" Content="Editar" Click="EditarBtn_Click"/>
+                    <Button x:Name="eliminarBtn" Content="Eliminar" Click="EliminarBtn_Click"/>
+                </ComboBox>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <DataGrid x:Name="datagridMatter" ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="193" Margin="80,97,0,0" VerticalAlignment="Top" Width="635">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID Cursos"  Binding="{Binding IdMatter}"/>
+                <DataGridTextColumn Header="Nombre"  Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Descripcion"  Binding="{Binding Description}"/>
+                <DataGridTemplateColumn Header="Acciones" CellTemplate="{StaticResource ActionTemplate}"/>
+            </DataGrid.Columns>
+
+        </DataGrid>
+        <Label Content="Lista de Cursos" HorizontalAlignment="Left" Margin="312,28,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold"/>
+        <Button Click="Button_Click"
+            Content="Crear Nuevo" HorizontalAlignment="Left" Margin="330,325,0,0" VerticalAlignment="Top" Width="128" Height="40" FontSize="14" FontWeight="Bold"/>
 
     </Grid>
 </Window>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data;
+using System.Collections.ObjectModel;
 
 namespace UniversityWPF.Views
 {
@@ -20,30 +21,38 @@ namespace UniversityWPF.Views
     /// </summary>
     public partial class ListMatter : Window
     {
+        DataBase.Connection con = new DataBase.Connection();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        Class.Matter mt = new Class.Matter();
+        ObservableCollection<Class.Matter> cursos = new ObservableCollection<Class.Matter>();
+        Forms.FormMatter formMt = new Forms.FormMatter();
+
+
         public ListMatter()
         {
             InitializeComponent();
+            ds = con.ExecuteQueryDS("SelectAllMatter", true, con.ConnectionStringdbUniversity());
+            dt.Load(ds.CreateDataReader());
+            cursos = mt.getMatter(dt);
+            datagridMatter.DataContext = cursos;
+            datagridMatter.ItemsSource = cursos;
         }
 
-        DataBase.Connection con = new DataBase.Connection();
-        DataSet ds = new DataSet();
-
-        private void MostrarBtn_Click(object sender, RoutedEventArgs e)
+        private void EditarBtn_Click(object sender, RoutedEventArgs e)
         {
-            ds = con.ExecuteQueryDS("SelectAllMatter", true, con.ConnectionStringdbUniversity());
-            DataTable dt = new DataTable();
-            dt.Load(ds.CreateDataReader());
-            datagridMatter.ItemsSource = dt.DefaultView;
+            //pasar info al formulario y guardar cambios despues de editar
         }
 
-        private void BuscarBtn_Click(object sender, RoutedEventArgs e)
+        private void EliminarBtn_Click(object sender, RoutedEventArgs e)
         {
-            string id = idBuscar.Text;
-            con.AddParameters("id", id, SqlDbType.BigInt);
-            ds = con.ExecuteQueryDS("SelectAllMatter", true, con.ConnectionStringdbUniversity());
-            DataTable dt = new DataTable();
-            dt.Load(ds.CreateDataReader());
-            datagridMatter.ItemsSource = dt.DefaultView;
+            //cambiar isActive a false
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            formMt.Owner = this;
+            formMt.ShowDialog();
         }
     }
 }

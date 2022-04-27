@@ -6,5 +6,23 @@
         xmlns:local="clr-namespace:UniversityWPF.Forms"
         mc:Ignorable="d"
         Title="FormPerson" Height="450" Width="800">
-    <Grid/>
+    <Grid>
+        <Button Content="Crear Nuevo" HorizontalAlignment="Left" Margin="190,325,0,0" VerticalAlignment="Top" Width="160" FontSize="14" FontWeight="Bold" Height="45"/>
+        <Button Content="Editar Seleccionado" HorizontalAlignment="Left" Margin="470,325,0,0" VerticalAlignment="Top" Width="160" FontSize="14" FontWeight="Bold" Height="45"/>
+        <Label Content="Formulario Personas" HorizontalAlignment="Left" Margin="279,10,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold"/>
+        <Label Content="ID Documento" HorizontalAlignment="Left" Margin="93,71,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label Content="Documento" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="93,130,0,0" FontSize="14"/>
+        <Label Content="Primer Nombre" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="93,180,0,0" FontSize="14"/>
+        <Label Content="Segundo Nombre" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="425,180,0,0" FontSize="14"/>
+        <Label Content="Primer Apellido" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="93,229,0,0" FontSize="14"/>
+        <Label Content="Segundo Apellido" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="425,229,0,0" FontSize="14"/>
+        <Label Content="Fecha de Nacimiento" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="58,270,0,0" FontSize="14"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="230,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="230,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="230,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="230,229,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="230,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="570,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="570,235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14"/>
+    </Grid>
 </Window>

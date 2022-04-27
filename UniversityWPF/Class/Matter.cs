@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace UniversityWPF.Class
 {
@@ -37,10 +38,31 @@ namespace UniversityWPF.Class
             set { isActive = value; }
         }
 
-        public static ObservableCollection<Matter> getMatter()
+        public Actions Action { get; set; }
+        
+        public ObservableCollection<Matter> getMatter(DataTable dt)
         {
-            var mat = new ObservableCollection<Matter>();
-            return mat;
+            var cursos = new ObservableCollection<Matter>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                Matter curso = new Matter();
+                curso.IdMatter = Convert.ToInt32(dt.Rows[i]["idMatter"]);
+                curso.Name = dt.Rows[i]["name"].ToString();
+                if (dt.Rows[i]["description"] == null)
+                {
+                    curso.Description = "";
+                }
+                else
+                {
+                    curso.Description = dt.Rows[i]["description"].ToString();
+                }
+                curso.IsActive = Convert.ToBoolean(dt.Rows[i]["isActive"]);
+
+                cursos.Add(curso);
+            }
+
+            return cursos;
         }
     }
 }

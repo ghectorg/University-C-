@@ -28,27 +28,33 @@ namespace UniversityWPF.Views
         DataTable dt = new DataTable();
         Class.Document dc = new Class.Document();
         ObservableCollection<Class.Document> documents = new ObservableCollection<Class.Document>();
+        Forms.FormDocument formDoc = new Forms.FormDocument();
 
         public ListDocument()
         {
-            InitializeComponent();    
-        }
-
-        private void MostrarBtn_Click(object sender, RoutedEventArgs e)
-        {
+            InitializeComponent();
             ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
             dt.Load(ds.CreateDataReader());
             documents = dc.getDocument(dt);
-            //datagridDocuments.ItemsSource = dt.DefaultView;
             datagridDocuments.DataContext = documents;
             datagridDocuments.ItemsSource = documents;
         }
 
-        private void EdicionBtn_Click(object sender, RoutedEventArgs e)
+        private void EditarBtn_Click(object sender, RoutedEventArgs e)
         {
-           // Forms.FormDocument view1 = new Forms.FormDocument(dt);
-            //view1.Owner = this;
-            //view1.ShowDialog();
+            //enviar datos al formulario para editar y guardar cambios
+        }
+
+
+        private void EliminarBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //cambiar en la base de datos isActive
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            formDoc.Owner = this;
+            formDoc.ShowDialog();
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
+using System.Collections.ObjectModel;
 
 namespace UniversityWPF.Views
 {
@@ -23,33 +24,38 @@ namespace UniversityWPF.Views
     {
         DataBase.Connection con = new DataBase.Connection();
         DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        Class.Person person = new Class.Person();
+        ObservableCollection<Class.Person> persons = new ObservableCollection<Class.Person>();
+        Forms.FormPerson formPerson = new Forms.FormPerson();
 
         public ListPerson()
         {
             InitializeComponent();
+            ds = con.ExecuteQueryDS("SelectAllPerson", true, con.ConnectionStringdbUniversity());
+            dt.Load(ds.CreateDataReader());
+            persons = person.getPerson(dt);
+            datagridPerson.DataContext = persons;
+            datagridPerson.ItemsSource = persons;
         }
 
-        private void MostrarBtn_Click(object sender, RoutedEventArgs e)
+        private void EditarBtn_Click(object sender, RoutedEventArgs e)
         {
-            //DataBase.Connection con = new DataBase.Connection();
-            //DataSet ds = new DataSet();
-            ds = con.ExecuteQueryDS("SelectAllPerson", true, con.ConnectionStringdbUniversity());
-            DataTable dt = new DataTable();
-            dt.Load(ds.CreateDataReader());
-            datagridPerson.ItemsSource = dt.DefaultView;
+            //pasar todos los datos al formulario y se efectuen los cambios y guardar
         }
 
-        private void BuscarBtn_Click(object sender, RoutedEventArgs e)
+        private void EliminarBtn_Click(object sender, RoutedEventArgs e)
         {
-           // DataBase.Connection con = new DataBase.Connection();
-           // DataSet ds = new DataSet();
-            string id = idBuscar.Text;
-            con.AddParameters("id", id, SqlDbType.BigInt);
-            ds = con.ExecuteQueryDS("SelectAllPerson", true, con.ConnectionStringdbUniversity());
-            DataTable dt = new DataTable();
-            dt.Load(ds.CreateDataReader());
-            datagridPerson.ItemsSource = dt.DefaultView;    
+            //cambiar is active a falso, en base de datos y programa
+        }
 
+
+        private void CrearBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Si funcionan los botones ene l combo box");
+            
+            formPerson.Owner = this;
+            formPerson.ShowDialog();
         }
     }
 }

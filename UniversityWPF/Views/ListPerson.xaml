@@ -5,14 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UniversityWPF.Views"
         mc:Ignorable="d"
-        Title="ListPerson" Height="450" Width="800">
+        Title="ListPerson" Height="432" Width="894">
     <Grid>
-        <DataGrid x:Name="datagridPerson" HorizontalAlignment="Left" Height="113" Margin="60,92,0,0" VerticalAlignment="Top" Width="651"/>
-        <Label Content="Lista de Personas" HorizontalAlignment="Left" Margin="285,35,0,0" VerticalAlignment="Top" Height="52" Width="211" FontSize="24" FontWeight="Bold"/>
-        <Button x:Name="mostrarBtn" Content="Mostrar todo" HorizontalAlignment="Left" Height="48" Margin="305,330,0,0" VerticalAlignment="Top" Width="151" FontSize="18" FontWeight="Bold" Click="MostrarBtn_Click"/>
-        <Button x:Name="buscarBtn" Content="Buscar" HorizontalAlignment="Left" Height="42" Margin="527,240,0,0" VerticalAlignment="Top" Width="184" FontSize="18" FontWeight="Bold" Click="BuscarBtn_Click"/>
-        <Label Content="ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160,240,0,0" Height="45" Width="65" FontSize="18" FontWeight="Bold"/>
-        <TextBox x:Name="idBuscar" HorizontalAlignment="Left" Height="42" Margin="230,240,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" FontSize="18"/>
+
+        <Grid.Resources>
+            <DataTemplate x:Key="ActionTemplate">
+                <ComboBox x:Name="ComboBtn">
+
+                    <Button x:Name="editarBtn" Content="Editar" Click="EditarBtn_Click"/>
+                    <Button x:Name="eliminarBtn" Content="Eliminar" Click="EliminarBtn_Click"/>
+                </ComboBox>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <DataGrid x:Name="datagridPerson" ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="193" Margin="40,87,0,0" VerticalAlignment="Top" Width="790">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID Persona"  Binding="{Binding IdPerson}"/>
+                <DataGridTextColumn Header="ID Documento"  Binding="{Binding IdDocument}"/>
+                <DataGridTextColumn Header="Documento"  Binding="{Binding Document}"/>
+                <DataGridTextColumn Header="Primer Nombre"  Binding="{Binding Name1}"/>
+                <DataGridTextColumn Header="Segundo Nombre"  Binding="{Binding Name2}"/>
+                <DataGridTextColumn Header="Primer Apellido"  Binding="{Binding Lastname1}"/>
+                <DataGridTextColumn Header="Segundo Apellido"  Binding="{Binding Lastname2}"/>
+                <DataGridTextColumn Header="Fecha nacimiento"  Binding="{Binding birthdayDate}"/>
+                <DataGridTemplateColumn Header="Acciones" CellTemplate="{StaticResource ActionTemplate}"/>
+            </DataGrid.Columns>
+
+        </DataGrid>
+        <Label Content="Lista de Personas" HorizontalAlignment="Left" Margin="345,10,0,0" VerticalAlignment="Top" Height="52" Width="211" FontSize="24" FontWeight="Bold"/>
+        <Button x:Name="CrearBtn" 
+                Content="Crear nuevo" HorizontalAlignment="Left" Margin="370,320,0,0" VerticalAlignment="Top" Width="161" FontSize="18" FontWeight="Bold"
+                Click="CrearBtn_Click_1"/>
 
     </Grid>
 </Window>

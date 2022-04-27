@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data;
+using System.Collections.ObjectModel;
 
 namespace UniversityWPF.Views
 {
@@ -20,30 +21,41 @@ namespace UniversityWPF.Views
     /// </summary>
     public partial class ListInscription : Window
     {
+        DataBase.Connection con = new DataBase.Connection();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        Class.Iscription ins = new Class.Iscription();
+        ObservableCollection<Class.Iscription> allIns = new ObservableCollection<Class.Iscription>();
+        Forms.FormInscription formIns = new Forms.FormInscription();
+
         public ListInscription()
         {
             InitializeComponent();
+            ds = con.ExecuteQueryDS("SelectAllInscription", true, con.ConnectionStringdbUniversity());
+            dt.Load(ds.CreateDataReader());
+            allIns = ins.getInscription(dt);
+            datagridInscription.DataContext = allIns;
+            datagridInscription.ItemsSource = allIns;
+
         }
 
-        DataBase.Connection con = new DataBase.Connection();
-        DataSet ds = new DataSet();
+        
 
-        private void MostrarBtn_Click(object sender, RoutedEventArgs e)
+
+        private void EditarBtn_Click(object sender, RoutedEventArgs e)
         {
-            ds = con.ExecuteQueryDS("SelectAllInscription", true, con.ConnectionStringdbUniversity());
-            DataTable dt = new DataTable();
-            dt.Load(ds.CreateDataReader());
-            datagridInscription.ItemsSource = dt.DefaultView;
+            //pasar datos al formulario y guardar
         }
 
-        private void BuscarBtn_Click(object sender, RoutedEventArgs e)
+        private void EliminarBtn_Click(object sender, RoutedEventArgs e)
         {
-            string id = idBuscar.Text;
-            con.AddParameters("id", id, SqlDbType.BigInt);
-            ds = con.ExecuteQueryDS("SelectAllInscription", true, con.ConnectionStringdbUniversity());
-            DataTable dt = new DataTable();
-            dt.Load(ds.CreateDataReader());
-            datagridInscription.ItemsSource = dt.DefaultView;
+            //cambiar isActive en base de datos
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            formIns.Owner = this;
+            formIns.ShowDialog();
         }
     }
 }

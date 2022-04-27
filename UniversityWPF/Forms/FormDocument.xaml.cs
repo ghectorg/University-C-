@@ -20,22 +20,15 @@ namespace UniversityWPF.Forms
     /// </summary>
     public partial class FormDocument : Window
     {
-        DataBase.Connection con = new DataBase.Connection();
-        DataSet ds = new DataSet();
-        DataTable dt = new DataTable();
+        //DataBase.Connection con = new DataBase.Connection();
+        //DataSet ds = new DataSet();
+        //DataTable dt = new DataTable();
 
-        public FormDocument(DataTable dt)
+
+        public FormDocument()
         {
-            InitializeComponent();
-            this.dt = dt;
-            dgDoc.ItemsSource = dt.DefaultView;
+            InitializeComponent();            
         }
 
-        private void DgDoc_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-        {
-            Object doc = dgDoc.SelectedItem;
-            MessageBox.Show("info: " + doc);
-
-        }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace UniversityWPF.Class
 {
@@ -72,10 +73,40 @@ namespace UniversityWPF.Class
             set { isActive = value; }
         }
 
-        public static ObservableCollection<Person> getPerson()
+        public Actions Action { get; set; }
+        
+        public ObservableCollection<Person> getPerson(DataTable dt)
         {
-            var person = new ObservableCollection<Person>();
-            return person;
+            var persons = new ObservableCollection<Person>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                Person per = new Person();
+                per.IdPerson = Convert.ToInt32(dt.Rows[i]["idPerson"]);
+                per.IdDocument = Convert.ToInt32(dt.Rows[i]["idDocumentType"]);
+                per.Document = dt.Rows[i]["document"].ToString();
+                per.Name1 = dt.Rows[i]["name1"].ToString();
+                per.Lastname1 = dt.Rows[i]["lastname1"].ToString();
+
+                if (dt.Rows[i]["name2"] == null )
+                {
+                    per.Name2 = "";
+                }
+                else if (dt.Rows[i]["lastname2"] == null)
+                {
+                    per.Lastname2 = "";
+                }
+                else
+                {
+                    per.name2 = dt.Rows[i]["name2"].ToString();
+                    per.Lastname2 = dt.Rows[i]["lastname2"].ToString();
+
+                }
+                per.BirthayDay = dt.Rows[i]["birthdayDate"].ToString();
+                per.IsActive = Convert.ToBoolean(dt.Rows[i]["isActive"]);
+
+                persons.Add(per);
+            }
+            return persons;
         }
     }
 }
