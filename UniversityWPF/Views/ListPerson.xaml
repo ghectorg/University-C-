@@ -6,14 +6,22 @@
         xmlns:local="clr-namespace:UniversityWPF.Views"
         mc:Ignorable="d"
         Title="ListPerson" Height="432" Width="894">
+    
     <Grid>
 
         <Grid.Resources>
             <DataTemplate x:Key="ActionTemplate">
                 <ComboBox x:Name="ComboBtn">
-
-                    <Button x:Name="editarBtn" Content="Editar" Click="EditarBtn_Click"/>
-                    <Button x:Name="eliminarBtn" Content="Eliminar" Click="EliminarBtn_Click"/>
+                    <Button x:Name="editBtn" Click="EditBtn_Click" Background="White" BorderBrush="White"
+                            Width="50" Height="25">Editar</Button>
+                    <Button x:Name="deleteBtn" Click="DeleteBtn_Click"
+                            Background="White" BorderBrush="White" Width="50" Height="25">
+                        Eliminar
+                    </Button>
+                   <!--
+                    <ComboBoxItem>Editar</ComboBoxItem>
+                    <ComboBoxItem x:Name="deleteBtn">Eliminar</ComboBoxItem>
+                    --> 
                 </ComboBox>
             </DataTemplate>
         </Grid.Resources>
@@ -22,14 +30,14 @@
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID Persona"  Binding="{Binding IdPerson}"/>
-                <DataGridTextColumn Header="ID Documento"  Binding="{Binding IdDocument}"/>
+                <DataGridTextColumn Header="Codigo Doc"  Binding="{Binding CodeDocument}"/>
                 <DataGridTextColumn Header="Documento"  Binding="{Binding Document}"/>
                 <DataGridTextColumn Header="Primer Nombre"  Binding="{Binding Name1}"/>
                 <DataGridTextColumn Header="Segundo Nombre"  Binding="{Binding Name2}"/>
                 <DataGridTextColumn Header="Primer Apellido"  Binding="{Binding Lastname1}"/>
                 <DataGridTextColumn Header="Segundo Apellido"  Binding="{Binding Lastname2}"/>
                 <DataGridTextColumn Header="Fecha nacimiento"  Binding="{Binding birthdayDate}"/>
-                <DataGridTemplateColumn Header="Acciones" CellTemplate="{StaticResource ActionTemplate}"/>
+                <DataGridTemplateColumn x:Name="ColumnAction" Header="Acciones" CellTemplate="{StaticResource ActionTemplate}"/>
             </DataGrid.Columns>
 
         </DataGrid>

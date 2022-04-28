@@ -73,6 +73,13 @@ namespace UniversityWPF.Class
             set { isActive = value; }
         }
 
+        private string codeDocument;
+        public string CodeDocument
+        {
+            get { return codeDocument; }
+            set { codeDocument = value; }
+        }
+
         public Actions Action { get; set; }
         
         public ObservableCollection<Person> getPerson(DataTable dt)
@@ -103,6 +110,7 @@ namespace UniversityWPF.Class
                 }
                 per.BirthayDay = dt.Rows[i]["birthdayDate"].ToString();
                 per.IsActive = Convert.ToBoolean(dt.Rows[i]["isActive"]);
+                per.CodeDocument = dt.Rows[i]["code"].ToString();
 
                 persons.Add(per);
             }

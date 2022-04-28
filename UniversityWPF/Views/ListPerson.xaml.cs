@@ -36,19 +36,8 @@ namespace UniversityWPF.Views
             dt.Load(ds.CreateDataReader());
             persons = person.getPerson(dt);
             datagridPerson.DataContext = persons;
-            datagridPerson.ItemsSource = persons;
+            //datagridPerson.ItemsSource = persons;
         }
-
-        private void EditarBtn_Click(object sender, RoutedEventArgs e)
-        {
-            //pasar todos los datos al formulario y se efectuen los cambios y guardar
-        }
-
-        private void EliminarBtn_Click(object sender, RoutedEventArgs e)
-        {
-            //cambiar is active a falso, en base de datos y programa
-        }
-
 
         private void CrearBtn_Click_1(object sender, RoutedEventArgs e)
         {
@@ -56,6 +45,20 @@ namespace UniversityWPF.Views
             
             formPerson.Owner = this;
             formPerson.ShowDialog();
+            
+        }
+
+        private void EditBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("Si funcionan los botones ene l combo box");
+
+            formPerson.Owner = this;
+            formPerson.ShowDialog();
+        }
+
+        private void DeleteBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
