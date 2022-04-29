@@ -37,6 +37,7 @@ namespace UniversityWPF.Views
             datagridPerson.DataContext = persons;
             //NO MUESTRA LAS FECHAS EN LA TABLA
             //datagridPerson.ItemsSource = persons;
+            
         }
 
         private void CrearBtn_Click_1(object sender, RoutedEventArgs e)
