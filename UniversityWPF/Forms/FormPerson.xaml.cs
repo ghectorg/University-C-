@@ -34,13 +34,21 @@ namespace UniversityWPF.Forms
             set { idPerson = value; }
         }
         private int id;
+
         private int idDoc;
+        
         private string doc;
+        
         private string name1;
+        
         private string lastname1;
+        
         private string name2;
+        
         private string lastname2;
+        
         private string birthdayDate;
+       
         private bool isActive = true; 
 
         public FormPerson()
@@ -53,11 +61,23 @@ namespace UniversityWPF.Forms
             id_txt.SelectedValuePath = "idDocumentType";
         }
 
-        public FormPerson(int id)
+        public FormPerson(int id, int idDocument, string doc, string name1, string lname1, string name2, string lname2, string birth)
         {
             InitializeComponent();
             this.IdPerson = id;
-            
+            id_txt.Text = idDocument.ToString();
+            doc_txt.Text = doc;
+            name1_txt.Text = name1;
+            name2_txt.Text = name2;
+            lastname1_txt.Text = lname1;
+            lastname2_txt.Text = lname2;
+            date_txt.Text = birth;
+            ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+            var dataIdDoc = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();
+            id_txt.ItemsSource = dataIdDoc;
+            id_txt.DisplayMemberPath = "idDocumentType";
+            id_txt.SelectedValuePath = "idDocumentType";
+
         }
 
         private void CrearBtn_Click(object sender, RoutedEventArgs e)
@@ -70,6 +90,7 @@ namespace UniversityWPF.Forms
 
                 } else
                 {
+                    id = -1;
                     idDoc = Convert.ToInt32(id_txt.Text);
                     doc = doc_txt.Text;
                     name1 = name1_txt.Text;
@@ -78,6 +99,7 @@ namespace UniversityWPF.Forms
                     lastname2 = lastname2_txt.Text;
                     birthdayDate = date_txt.Text;
 
+                    con.AddParameters("@idPerson",id.ToString(), SqlDbType.BigInt);
                     con.AddParameters("@idDoc", idDoc.ToString(), System.Data.SqlDbType.BigInt);
                     con.AddParameters("@doc", doc, System.Data.SqlDbType.VarChar);
                     con.AddParameters("@name1", name1, System.Data.SqlDbType.VarChar);
@@ -89,29 +111,33 @@ namespace UniversityWPF.Forms
 
                     ds = con.ExecuteQueryDS("InsertAnsEditR", true, con.ConnectionStringdbUniversity());
                     //VALIDAR RETURN SI ES LISTA DE ERRORES
-                    dt.Load(ds.CreateDataReader());
 
-                    if (dt.TableName == "Error")
+                    if (ds.Tables.Count > 0)
                     {
-                        string errors = "";
+                        dt.Load(ds.CreateDataReader());
 
-                        for (int i = 0; i < dt.Rows.Count; i++)
+                        if (dt.TableName == "Error")
                         {
-                            errors = errors + dt.Rows[i].ToString() + "<->";
+                            string errors = "";
+
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                errors = errors + dt.Rows[i].ToString() + "<->";
+
+                            }
+
+                            MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+
+                            Limpiar();
 
                         }
-
-                        MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
-
-                        Limpiar();
-
+                        
                     } else
                     {
-                        MessageBox.Show("CARGAR DE DATOS EXITOSA");
+                        MessageBox.Show("EDICION DE DATOS EXITOSA");
 
                         Limpiar();
                     }
-                    
 
                 }
             }
@@ -122,7 +148,7 @@ namespace UniversityWPF.Forms
 
         }
 
-        public void Buscar(int id)
+        /*public void Buscar(int id)
         {
             con.AddParameters("@id", id.ToString(), SqlDbType.BigInt);
 
@@ -131,11 +157,76 @@ namespace UniversityWPF.Forms
             dt.Load(ds.CreateDataReader());
 
             persons = person.getPerson(dt);
-        }
+        }*/
 
         private void EditarBtn_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("CAMBIAR LOS CAMPOS QUE DESEA MODIFICAR Y HACER CLICK AL BOTON EDITAR");
+            try
+            {
+                if (id_txt.Text == "" || doc_txt.Text == "" || name1_txt.Text == "" || lastname1_txt.Text == "" || date_txt.Text == "")
+                {
+                    MessageBox.Show("DEBE COMPLETAR TODOS LOS CAMPOS | SEGUNDO NOMBRE Y SEGUNDO APELLIDO SON OPCIONALES. LOS DEMAS SON OBLIGATORIOS");
+
+                }
+                else
+                {
+                    id = IdPerson;
+                    idDoc = Convert.ToInt32(id_txt.Text);
+                    doc = doc_txt.Text;
+                    name1 = name1_txt.Text;
+                    name2 = name2_txt.Text;
+                    lastname1 = lastname1_txt.Text;
+                    lastname2 = lastname2_txt.Text;
+                    birthdayDate = date_txt.Text;
+
+                    con.AddParameters("@idPerson", id.ToString(), SqlDbType.BigInt);
+                    con.AddParameters("@idDoc", idDoc.ToString(), System.Data.SqlDbType.BigInt);
+                    con.AddParameters("@doc", doc, System.Data.SqlDbType.VarChar);
+                    con.AddParameters("@name1", name1, System.Data.SqlDbType.VarChar);
+                    con.AddParameters("@name2", name2, System.Data.SqlDbType.VarChar);
+                    con.AddParameters("@lastname1", lastname1, System.Data.SqlDbType.VarChar);
+                    con.AddParameters("@lastname2", lastname2, System.Data.SqlDbType.VarChar);
+                    con.AddParameters("@birthdayDate", birthdayDate, System.Data.SqlDbType.DateTime);
+                    con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
+
+                    ds = con.ExecuteQueryDS("InsertAnsEditR", true, con.ConnectionStringdbUniversity());
+                    //VALIDAR RETURN SI ES LISTA DE ERRORES
+
+                    if (ds.Tables.Count > 0)
+                    {
+                        dt.Load(ds.CreateDataReader());
+
+                        if (dt.TableName == "Error")
+                        {
+                            string errors = "";
+
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                errors = errors + dt.Rows[i].ToString() + "<->";
+
+                            }
+
+                            MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+
+                            Limpiar();
+
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("CARGAR DE DATOS EXITOSA");
+
+                        Limpiar();
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("HA PASADO ALGO QUE NO DEBIA " + ex.Message);
+            }
 
         }
 

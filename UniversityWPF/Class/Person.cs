@@ -115,6 +115,7 @@ namespace UniversityWPF.Class
                 persons.Add(per);
             }
             return persons;
+            //ESTA PASANDO BIEN LA FECHA
         }
     }
 }
