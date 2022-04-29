@@ -9,7 +9,7 @@
     <Grid>
         <Button x:Name="CrearBtn" Content="Crear Nuevo" HorizontalAlignment="Left" Margin="58,325,0,0" VerticalAlignment="Top" Width="160" FontSize="14" FontWeight="Bold" Height="45"
                 Click="CrearBtn_Click"/>
-        <Button x:Name="editarBtn" Content="Editar Seleccionado" HorizontalAlignment="Left" Margin="325,325,0,0" VerticalAlignment="Top" Width="160" FontSize="14" FontWeight="Bold" Height="45"
+        <Button x:Name="editarBtn" Content="Editar Seleccionado" HorizontalAlignment="Left" Margin="315,325,0,0" VerticalAlignment="Top" Width="160" FontSize="14" FontWeight="Bold" Height="45"
                 Click="EditarBtn_Click"/>
         <Label Content="Formulario Personas" HorizontalAlignment="Left" Margin="279,10,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold"/>
         <Label Content="ID Documento" HorizontalAlignment="Left" Margin="93,71,0,0" VerticalAlignment="Top" FontSize="14"/>
@@ -19,7 +19,8 @@
         <Label Content="Primer Apellido" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="93,229,0,0" FontSize="14"/>
         <Label Content="Segundo Apellido" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="425,229,0,0" FontSize="14"/>
         <Label Content="Fecha de Nacimiento" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="58,270,0,0" FontSize="14"/>
-        <ComboBox x:Name="id_txt" HorizontalAlignment="Left" Height="23" Margin="230,71,0,0" VerticalAlignment="Top" Width="120">
+        <ComboBox x:Name="id_txt" 
+                  HorizontalAlignment="Left" Height="23" Margin="230,71,0,0" VerticalAlignment="Top" Width="120">
             
         </ComboBox>
         <TextBox x:Name="doc_txt" HorizontalAlignment="Left" Height="23" Margin="230,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
@@ -29,7 +30,7 @@
         <TextBox x:Name="name2_txt" HorizontalAlignment="Left" Height="23" Margin="570,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14"/>
         <TextBox x:Name="lastname2_txt" HorizontalAlignment="Left" Height="23" Margin="570,235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14"/>
         <Button x:Name="LImpiarBtn" Click="LImpiarBtn_Click"
-            Content="Limpiar" HorizontalAlignment="Left" Margin="605,325,0,0" VerticalAlignment="Top" Width="120" Height="45" FontSize="14" FontWeight="Bold"/>
-
+            Content="Limpiar" HorizontalAlignment="Left" Margin="570,325,0,0" VerticalAlignment="Top" Width="120" Height="45" FontSize="14" FontWeight="Bold"/>
+        
     </Grid>
 </Window>

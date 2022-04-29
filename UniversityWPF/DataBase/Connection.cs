@@ -237,5 +237,12 @@ namespace UniversityWPF.DataBase
 
             return ds;
         }
+
+        public void ClearListParameter()
+        {
+            SqlCommand aux = new SqlCommand();
+            _parametersStoredProcedure.Clear();
+            _sqlCmd = aux;
+        }
     }
 }

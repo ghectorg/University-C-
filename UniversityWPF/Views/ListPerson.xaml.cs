@@ -41,11 +41,11 @@ namespace UniversityWPF.Views
 
         private void CrearBtn_Click_1(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Si funcionan los botones ene l combo box");
+            //MessageBox.Show("Si funcionan los botones ene l combo box");
             
             formPerson.Owner = this;
             formPerson.ShowDialog();
-            
+            this.Close();            
         }
 
         private void EditBtn_Click(object sender, RoutedEventArgs e)

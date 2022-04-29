@@ -34,7 +34,8 @@ namespace UniversityWPF.Forms
             set { idPerson = value; }
         }
         private int id;
-        private string idDoc;
+        private int idDoc;
+        private string doc;
         private string name1;
         private string lastname1;
         private string name2;
@@ -45,6 +46,11 @@ namespace UniversityWPF.Forms
         public FormPerson()
         {
             InitializeComponent();
+            ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+            var dataIdDoc = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();
+            id_txt.ItemsSource = dataIdDoc;
+            id_txt.DisplayMemberPath = "idDocumentType";
+            id_txt.SelectedValuePath = "idDocumentType";
         }
 
         public FormPerson(int id)
@@ -60,31 +66,52 @@ namespace UniversityWPF.Forms
             {
                 if (id_txt.Text == "" || doc_txt.Text == "" || name1_txt.Text == "" || lastname1_txt.Text == "" || date_txt.Text == "")
                 {
-                    MessageBox.Show("DEBE COMPLETAR TODOS LOS CAMPOS | SEGUNDO NOMBRE Y SEGUNDO APELLIDO SON OPCIONALES");
+                    MessageBox.Show("DEBE COMPLETAR TODOS LOS CAMPOS | SEGUNDO NOMBRE Y SEGUNDO APELLIDO SON OPCIONALES. LOS DEMAS SON OBLIGATORIOS");
 
                 } else
                 {
-                    id = Convert.ToInt32(id_txt.Text);
-                    idDoc = doc_txt.Text;
+                    idDoc = Convert.ToInt32(id_txt.Text);
+                    doc = doc_txt.Text;
                     name1 = name1_txt.Text;
                     name2 = name2_txt.Text;
                     lastname1 = lastname1_txt.Text;
                     lastname2 = lastname2_txt.Text;
                     birthdayDate = date_txt.Text;
 
-                    con.AddParameters("@idDoc", id.ToString(), System.Data.SqlDbType.BigInt);
-                    con.AddParameters("@doc", idDoc, System.Data.SqlDbType.VarChar);
+                    con.AddParameters("@idDoc", idDoc.ToString(), System.Data.SqlDbType.BigInt);
+                    con.AddParameters("@doc", doc, System.Data.SqlDbType.VarChar);
                     con.AddParameters("@name1", name1, System.Data.SqlDbType.VarChar);
                     con.AddParameters("@name2", name2, System.Data.SqlDbType.VarChar);
                     con.AddParameters("@lastname1", lastname1, System.Data.SqlDbType.VarChar);
                     con.AddParameters("@lastname2", lastname2, System.Data.SqlDbType.VarChar);
                     con.AddParameters("@birthdayDate", birthdayDate, System.Data.SqlDbType.DateTime);
+                    con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
 
-
-                    ds = con.ExecuteQueryDS("CreateNewPerson", true, con.ConnectionStringdbUniversity());
+                    ds = con.ExecuteQueryDS("InsertAnsEditR", true, con.ConnectionStringdbUniversity());
                     //VALIDAR RETURN SI ES LISTA DE ERRORES
+                    dt.Load(ds.CreateDataReader());
 
-                    MessageBox.Show("CARGAR DE DATOS EXITOSA");
+                    if (dt.TableName == "Error")
+                    {
+                        string errors = "";
+
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            errors = errors + dt.Rows[i].ToString() + "<->";
+
+                        }
+
+                        MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+
+                        Limpiar();
+
+                    } else
+                    {
+                        MessageBox.Show("CARGAR DE DATOS EXITOSA");
+
+                        Limpiar();
+                    }
+                    
 
                 }
             }
@@ -121,11 +148,13 @@ namespace UniversityWPF.Forms
             lastname1_txt.Text = "";
             lastname2_txt.Text = "";
             date_txt.Text = "";
+            con.ClearListParameter();
         }
 
         private void LImpiarBtn_Click(object sender, RoutedEventArgs e)
         {
             Limpiar();
         }
+
     }
 }
