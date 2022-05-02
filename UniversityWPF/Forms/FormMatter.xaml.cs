@@ -84,7 +84,7 @@ namespace UniversityWPF.Forms
 
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                errors = errors + dt.Rows[i].ToString() + "<->";
+                                errors = errors + dt.Rows[i]["messageError"] + "<->";
 
                             }
 
@@ -143,7 +143,7 @@ namespace UniversityWPF.Forms
 
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                errors = errors + dt.Rows[i].ToString() + "<->";
+                                errors = errors + dt.Rows[i]["messageError"] + "<->";
 
                             }
 

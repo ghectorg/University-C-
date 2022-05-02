@@ -65,12 +65,13 @@ namespace UniversityWPF.Forms
                 }
                 else
                 {
+
                     
                     code = code_txt.Text;
                     name = name_txt.Text;
                     description = description_txt.Text;
 
-                    con.AddParameters("@idDocumentType", IdDocumentType.ToString(), SqlDbType.BigInt);
+                    con.AddParameters("@id", IdDocumentType.ToString(), SqlDbType.BigInt);
                     con.AddParameters("@code", code, System.Data.SqlDbType.VarChar);
                     con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
                     con.AddParameters("@description", description, System.Data.SqlDbType.VarChar);
@@ -89,7 +90,7 @@ namespace UniversityWPF.Forms
 
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                errors = errors + dt.Rows[i].ToString() + "<->";
+                                errors = errors + dt.Rows[i]["messageError"] + "<->";
 
                             }
 
@@ -151,7 +152,7 @@ namespace UniversityWPF.Forms
 
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                errors = errors + dt.Rows[i].ToString() + "<->";
+                                errors = errors + dt.Rows[i]["messageError"] + "<->";
 
                             }
 

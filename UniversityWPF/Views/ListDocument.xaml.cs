@@ -43,7 +43,7 @@ namespace UniversityWPF.Views
         {
             //enviar datos al formulario para editar y guardar cambios
             dc = (Class.Document)datagridDocuments.SelectedItem;
-            Forms.FormDocument view1 = new Forms.FormDocument(dc.IdDocument, dc.Name, dc.Code, dc.Description);
+            Forms.FormDocument view1 = new Forms.FormDocument(dc.IdDocument, dc.Code, dc.Name, dc.Description);
             view1.Owner = this;
             view1.ShowDialog();
         }
@@ -54,6 +54,8 @@ namespace UniversityWPF.Views
             //cambiar en la base de datos isActive
             try
             {
+                Limpiar();
+
                 dc = (Class.Document)datagridDocuments.SelectedItem;
 
                 int idDoc = dc.IdDocument;
@@ -72,7 +74,7 @@ namespace UniversityWPF.Views
 
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            errors = errors + dt.Rows[i].ToString() + "<->";
+                            errors = errors + dt.Rows[i]["messageError"] + "<->";
 
                         }
 
@@ -81,12 +83,16 @@ namespace UniversityWPF.Views
                 }
                 else
                 {
+                    Limpiar();
 
                     ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+                    dt.Clear();
+
                     dt.Load(ds.CreateDataReader());
                     documents = dc.getDocument(dt);
                     datagridDocuments.DataContext = documents;
                     MessageBox.Show("ELIMINACION DE DATOS EXITOSA");
+
                     Limpiar();
                 }
             }

@@ -5,6 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UniversityWPF.Forms"
         mc:Ignorable="d"
-        Title="FormInscription" Height="450" Width="800">
-    <Grid/>
+        Title="FormInscription" Height="312" Width="689">
+    <Grid>
+        <Label Content="Curso" HorizontalAlignment="Left" Margin="134,130,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label Content="Persona" HorizontalAlignment="Left" Margin="134,71,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Button x:Name="CrearBtn" Click="CrearBtn_Click"
+            Content="Crear" HorizontalAlignment="Left" Margin="59,197,0,0" VerticalAlignment="Top" Width="110" FontSize="14" FontWeight="Bold" Height="43"/>
+        <Button x:Name="editBtn" Click="EditBtn_Click" 
+            Content="Editar" HorizontalAlignment="Left" Margin="279,197,0,0" VerticalAlignment="Top" Width="110" FontSize="14" FontWeight="Bold" Height="43"/>
+        <Button x:Name="ClearBtn" Click="ClearBtn_Click" 
+            Content="Limpiar" HorizontalAlignment="Left" Margin="519,197,0,0" VerticalAlignment="Top" Width="110" FontSize="14" FontWeight="Bold" Height="43"/>
+        <ComboBox x:Name="namePersons_txt"
+            HorizontalAlignment="Left" Margin="215,68,0,0" VerticalAlignment="Top" Width="320" FontSize="14">
+            
+        </ComboBox>
+        <ComboBox x:Name="nameCursos_txt"
+            HorizontalAlignment="Left" Margin="215,134,0,0" VerticalAlignment="Top" Width="320" FontSize="14">
+            
+            <ComboBoxItem>lenguaje1</ComboBoxItem>
+            <ComboBoxItem>quimica1</ComboBoxItem>
+            <ComboBoxItem>mate1</ComboBoxItem>
+            <ComboBoxItem>fisica</ComboBoxItem>
+            <ComboBoxItem>mate3</ComboBoxItem>
+            <ComboBoxItem>fisica2</ComboBoxItem>
+            
+            
+        </ComboBox>
+    </Grid>
 </Window>

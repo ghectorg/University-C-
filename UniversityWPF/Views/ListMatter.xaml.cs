@@ -53,6 +53,8 @@ namespace UniversityWPF.Views
 
             try
             {
+                Limpiar();
+
                 mt = (Class.Matter)datagridMatter.SelectedItem;
 
                 int idM = mt.IdMatter;
@@ -71,7 +73,7 @@ namespace UniversityWPF.Views
 
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            errors = errors + dt.Rows[i].ToString() + "<->";
+                            errors = errors + dt.Rows[i]["messageError"] + "<->";
 
                         }
 
@@ -80,8 +82,10 @@ namespace UniversityWPF.Views
                 }
                 else
                 {
-
+                    Limpiar();
                     ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+                    dt.Clear();
+
                     dt.Load(ds.CreateDataReader());
                     cursos = mt.getMatter(dt);
                     datagridMatter.DataContext = cursos;

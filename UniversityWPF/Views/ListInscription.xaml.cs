@@ -42,6 +42,11 @@ namespace UniversityWPF.Views
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
             //pasar datos al formulario y guardar
+
+            ins = (Class.Iscription)datagridInscription.SelectedItem;
+            Forms.FormInscription formIns = new Forms.FormInscription(ins.IdInscription, ins.IdMatter, ins.IdPerson, ins.NameMatter, ins.NamePerson);
+            formIns.Owner = this;
+            formIns.ShowDialog();
         }
 
         private void DeleteBtn_Click(object sender, RoutedEventArgs e)
@@ -49,6 +54,8 @@ namespace UniversityWPF.Views
             //cambiar isActive en base de datos
             try
             {
+                Limpiar();
+
                 ins = (Class.Iscription)datagridInscription.SelectedItem;
 
                 int idI = ins.IdInscription;
@@ -67,7 +74,7 @@ namespace UniversityWPF.Views
 
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            errors = errors + dt.Rows[i].ToString() + "<->";
+                            errors = errors + dt.Rows[i]["messageError"] + "<->";
 
                         }
 
@@ -76,8 +83,11 @@ namespace UniversityWPF.Views
                 }
                 else
                 {
+                    Limpiar();
 
                     ds = con.ExecuteQueryDS("SelectAllInscription", true, con.ConnectionStringdbUniversity());
+                    dt.Clear();
+
                     dt.Load(ds.CreateDataReader());
                     allIns = ins.getInscription(dt);
                     datagridInscription.DataContext = allIns;
