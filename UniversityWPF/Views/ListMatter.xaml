@@ -10,9 +10,16 @@
         <Grid.Resources>
             <DataTemplate x:Key="ActionTemplate">
                 <ComboBox x:Name="ComboBtn">
-
-                    <Button x:Name="editarBtn" Content="Editar" Click="EditarBtn_Click"/>
-                    <Button x:Name="eliminarBtn" Content="Eliminar" Click="EliminarBtn_Click"/>
+                    <Button x:Name="EditBtn" Click="EditBtn_Click" Background="White" BorderBrush="White"
+                            Width="50" Height="25">Editar</Button>
+                    <Button x:Name="deleteBtn" Click="DeleteBtn_Click"
+                            Background="White" BorderBrush="White" Width="50" Height="25">
+                        Eliminar
+                    </Button>
+                    <!--
+                    <ComboBoxItem>Editar</ComboBoxItem>
+                    <ComboBoxItem x:Name="deleteBtn">Eliminar</ComboBoxItem>
+                    -->
                 </ComboBox>
             </DataTemplate>
         </Grid.Resources>
@@ -28,7 +35,7 @@
 
         </DataGrid>
         <Label Content="Lista de Cursos" HorizontalAlignment="Left" Margin="312,28,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold"/>
-        <Button Click="Button_Click"
+        <Button Click="CrearButton_Click"
             Content="Crear Nuevo" HorizontalAlignment="Left" Margin="330,325,0,0" VerticalAlignment="Top" Width="128" Height="40" FontSize="14" FontWeight="Bold"/>
 
     </Grid>

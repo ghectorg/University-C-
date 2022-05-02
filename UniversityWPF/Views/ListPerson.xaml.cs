@@ -36,7 +36,7 @@ namespace UniversityWPF.Views
             persons = person.getPerson(dt);
             datagridPerson.DataContext = persons;
             //NO MUESTRA LAS FECHAS EN LA TABLA
-            //datagridPerson.ItemsSource = persons;
+            
             
         }
 
@@ -51,7 +51,7 @@ namespace UniversityWPF.Views
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
             person = (Class.Person) datagridPerson.SelectedItem;
-            MessageBox.Show("La persona seleccionada es ID: " + person.IdPerson + "Nombre: " + person.Name1);
+            //MessageBox.Show("La persona seleccionada es ID: " + person.IdPerson + "Nombre: " + person.Name1);
             Forms.FormPerson formPerson = new Forms.FormPerson(person.IdPerson, person.IdDocument, person.Document, person.Name1, person.Lastname1, person.Name2, person.Lastname2, person.BirthayDay);
             formPerson.Owner = this;
             formPerson.ShowDialog();

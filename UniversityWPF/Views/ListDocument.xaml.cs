@@ -28,7 +28,6 @@ namespace UniversityWPF.Views
         DataTable dt = new DataTable();
         Class.Document dc = new Class.Document();
         ObservableCollection<Class.Document> documents = new ObservableCollection<Class.Document>();
-        Forms.FormDocument formDoc = new Forms.FormDocument();
 
         public ListDocument()
         {
@@ -37,24 +36,77 @@ namespace UniversityWPF.Views
             dt.Load(ds.CreateDataReader());
             documents = dc.getDocument(dt);
             datagridDocuments.DataContext = documents;
-            datagridDocuments.ItemsSource = documents;
+        
         }
 
-        private void EditarBtn_Click(object sender, RoutedEventArgs e)
+        private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
             //enviar datos al formulario para editar y guardar cambios
+            dc = (Class.Document)datagridDocuments.SelectedItem;
+            Forms.FormDocument view1 = new Forms.FormDocument(dc.IdDocument, dc.Name, dc.Code, dc.Description);
+            view1.Owner = this;
+            view1.ShowDialog();
         }
 
 
-        private void EliminarBtn_Click(object sender, RoutedEventArgs e)
+        private void DeleteBtn_Click(object sender, RoutedEventArgs e)
         {
             //cambiar en la base de datos isActive
+            try
+            {
+                dc = (Class.Document)datagridDocuments.SelectedItem;
+
+                int idDoc = dc.IdDocument;
+
+                con.AddParameters("@idDocumentType", idDoc.ToString(), SqlDbType.BigInt);
+
+                ds = con.ExecuteQueryDS("DeleteDocType", true, con.ConnectionStringdbUniversity());
+
+                if (ds.Tables.Count > 0)
+                {
+                    dt.Load(ds.CreateDataReader());
+
+                    if (dt.TableName == "Error")
+                    {
+                        string errors = "";
+
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            errors = errors + dt.Rows[i].ToString() + "<->";
+
+                        }
+
+                        MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+                    }
+                }
+                else
+                {
+
+                    ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+                    dt.Load(ds.CreateDataReader());
+                    documents = dc.getDocument(dt);
+                    datagridDocuments.DataContext = documents;
+                    MessageBox.Show("ELIMINACION DE DATOS EXITOSA");
+                    Limpiar();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("HA OCURRIDO ALGO NO ESPERADO: " + ex.Message);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Forms.FormDocument formDoc = new Forms.FormDocument();
             formDoc.Owner = this;
             formDoc.ShowDialog();
+        }
+
+        public void Limpiar()
+        {
+
+            con.ClearListParameter();
         }
     }
 }

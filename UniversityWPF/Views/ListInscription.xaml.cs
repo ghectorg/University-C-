@@ -26,7 +26,7 @@ namespace UniversityWPF.Views
         DataTable dt = new DataTable();
         Class.Iscription ins = new Class.Iscription();
         ObservableCollection<Class.Iscription> allIns = new ObservableCollection<Class.Iscription>();
-        Forms.FormInscription formIns = new Forms.FormInscription();
+        
 
         public ListInscription()
         {
@@ -39,23 +39,69 @@ namespace UniversityWPF.Views
 
         }
 
-        
-
-
-        private void EditarBtn_Click(object sender, RoutedEventArgs e)
+        private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
             //pasar datos al formulario y guardar
         }
 
-        private void EliminarBtn_Click(object sender, RoutedEventArgs e)
+        private void DeleteBtn_Click(object sender, RoutedEventArgs e)
         {
             //cambiar isActive en base de datos
+            try
+            {
+                ins = (Class.Iscription)datagridInscription.SelectedItem;
+
+                int idI = ins.IdInscription;
+
+                con.AddParameters("@idIscription", idI.ToString(), SqlDbType.BigInt);
+
+                ds = con.ExecuteQueryDS("DeleteInscription", true, con.ConnectionStringdbUniversity());
+
+                if (ds.Tables.Count > 0)
+                {
+                    dt.Load(ds.CreateDataReader());
+
+                    if (dt.TableName == "Error")
+                    {
+                        string errors = "";
+
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            errors = errors + dt.Rows[i].ToString() + "<->";
+
+                        }
+
+                        MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+                    }
+                }
+                else
+                {
+
+                    ds = con.ExecuteQueryDS("SelectAllInscription", true, con.ConnectionStringdbUniversity());
+                    dt.Load(ds.CreateDataReader());
+                    allIns = ins.getInscription(dt);
+                    datagridInscription.DataContext = allIns;
+                    MessageBox.Show("ELIMINACION DE DATOS EXITOSA");
+                    Limpiar();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("HA OCURRIDO ALGO NO ESPERADO: " + ex.Message);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Forms.FormInscription formIns = new Forms.FormInscription();
             formIns.Owner = this;
             formIns.ShowDialog();
+        }
+
+        public void Limpiar()
+        {
+
+            con.ClearListParameter();
         }
     }
 }

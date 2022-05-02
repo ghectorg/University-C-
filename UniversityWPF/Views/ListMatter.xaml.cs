@@ -26,7 +26,6 @@ namespace UniversityWPF.Views
         DataTable dt = new DataTable();
         Class.Matter mt = new Class.Matter();
         ObservableCollection<Class.Matter> cursos = new ObservableCollection<Class.Matter>();
-        Forms.FormMatter formMt = new Forms.FormMatter();
 
 
         public ListMatter()
@@ -36,23 +35,77 @@ namespace UniversityWPF.Views
             dt.Load(ds.CreateDataReader());
             cursos = mt.getMatter(dt);
             datagridMatter.DataContext = cursos;
-            datagridMatter.ItemsSource = cursos;
+            
         }
 
-        private void EditarBtn_Click(object sender, RoutedEventArgs e)
+        private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
             //pasar info al formulario y guardar cambios despues de editar
-        }
-
-        private void EliminarBtn_Click(object sender, RoutedEventArgs e)
-        {
-            //cambiar isActive a false
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
+            mt = (Class.Matter)datagridMatter.SelectedItem;
+            Forms.FormMatter formMt = new Forms.FormMatter(mt.IdMatter, mt.Name, mt.Description);
             formMt.Owner = this;
             formMt.ShowDialog();
+        }
+
+        private void DeleteBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //cambiar isActive a false
+
+            try
+            {
+                mt = (Class.Matter)datagridMatter.SelectedItem;
+
+                int idM = mt.IdMatter;
+
+                con.AddParameters("@idDocumentType", idM.ToString(), SqlDbType.BigInt);
+
+                ds = con.ExecuteQueryDS("DeleteMatter", true, con.ConnectionStringdbUniversity());
+
+                if (ds.Tables.Count > 0)
+                {
+                    dt.Load(ds.CreateDataReader());
+
+                    if (dt.TableName == "Error")
+                    {
+                        string errors = "";
+
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            errors = errors + dt.Rows[i].ToString() + "<->";
+
+                        }
+
+                        MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+                    }
+                }
+                else
+                {
+
+                    ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+                    dt.Load(ds.CreateDataReader());
+                    cursos = mt.getMatter(dt);
+                    datagridMatter.DataContext = cursos;
+                    MessageBox.Show("ELIMINACION DE DATOS EXITOSA");
+                    Limpiar();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("HA OCURRIDO ALGO NO ESPERADO: " + ex.Message);
+            }
+        }
+
+        private void CrearButton_Click(object sender, RoutedEventArgs e)
+        {
+            Forms.FormMatter formMt = new Forms.FormMatter();
+            formMt.Owner = this;
+            formMt.ShowDialog();
+        }
+
+        public void Limpiar()
+        {
+
+            con.ClearListParameter();
         }
     }
 }

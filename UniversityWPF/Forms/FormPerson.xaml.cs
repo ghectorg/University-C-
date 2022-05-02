@@ -55,6 +55,7 @@ namespace UniversityWPF.Forms
         {
             InitializeComponent();
             ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+
             var dataIdDoc = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();
             id_txt.ItemsSource = dataIdDoc;
             id_txt.DisplayMemberPath = "idDocumentType";
@@ -77,6 +78,8 @@ namespace UniversityWPF.Forms
             id_txt.ItemsSource = dataIdDoc;
             id_txt.DisplayMemberPath = "idDocumentType";
             id_txt.SelectedValuePath = "idDocumentType";
+            MessageBox.Show("CAMBIAR LOS CAMPOS QUE DESEA MODIFICAR Y HACER CLICK AL BOTON EDITAR");
+
 
         }
 
@@ -161,7 +164,6 @@ namespace UniversityWPF.Forms
 
         private void EditarBtn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("CAMBIAR LOS CAMPOS QUE DESEA MODIFICAR Y HACER CLICK AL BOTON EDITAR");
             try
             {
                 if (id_txt.Text == "" || doc_txt.Text == "" || name1_txt.Text == "" || lastname1_txt.Text == "" || date_txt.Text == "")

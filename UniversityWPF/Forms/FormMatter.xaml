@@ -7,6 +7,18 @@
         mc:Ignorable="d"
         Title="FormMatter" Height="450" Width="800">
     <Grid>
-        
+        <Label Content="Nombre" HorizontalAlignment="Left" Margin="135,97,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label Content="Descriptición" HorizontalAlignment="Left" Margin="106,171,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <TextBox x:Name="name_txt"
+            HorizontalAlignment="Left" Height="23" Margin="232,97,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="397" FontSize="14"/>
+        <TextBox x:Name="description_txt"
+            HorizontalAlignment="Left" Margin="232,171,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="122" Width="397" FontSize="14"/>
+        <Button x:Name="CrearBtn" Click="CrearBtn_Click"
+            Content="Crear" HorizontalAlignment="Left" Margin="139,336,0,0" VerticalAlignment="Top" Width="105" Height="38" FontSize="14" FontWeight="Bold"/>
+        <Button x:Name="EditBtn" Click="EditBtn_Click"
+            Content="Editar" HorizontalAlignment="Left" Margin="362,336,0,0" VerticalAlignment="Top" Width="107" Height="38" FontSize="14" FontWeight="Bold"/>
+        <Button x:Name="ClearBtn" Click="ClearBtn_Click"
+            Content="Limpiar" HorizontalAlignment="Left" Margin="589,336,0,0" VerticalAlignment="Top" Width="104" Height="38" FontSize="14" FontWeight="Bold"/>
+
     </Grid>
 </Window>

@@ -24,11 +24,25 @@ namespace UniversityWPF.Class
             set { idMatter = value; }
         }
 
+        private string nameMatter;
+        public string NameMatter
+        {
+            get { return nameMatter; }
+            set { nameMatter = value; }
+        }
+
         private int idPerson;
         public int IdPerson
         {
             get { return idPerson; }
             set { idPerson = value; }
+        }
+
+        private string namePerson;
+        public string NamePerson
+        {
+            get { return namePerson; }
+            set { namePerson = value; }
         }
 
         private bool isActive;
@@ -48,8 +62,8 @@ namespace UniversityWPF.Class
             {
                 Iscription ins = new Iscription();
                 ins.IdInscription = Convert.ToInt32(dt.Rows[i]["idIscription"]);
-                ins.IdMatter = Convert.ToInt32(dt.Rows[i]["idMatter"]);
-                ins.IdPerson = Convert.ToInt32(dt.Rows[i]["idPerson"]);
+                ins.NameMatter = dt.Rows[i]["name"].ToString();
+                ins.NamePerson = dt.Rows[i]["name1"].ToString();
                 ins.IsActive = Convert.ToBoolean(dt.Rows[i]["isActive"]);
 
                 mat.Add(ins);
