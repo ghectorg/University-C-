@@ -85,7 +85,8 @@ namespace UniversityWPF.Forms
             {
                 if (namePersons_txt.Text == "" || nameCursos_txt.Text == "")
                 {
-                    MessageBox.Show("DEBE COMPLETAR TODOS LOS CAMPOS | AMBOS CAMPOS SON OBLIGATORIOS");
+                    MessageBox.Show("Los siguientes campos son obligatorios: Nombre de persona y nombre de curso. Por favor, complete los campos que le faltan.",
+                        "Crear. Error! Campos incompletos.");
 
                 }
                 else
@@ -113,11 +114,11 @@ namespace UniversityWPF.Forms
 
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                errors = errors + dt.Rows[i]["messageError"] + "<->";
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
 
                             }
 
-                            MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
 
                             Limpiar();
 
@@ -126,7 +127,7 @@ namespace UniversityWPF.Forms
                     }
                     else
                     {
-                        MessageBox.Show("CARGAR DE DATOS EXITOSA");
+                        MessageBox.Show("Creación de datos exitosa!", "Crear");
 
                         Limpiar();
                     }
@@ -135,7 +136,7 @@ namespace UniversityWPF.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("HA PASADO ALGO QUE NO DEBIA " + ex.Message);
+                MessageBox.Show("Ha sucedido el siguiente error: "+ ex.Message, "Crear. Error!");
             }
         }
 
@@ -145,8 +146,8 @@ namespace UniversityWPF.Forms
             {
                 if (namePersons_txt.Text == "" || nameCursos_txt.Text == "")
                 {
-                    MessageBox.Show("DEBE COMPLETAR TODOS LOS CAMPOS | AMBOS CAMPOS SON OBLIGATORIOS");
-
+                    MessageBox.Show("Los siguientes campos son obligatorios: Nombre de persona y nombre de curso. Por favor, complete los campos que le faltan.",
+                        "Editar. Error! Campos incompletos.");
                 }
                 else
                 {
@@ -172,29 +173,32 @@ namespace UniversityWPF.Forms
 
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                errors = errors + dt.Rows[i]["messageError"] + "<->";
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
 
                             }
 
-                            MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Editar. Error en consulta a Base de Datos");
 
-                            Limpiar();
+                            con.ClearListParameter();
 
                         }
 
                     }
                     else
                     {
-                        MessageBox.Show("CARGAR DE DATOS EXITOSA");
+                        MessageBox.Show("Creación de datos exitosa!", "Editar");
 
-                        Limpiar();
+                        con.ClearListParameter();
+
                     }
 
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("HA PASADO ALGO QUE NO DEBIA " + ex.Message);
+                MessageBox.Show("Ha sucedido el siguiente error: "+ ex.Message, "Editar. Error!");
+                con.ClearListParameter();
+
             }
         }
 

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UniversityWPF.Views"
         mc:Ignorable="d"
-        Title="ListInscription" Height="450" Width="800">
+        Title="Inscripciones" Height="450" Width="800">
     <Grid>
         <Grid.Resources>
             <DataTemplate x:Key="ActionTemplate">
@@ -27,15 +27,15 @@
         <DataGrid x:Name="datagridInscription" ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="193" Margin="40,87,0,0" VerticalAlignment="Top" Width="685">
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID Inscripcion"  Binding="{Binding IdInscription}"/>
+                
                 <DataGridTextColumn Header="Curso"  Binding="{Binding NameMatter}"/>
                 <DataGridTextColumn Header="Persona"  Binding="{Binding NamePerson}"/>
-
+                <DataGridTextColumn Header="Activo" Binding="{Binding IsActive}" />
                 <DataGridTemplateColumn Header="Acciones" CellTemplate="{StaticResource ActionTemplate}"/>
             </DataGrid.Columns>
 
         </DataGrid>
-        <Label Content="Lista de Inscripciones" HorizontalAlignment="Left" Margin="290,25,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold"/>
+        <Label Content="Inscripciones" HorizontalAlignment="Left" Margin="290,25,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold"/>
         <Button Click="Button_Click"
             Content="Crear Nuevo" HorizontalAlignment="Left" Margin="305,315,0,0" VerticalAlignment="Top" Width="135" FontSize="14" FontWeight="Bold" Height="48"/>
 

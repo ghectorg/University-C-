@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UniversityWPF.Forms"
         mc:Ignorable="d"
-        Title="FormInscription" Height="312" Width="689">
+        Title="Inscripciones" Height="312" Width="689">
     <Grid>
         <Label Content="Curso" HorizontalAlignment="Left" Margin="134,130,0,0" VerticalAlignment="Top" FontSize="14"/>
         <Label Content="Persona" HorizontalAlignment="Left" Margin="134,71,0,0" VerticalAlignment="Top" FontSize="14"/>

@@ -80,6 +80,13 @@ namespace UniversityWPF.Class
             set { codeDocument = value; }
         }
 
+        private string docIdentity;
+        public string DocIdentity
+        {
+            get { return docIdentity; }
+            set { docIdentity = value; }
+        }
+
         public Actions Action { get; set; }
         
         public ObservableCollection<Person> getPerson(DataTable dt)
@@ -111,11 +118,11 @@ namespace UniversityWPF.Class
                 per.BirthayDay = dt.Rows[i]["birthdayDate"].ToString();
                 per.IsActive = Convert.ToBoolean(dt.Rows[i]["isActive"]);
                 per.CodeDocument = dt.Rows[i]["code"].ToString();
+                per.DocIdentity = per.CodeDocument + " - " + per.Document;
 
                 persons.Add(per);
             }
             return persons;
-            //ESTA PASANDO BIEN LA FECHA
         }
     }
 }

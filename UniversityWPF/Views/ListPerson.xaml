@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UniversityWPF.Views"
         mc:Ignorable="d"
-        Title="ListPerson" Height="432" Width="894">
-    
+        Title="Personas" Height="462" Width="944">
+
     <Grid>
 
         <Grid.Resources>
@@ -18,32 +18,32 @@
                             Background="White" BorderBrush="White" Width="50" Height="25">
                         Eliminar
                     </Button>
-                   <!--
+                    <!--
                     <ComboBoxItem>Editar</ComboBoxItem>
                     <ComboBoxItem x:Name="deleteBtn">Eliminar</ComboBoxItem>
-                    --> 
+                    -->
                 </ComboBox>
             </DataTemplate>
         </Grid.Resources>
 
-        <DataGrid x:Name="datagridPerson" ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="193" Margin="40,87,0,0" VerticalAlignment="Top" Width="790">
+        <DataGrid x:Name="datagridPerson" ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="233" Margin="40,87,0,0" VerticalAlignment="Top" Width="830">
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID Persona"  Binding="{Binding IdPerson}"/>
-                <DataGridTextColumn Header="Codigo Doc"  Binding="{Binding CodeDocument}"/>
-                <DataGridTextColumn Header="Documento"  Binding="{Binding Document}"/>
+                
+                <DataGridTextColumn Header="Documento de Identidad"  Binding="{Binding DocIdentity}"/>
                 <DataGridTextColumn Header="Primer Nombre"  Binding="{Binding Name1}"/>
                 <DataGridTextColumn Header="Segundo Nombre"  Binding="{Binding Name2}"/>
                 <DataGridTextColumn Header="Primer Apellido"  Binding="{Binding Lastname1}"/>
                 <DataGridTextColumn Header="Segundo Apellido"  Binding="{Binding Lastname2}"/>
-                <DataGridTextColumn Header="Fecha nacimiento"  Binding="{Binding birthdayDate}"/>
+                <DataGridTextColumn Header="Fecha nacimiento"  Binding="{Binding BirthayDay, StringFormat={}{0:dd.MM.yy} }" />
+                <DataGridTextColumn Header="Activo" Binding="{Binding IsActive}" />
                 <DataGridTemplateColumn x:Name="ColumnAction" Header="Acciones" CellTemplate="{StaticResource ActionTemplate}"/>
             </DataGrid.Columns>
 
         </DataGrid>
-        <Label Content="Lista de Personas" HorizontalAlignment="Left" Margin="345,10,0,0" VerticalAlignment="Top" Height="52" Width="211" FontSize="24" FontWeight="Bold"/>
+        <Label Content="Personas" HorizontalAlignment="Left" Margin="384,30,0,0" VerticalAlignment="Top" Height="52" Width="121" FontSize="24" FontWeight="Bold"/>
         <Button x:Name="CrearBtn" 
-                Content="Crear nuevo" HorizontalAlignment="Left" Margin="370,320,0,0" VerticalAlignment="Top" Width="161" FontSize="18" FontWeight="Bold"
+                Content="Crear nuevo" HorizontalAlignment="Left" Margin="359,365,0,0" VerticalAlignment="Top" Width="161" FontSize="18" FontWeight="Bold"
                 Click="CrearBtn_Click_1"/>
 
     </Grid>

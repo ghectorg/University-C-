@@ -58,14 +58,21 @@ namespace UniversityWPF.Forms
 
             var dataIdDoc = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();
             id_txt.ItemsSource = dataIdDoc;
-            id_txt.DisplayMemberPath = "idDocumentType";
+            id_txt.DisplayMemberPath = "code";
             id_txt.SelectedValuePath = "idDocumentType";
+
+            editarBtn.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        public FormPerson(int id, int idDocument, string doc, string name1, string lname1, string name2, string lname2, string birth)
+        public FormPerson(int id, int idDocument, string doc, string name1, string lname1, string name2, string lname2, string birth, bool isActi)
         {
             InitializeComponent();
             this.IdPerson = id;
+            //buscar codigo de documento por su id
+            con.AddParameters("@id", idDocument.ToString(), SqlDbType.BigInt);
+            ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+            dt.Load(ds.CreateDataReader());
+            //MessageBox.Show("code; " + dt.Rows[0]["code"].ToString());
             id_txt.Text = idDocument.ToString();
             doc_txt.Text = doc;
             name1_txt.Text = name1;
@@ -73,12 +80,15 @@ namespace UniversityWPF.Forms
             lastname1_txt.Text = lname1;
             lastname2_txt.Text = lname2;
             date_txt.Text = birth;
+            isActivo_Check.IsChecked = isActi;
+
             ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
             var dataIdDoc = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();
             id_txt.ItemsSource = dataIdDoc;
-            id_txt.DisplayMemberPath = "idDocumentType";
+            id_txt.DisplayMemberPath = "code";
             id_txt.SelectedValuePath = "idDocumentType";
-            MessageBox.Show("CAMBIAR LOS CAMPOS QUE DESEA MODIFICAR Y HACER CLICK AL BOTON EDITAR");
+
+            CrearBtn.Visibility = System.Windows.Visibility.Collapsed;
 
 
         }
@@ -87,9 +97,11 @@ namespace UniversityWPF.Forms
         {
             try
             {
-                if (id_txt.Text == "" || doc_txt.Text == "" || name1_txt.Text == "" || lastname1_txt.Text == "" || date_txt.Text == "")
+                if (doc_txt.Text == "" || name1_txt.Text == "" || lastname1_txt.Text == "" || date_txt.Text == "")
                 {
-                    MessageBox.Show("DEBE COMPLETAR TODOS LOS CAMPOS | SEGUNDO NOMBRE Y SEGUNDO APELLIDO SON OPCIONALES. LOS DEMAS SON OBLIGATORIOS");
+                    MessageBox.Show("Los siguientes campos son obligatorios: documento, primer nombre, primer apellido y"+
+                        " fecha de nacimiento. Por favor, complete los campos que le faltan.",
+                        "Crear. Error! Campos incompletos.");
 
                 } else
                 {
@@ -101,6 +113,7 @@ namespace UniversityWPF.Forms
                     lastname1 = lastname1_txt.Text;
                     lastname2 = lastname2_txt.Text;
                     birthdayDate = date_txt.Text;
+                    isActive = (bool)isActivo_Check.IsChecked;
 
                     con.AddParameters("@idPerson",id.ToString(), SqlDbType.BigInt);
                     con.AddParameters("@idDoc", idDoc.ToString(), System.Data.SqlDbType.BigInt);
@@ -125,11 +138,11 @@ namespace UniversityWPF.Forms
 
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                errors = errors + dt.Rows[i]["messageError"] + "<->";
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
 
                             }
 
-                            MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
 
                             Limpiar();
 
@@ -137,7 +150,7 @@ namespace UniversityWPF.Forms
                         
                     } else
                     {
-                        MessageBox.Show("EDICION DE DATOS EXITOSA");
+                        MessageBox.Show("Creación de datos exitosa!", "Crear");
 
                         Limpiar();
                     }
@@ -146,7 +159,9 @@ namespace UniversityWPF.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("HA PASADO ALGO QUE NO DEBIA "+ ex.Message);
+                MessageBox.Show("Ha sucedido el siguiente error: "+ ex.Message, "Crear. Error!");
+                Limpiar();
+
             }
 
         }
@@ -166,10 +181,11 @@ namespace UniversityWPF.Forms
         {
             try
             {
-                if (id_txt.Text == "" || doc_txt.Text == "" || name1_txt.Text == "" || lastname1_txt.Text == "" || date_txt.Text == "")
+                if (name1_txt.Text == "" || lastname1_txt.Text == "" || date_txt.Text == "")
                 {
-                    MessageBox.Show("DEBE COMPLETAR TODOS LOS CAMPOS | SEGUNDO NOMBRE Y SEGUNDO APELLIDO SON OPCIONALES. LOS DEMAS SON OBLIGATORIOS");
-
+                    MessageBox.Show("Los siguientes campos son obligatorios: documento, primer nombre, primer apellido y" +
+                        " fecha de nacimiento. Por favor, complete los campos que le faltan.",
+                        "Editar. Error! Campos incompletos.");
                 }
                 else
                 {
@@ -181,6 +197,7 @@ namespace UniversityWPF.Forms
                     lastname1 = lastname1_txt.Text;
                     lastname2 = lastname2_txt.Text;
                     birthdayDate = date_txt.Text;
+                    isActive = (bool)isActivo_Check.IsChecked;
 
                     con.AddParameters("@idPerson", id.ToString(), SqlDbType.BigInt);
                     con.AddParameters("@idDoc", idDoc.ToString(), System.Data.SqlDbType.BigInt);
@@ -205,29 +222,31 @@ namespace UniversityWPF.Forms
 
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                errors = errors + dt.Rows[i]["messageError"] + "<->";
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
 
                             }
 
-                            MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+                            MessageBox.Show("Se han conseguido los siguientes errores: " + errors, "Editar. Error!");
 
-                            Limpiar();
+                            con.ClearListParameter();
 
                         }
 
                     }
                     else
                     {
-                        MessageBox.Show("CARGAR DE DATOS EXITOSA");
+                        MessageBox.Show("Proceso exitoso!", "Editar");
 
-                        Limpiar();
+                        con.ClearListParameter();
+
                     }
 
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("HA PASADO ALGO QUE NO DEBIA " + ex.Message);
+                MessageBox.Show("Ha sucedido el siguiente error: "+ ex.Message, "Editar. Error!");
+                con.ClearListParameter();
             }
 
         }

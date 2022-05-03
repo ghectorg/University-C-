@@ -42,7 +42,7 @@ namespace UniversityWPF.Views
         {
             //pasar info al formulario y guardar cambios despues de editar
             mt = (Class.Matter)datagridMatter.SelectedItem;
-            Forms.FormMatter formMt = new Forms.FormMatter(mt.IdMatter, mt.Name, mt.Description);
+            Forms.FormMatter formMt = new Forms.FormMatter(mt.IdMatter, mt.Name, mt.Description, mt.IsActive);
             formMt.Owner = this;
             formMt.ShowDialog();
         }

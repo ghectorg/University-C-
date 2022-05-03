@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using System.Windows;
 
 namespace UniversityWPF.Class
 {
@@ -47,10 +48,11 @@ namespace UniversityWPF.Class
 
         public Actions Action { get; set; }
 
-        public ObservableCollection<Document> getDocument(DataTable dt)
+        public List<Document> getDocument(DataTable dt)
         {
-            var docs = new ObservableCollection<Document>();
-            for (int i = 0; i < dt.Rows.Count; i++)
+            var docs = new List<Document>();
+
+            for (int i = 0; i <= dt.Rows.Count - 1; i++)
             {
                 Document doc = new Document();
                 doc.IdDocument = Convert.ToInt32(dt.Rows[i]["idDocumentType"]);

@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UniversityWPF.Forms"
         mc:Ignorable="d"
-        Title="FormDocument" Height="342.606" Width="743.525">
+        Title="Tipos de Documentos" Height="342.606" Width="743.525">
     <Grid Margin="0,0,0,-21">
-        <Label Content="Nombre" HorizontalAlignment="Left" Margin="97,54,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold"/>
-        <Label Content="Codigo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="97,103,0,0" FontSize="14" FontWeight="Bold"/>
-        <Label Content="Descripcion" HorizontalAlignment="Left" Margin="97,153,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold"/>
+        <Label Content="Nombre" HorizontalAlignment="Left" Margin="120,57,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold"/>
+        <Label Content="Código" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="127,103,0,0" FontSize="14" FontWeight="Bold"/>
+        <Label Content="Descripción" HorizontalAlignment="Left" Margin="97,153,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="name_txt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="405" Margin="222,54,0,0" FontSize="14"/>
         <TextBox x:Name="code_txt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="405" Margin="222,103,0,0" FontSize="14"/>
         <TextBox x:Name="description_txt" HorizontalAlignment="Left" Height="23" Margin="222,153,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="405" FontSize="14"/>

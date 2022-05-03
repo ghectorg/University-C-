@@ -52,7 +52,7 @@ namespace UniversityWPF.Views
         {
             person = (Class.Person) datagridPerson.SelectedItem;
             //MessageBox.Show("La persona seleccionada es ID: " + person.IdPerson + "Nombre: " + person.Name1);
-            Forms.FormPerson formPerson = new Forms.FormPerson(person.IdPerson, person.IdDocument, person.Document, person.Name1, person.Lastname1, person.Name2, person.Lastname2, person.BirthayDay);
+            Forms.FormPerson formPerson = new Forms.FormPerson(person.IdPerson, person.IdDocument, person.Document, person.Name1, person.Lastname1, person.Name2, person.Lastname2, person.BirthayDay, person.IsActive);
             formPerson.Owner = this;
             formPerson.ShowDialog();
         }

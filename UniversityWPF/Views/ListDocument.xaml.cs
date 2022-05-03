@@ -27,7 +27,7 @@ namespace UniversityWPF.Views
         DataSet ds = new DataSet();
         DataTable dt = new DataTable();
         Class.Document dc = new Class.Document();
-        ObservableCollection<Class.Document> documents = new ObservableCollection<Class.Document>();
+        List<Class.Document> documents = new List<Class.Document>();
 
         public ListDocument()
         {
@@ -35,6 +35,7 @@ namespace UniversityWPF.Views
             ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
             dt.Load(ds.CreateDataReader());
             documents = dc.getDocument(dt);
+            
             datagridDocuments.DataContext = documents;
         
         }
@@ -43,9 +44,10 @@ namespace UniversityWPF.Views
         {
             //enviar datos al formulario para editar y guardar cambios
             dc = (Class.Document)datagridDocuments.SelectedItem;
-            Forms.FormDocument view1 = new Forms.FormDocument(dc.IdDocument, dc.Code, dc.Name, dc.Description);
-            view1.Owner = this;
-            view1.ShowDialog();
+            //VALIDAR DATOS
+            Forms.FormDocument formularioDocumentType = new Forms.FormDocument(dc.IdDocument, dc.Code, dc.Name, dc.Description);
+            formularioDocumentType.Owner = this;
+            formularioDocumentType.ShowDialog();
         }
 
 
@@ -57,6 +59,8 @@ namespace UniversityWPF.Views
                 Limpiar();
 
                 dc = (Class.Document)datagridDocuments.SelectedItem;
+
+                //VALIDAR DATOS
 
                 int idDoc = dc.IdDocument;
 

@@ -15,10 +15,10 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Label Content="Universidad" HorizontalAlignment="Left" Margin="230,10,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold"/>
-        <Button x:Name="personBtn" Content="Lista - Personas" HorizontalAlignment="Left" Margin="57,78,0,0" VerticalAlignment="Top" Width="153" FontSize="14" FontWeight="Bold" Height="54" Click="PersonBtn_Click"/>
-        <Button x:Name="documentBtn" Content="Lista - Documentos" HorizontalAlignment="Left" Margin="400,78,0,0" VerticalAlignment="Top" Width="153" Height="54" FontSize="14" FontWeight="Bold" Click="DocumentBtn_Click"/>
-        <Button x:Name="matterBtn" Content="Lista - Cursos" HorizontalAlignment="Left" Margin="57,178,0,0" VerticalAlignment="Top" Width="153" Height="59" FontSize="14" FontWeight="Bold" Click="MatterBtn_Click"/>
-        <Button x:Name="inscriptionBtn" Content="Lista - Inscripciones" HorizontalAlignment="Left" Margin="400,178,0,0" VerticalAlignment="Top" Width="153" Height="59" FontSize="14" FontWeight="Bold" Click="InscriptionBtn_Click"/>
+        <Button x:Name="personBtn" Content="Personas" HorizontalAlignment="Left" Margin="57,78,0,0" VerticalAlignment="Top" Width="153" FontSize="14" FontWeight="Bold" Height="54" Click="PersonBtn_Click"/>
+        <Button x:Name="documentBtn" Content="Tipos de Documentos" HorizontalAlignment="Left" Margin="400,78,0,0" VerticalAlignment="Top" Width="153" Height="54" FontSize="14" FontWeight="Bold" Click="DocumentBtn_Click"/>
+        <Button x:Name="matterBtn" Content="Cursos" HorizontalAlignment="Left" Margin="57,178,0,0" VerticalAlignment="Top" Width="153" Height="59" FontSize="14" FontWeight="Bold" Click="MatterBtn_Click"/>
+        <Button x:Name="inscriptionBtn" Content="Inscripciones" HorizontalAlignment="Left" Margin="400,178,0,0" VerticalAlignment="Top" Width="153" Height="59" FontSize="14" FontWeight="Bold" Click="InscriptionBtn_Click"/>
 
     </Grid>
 </Window>

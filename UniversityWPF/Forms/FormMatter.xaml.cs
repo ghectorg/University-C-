@@ -42,13 +42,13 @@ namespace UniversityWPF.Forms
             InitializeComponent();
         }
 
-        public FormMatter(int id, string name, string descrip)
+        public FormMatter(int id, string name, string descrip, bool isActiv)
         {
             InitializeComponent();
             IdMatter = id;
             name_txt.Text = name;
             description_txt.Text = descrip;
-            MessageBox.Show("CAMBIAR LOS CAMPOS QUE DESEA MODIFICAR Y HACER CLICK AL BOTON EDITAR");
+            isActivo_Check.IsChecked = isActive;
         }
 
         private void CrearBtn_Click(object sender, RoutedEventArgs e)
@@ -57,7 +57,8 @@ namespace UniversityWPF.Forms
             {
                 if (name_txt.Text == "") {
 
-                    MessageBox.Show("DEBE COMPLETAR TODOS LOS CAMPOS | NOMBRE ES OBLIGATORIO");
+                    MessageBox.Show("Los siguientes campos son obligatorios: Nombre. Por favor, complete los campos que le faltan.",
+                        "Crear. Error! Campos incompletos.");
 
                 }
                 else
@@ -65,6 +66,7 @@ namespace UniversityWPF.Forms
                     IdMatter = -1;
                     name = name_txt.Text;
                     description = description_txt.Text;
+                    isActive = (bool) isActivo_Check.IsChecked;
 
                     con.AddParameters("@idDocumentType", IdMatter.ToString(), SqlDbType.BigInt);
                     con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
@@ -84,11 +86,11 @@ namespace UniversityWPF.Forms
 
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                errors = errors + dt.Rows[i]["messageError"] + "<->";
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
 
                             }
 
-                            MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
 
                             Limpiar();
 
@@ -97,7 +99,8 @@ namespace UniversityWPF.Forms
                     }
                     else
                     {
-                        MessageBox.Show("EDICION DE DATOS EXITOSA");
+                        MessageBox.Show("Creación de datos exitosa!", "Crear");
+
 
                         Limpiar();
                     }
@@ -106,7 +109,7 @@ namespace UniversityWPF.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("HA PASADO ALGO QUE NO DEBIA " + ex.Message);
+                MessageBox.Show("Ha sucedido el siguiente error: "+ ex.Message, "Crear. Error!");
             }
         }
 
@@ -117,13 +120,15 @@ namespace UniversityWPF.Forms
             {
                 if (name_txt.Text == "")
                 {
-                    MessageBox.Show("DEBE COMPLETAR TODOS LOS CAMPOS | NOMBRE ES OBLIGATORIO");
+                    MessageBox.Show("Los siguientes campos son obligatorios: Nombre. Por favor, complete los campos que le faltan.",
+                        "Editar. Error! Campos incompletos.");
 
                 }
                 else
                 {
                     name = name_txt.Text;
                     description = description_txt.Text;
+                    isActive = (bool)isActivo_Check.IsChecked;
 
                     con.AddParameters("@idMatter", IdMatter.ToString(), SqlDbType.BigInt);
                     con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
@@ -143,29 +148,35 @@ namespace UniversityWPF.Forms
 
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                errors = errors + dt.Rows[i]["messageError"] + "<->";
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
 
                             }
 
-                            MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Editar. Error en consulta a Base de Datos");
+                            
 
-                            Limpiar();
+                            con.ClearListParameter();
+
 
                         }
 
                     }
                     else
                     {
-                        MessageBox.Show("CARGAR DE DATOS EXITOSA");
+                        MessageBox.Show("Creación de datos exitosa!", "Editar");
 
                         Limpiar();
+                        con.ClearListParameter();
+
                     }
 
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("HA PASADO ALGO QUE NO DEBIA " + ex.Message);
+                MessageBox.Show("Ha sucedido el siguiente error: " + ex.Message, "Editar. Error!");
+                con.ClearListParameter();
+
             }
         }
 

@@ -50,7 +50,7 @@ namespace UniversityWPF.Forms
             code_txt.Text = cd;
             name_txt.Text = name;
             description_txt.Text = decription;
-            MessageBox.Show("CAMBIAR LOS CAMPOS QUE DESEA MODIFICAR Y HACER CLICK AL BOTON EDITAR");
+           
         }
 
         private void EditBtn_Click(object sender, RoutedEventArgs e)
@@ -60,7 +60,8 @@ namespace UniversityWPF.Forms
             {
                 if (code_txt.Text == "" || name_txt.Text == "")
                 {
-                    MessageBox.Show("DEBE COMPLETAR TODOS LOS CAMPOS | NOMBRE Y CODIGO SON OBLIGATORIOS");
+                    MessageBox.Show("Los siguientes campos son obligatorios: Código y nombre del documento. Por favor, complete los campos que le faltan.",
+                        "Editar. Error! Campos incompletos.");
 
                 }
                 else
@@ -90,29 +91,32 @@ namespace UniversityWPF.Forms
 
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                errors = errors + dt.Rows[i]["messageError"] + "<->";
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
 
                             }
 
-                            MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Editar. Error en consulta a Base de Datos");
 
-                            Limpiar();
-
+                            con.ClearListParameter();
+                            
                         }
 
                     }
                     else
                     {
-                        MessageBox.Show("CARGAR DE DATOS EXITOSA");
+                        MessageBox.Show("Creación de datos exitosa!", "Editar");
 
-                        Limpiar();
+                        con.ClearListParameter();
+                        
                     }
 
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("HA PASADO ALGO QUE NO DEBIA " + ex.Message);
+                MessageBox.Show("Ha sucedido el siguiente error: "+ ex.Message, "Editar. Error!");
+                con.ClearListParameter();
+
             }
 
         }
@@ -123,7 +127,8 @@ namespace UniversityWPF.Forms
             {
                 if (name_txt.Text == "" || code_txt.Text == "")
                 {
-                    MessageBox.Show("DEBE COMPLETAR TODOS LOS CAMPOS | NOMBRE Y CODIGO SON OBLIGATORIOS");
+                    MessageBox.Show("Los siguientes campos son obligatorios: Código y nombre del documento. Por favor, complete los campos que le faltan.",
+                        "Editar. Error! Campos incompletos.");
 
                 }
                 else
@@ -152,11 +157,11 @@ namespace UniversityWPF.Forms
 
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                errors = errors + dt.Rows[i]["messageError"] + "<->";
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
 
                             }
 
-                            MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
 
                             Limpiar();
 
@@ -165,7 +170,7 @@ namespace UniversityWPF.Forms
                     }
                     else
                     {
-                        MessageBox.Show("EDICION DE DATOS EXITOSA");
+                        MessageBox.Show("Creación de datos exitosa!", "Crear");
 
                         Limpiar();
                     }
@@ -174,7 +179,8 @@ namespace UniversityWPF.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("HA PASADO ALGO QUE NO DEBIA " + ex.Message);
+                MessageBox.Show("Ha sucedido el siguiente error: "+ ex.Message, "Crear. Error!");
+                Limpiar();
             }
 
         }
