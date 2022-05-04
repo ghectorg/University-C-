@@ -45,7 +45,8 @@ namespace UniversityWPF.Views
 
             Forms.FormPerson formPerson = new Forms.FormPerson();
             formPerson.Owner = this;
-            formPerson.ShowDialog();            
+            formPerson.Show();
+            formPerson.Closed += new EventHandler(CloseFormPerson);
         }
 
         private void EditBtn_Click(object sender, RoutedEventArgs e)
@@ -54,7 +55,8 @@ namespace UniversityWPF.Views
             //MessageBox.Show("La persona seleccionada es ID: " + person.IdPerson + "Nombre: " + person.Name1);
             Forms.FormPerson formPerson = new Forms.FormPerson(person.IdPerson, person.IdDocument, person.Document, person.Name1, person.Lastname1, person.Name2, person.Lastname2, person.BirthayDay, person.IsActive);
             formPerson.Owner = this;
-            formPerson.ShowDialog();
+            formPerson.Show();
+            formPerson.Closed += new EventHandler(CloseFormPerson);
         }
 
         private void DeleteBtn_Click(object sender, RoutedEventArgs e)
@@ -116,5 +118,15 @@ namespace UniversityWPF.Views
             
             con.ClearListParameter();
         }
+
+        void CloseFormPerson(object sender, EventArgs e)
+        {
+            this.InitializeComponent();
+            ds = con.ExecuteQueryDS("SelectAllPerson", true, con.ConnectionStringdbUniversity());
+            dt.Load(ds.CreateDataReader());
+            persons = person.getPerson(dt);
+            datagridPerson.DataContext = persons;
+        }
+
     }
 }

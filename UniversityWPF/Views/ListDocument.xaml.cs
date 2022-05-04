@@ -47,7 +47,27 @@ namespace UniversityWPF.Views
             //VALIDAR DATOS
             Forms.FormDocument formularioDocumentType = new Forms.FormDocument(dc.IdDocument, dc.Code, dc.Name, dc.Description, dc.IsActive);
             formularioDocumentType.Owner = this;
-            formularioDocumentType.ShowDialog();
+            formularioDocumentType.Show();
+            formularioDocumentType.Closed += new EventHandler(CloseFormDoc);
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Forms.FormDocument formDoc = new Forms.FormDocument();
+            formDoc.Owner = this;
+            formDoc.Show();
+            formDoc.Closed += new EventHandler(CloseFormDoc);
+
+        }
+
+        void CloseFormDoc(object sender, EventArgs e)
+        {
+            this.InitializeComponent();
+            ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+            dt.Load(ds.CreateDataReader());
+            documents = dc.getDocument(dt);
+            datagridDocuments.DataContext = documents;
         }
 
 
@@ -105,12 +125,7 @@ namespace UniversityWPF.Views
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Forms.FormDocument formDoc = new Forms.FormDocument();
-            formDoc.Owner = this;
-            formDoc.ShowDialog();
-        }
+
 
         public void Limpiar()
         {

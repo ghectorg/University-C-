@@ -35,7 +35,7 @@ namespace UniversityWPF.Views
             dt.Load(ds.CreateDataReader());
             allIns = ins.getInscription(dt);
             datagridInscription.DataContext = allIns;
-            datagridInscription.ItemsSource = allIns;
+            
 
         }
 
@@ -46,7 +46,27 @@ namespace UniversityWPF.Views
             ins = (Class.Iscription)datagridInscription.SelectedItem;
             Forms.FormInscription formIns = new Forms.FormInscription(ins.IdInscription, ins.IdMatter, ins.IdPerson, ins.NameMatter, ins.NamePerson, ins.IsActive);
             formIns.Owner = this;
-            formIns.ShowDialog();
+            formIns.Show();
+            formIns.Closed += new EventHandler(CloseFormIns);
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Forms.FormInscription formIns = new Forms.FormInscription();
+            formIns.Owner = this;
+            formIns.Show();
+            formIns.Closed += new EventHandler(CloseFormIns);
+
+        }
+
+        void CloseFormIns(object sender, EventArgs e)
+        {
+            this.InitializeComponent();
+            ds = con.ExecuteQueryDS("SelectAllInscription", true, con.ConnectionStringdbUniversity());
+            dt.Load(ds.CreateDataReader());
+            allIns = ins.getInscription(dt);
+            datagridInscription.DataContext = allIns;
         }
 
         private void DeleteBtn_Click(object sender, RoutedEventArgs e)
@@ -102,12 +122,7 @@ namespace UniversityWPF.Views
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Forms.FormInscription formIns = new Forms.FormInscription();
-            formIns.Owner = this;
-            formIns.ShowDialog();
-        }
+
 
         public void Limpiar()
         {

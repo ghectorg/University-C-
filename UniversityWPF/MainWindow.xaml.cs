@@ -29,14 +29,14 @@ namespace UniversityWPF
         {
             Views.ListPerson view1 = new Views.ListPerson();
             view1.Owner = this;
-            view1.ShowDialog();
+            view1.Show();
         }
 
         private void DocumentBtn_Click(object sender, RoutedEventArgs e)
         {
             Views.ListDocument view1 = new Views.ListDocument();
             view1.Owner = this;
-            view1.ShowDialog();
+            view1.Show();
 
         }
 
@@ -44,14 +44,14 @@ namespace UniversityWPF
         {
             Views.ListMatter view1 = new Views.ListMatter();
             view1.Owner = this;
-            view1.ShowDialog();
+            view1.Show();
         }
 
         private void InscriptionBtn_Click(object sender, RoutedEventArgs e)
         {
             Views.ListInscription view1 = new Views.ListInscription();
             view1.Owner = this;
-            view1.ShowDialog();
+            view1.Show();
         }
     }
 }

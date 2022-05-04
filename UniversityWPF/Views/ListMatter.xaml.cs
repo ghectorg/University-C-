@@ -44,7 +44,9 @@ namespace UniversityWPF.Views
             mt = (Class.Matter)datagridMatter.SelectedItem;
             Forms.FormMatter formMt = new Forms.FormMatter(mt.IdMatter, mt.Name, mt.Description, mt.IsActive);
             formMt.Owner = this;
-            formMt.ShowDialog();
+            formMt.Show();
+            formMt.Closed += new EventHandler(CloseFormMatter);
+
         }
 
         private void DeleteBtn_Click(object sender, RoutedEventArgs e)
@@ -106,13 +108,24 @@ namespace UniversityWPF.Views
         {
             Forms.FormMatter formMt = new Forms.FormMatter();
             formMt.Owner = this;
-            formMt.ShowDialog();
+            formMt.Show();
+            formMt.Closed += new EventHandler(CloseFormMatter);
+
         }
 
         public void Limpiar()
         {
 
             con.ClearListParameter();
+        }
+
+        void CloseFormMatter(object sender, EventArgs e)
+        {
+            this.InitializeComponent();
+            ds = con.ExecuteQueryDS("SelectAllMatter", true, con.ConnectionStringdbUniversity());
+            dt.Load(ds.CreateDataReader());
+            cursos = mt.getMatter(dt);
+            datagridMatter.DataContext = cursos;
         }
     }
 }
