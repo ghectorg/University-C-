@@ -44,6 +44,7 @@
                 <DataGridTextColumn Header="Código"  Binding="{Binding Code}"/>
                 <DataGridTextColumn Header="Nombre"  Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Descripción"  Binding="{Binding Description}"/>
+                <DataGridTextColumn Header="Activo" Binding="{Binding IsActive}" />
                 <DataGridTemplateColumn Header="Acciones" CellTemplate="{StaticResource ActionTemplate}"/>
             </DataGrid.Columns>
 

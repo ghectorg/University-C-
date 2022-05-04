@@ -31,5 +31,7 @@
             
             
         </ComboBox>
+        <CheckBox x:Name="isActivo_Check"
+            Content="Activo" HorizontalAlignment="Left" Margin="299,25,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

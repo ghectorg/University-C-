@@ -40,6 +40,7 @@ namespace UniversityWPF.Forms
         public FormMatter()
         {
             InitializeComponent();
+            EditBtn.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         public FormMatter(int id, string name, string descrip, bool isActiv)
@@ -49,6 +50,8 @@ namespace UniversityWPF.Forms
             name_txt.Text = name;
             description_txt.Text = descrip;
             isActivo_Check.IsChecked = isActive;
+
+            CrearBtn.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void CrearBtn_Click(object sender, RoutedEventArgs e)
@@ -68,41 +71,50 @@ namespace UniversityWPF.Forms
                     description = description_txt.Text;
                     isActive = (bool) isActivo_Check.IsChecked;
 
-                    con.AddParameters("@idDocumentType", IdMatter.ToString(), SqlDbType.BigInt);
-                    con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@description", description, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
-
-                    ds = con.ExecuteQueryDS("EditAndCreateMatter", true, con.ConnectionStringdbUniversity());
-                    //VALIDAR RETURN SI ES LISTA DE ERRORES
-
-                    if (ds.Tables.Count > 0)
+                    if (!ValidateData(name))
                     {
-                        dt.Load(ds.CreateDataReader());
-
-                        if (dt.TableName == "Error")
-                        {
-                            string errors = "";
-
-                            for (int i = 0; i < dt.Rows.Count; i++)
-                            {
-                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
-
-                            }
-
-                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
-
-                            Limpiar();
-
-                        }
-
+                        MessageBox.Show("Ha surgido un error con sus datos ingresados. Intentelo nuevamente." +
+                       "Tenga en cuenta que: nombre deben tener menos de 63 caracteres",
+                       "Validación. Error en campos");
+                        Limpiar();
                     }
                     else
                     {
-                        MessageBox.Show("Creación de datos exitosa!", "Crear");
+                        con.AddParameters("@idDocumentType", IdMatter.ToString(), SqlDbType.BigInt);
+                        con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@description", description, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
 
+                        ds = con.ExecuteQueryDS("EditAndCreateMatter", true, con.ConnectionStringdbUniversity());
+                        //VALIDAR RETURN SI ES LISTA DE ERRORES
 
-                        Limpiar();
+                        if (ds.Tables.Count > 0)
+                        {
+                            dt.Load(ds.CreateDataReader());
+
+                            if (dt.TableName == "Error")
+                            {
+                                string errors = "";
+
+                                for (int i = 0; i < dt.Rows.Count; i++)
+                                {
+                                    errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+
+                                }
+
+                                MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+
+                                Limpiar();
+
+                            }
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Creación de datos exitosa!", "Crear");
+
+                            Limpiar();
+                        }
                     }
 
                 }
@@ -130,46 +142,52 @@ namespace UniversityWPF.Forms
                     description = description_txt.Text;
                     isActive = (bool)isActivo_Check.IsChecked;
 
-                    con.AddParameters("@idMatter", IdMatter.ToString(), SqlDbType.BigInt);
-                    con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@description", description, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
-
-                    ds = con.ExecuteQueryDS("EditAndCreateMatter", true, con.ConnectionStringdbUniversity());
-                    //VALIDAR RETURN SI ES LISTA DE ERRORES
-
-                    if (ds.Tables.Count > 0)
+                    if (!ValidateData(name))
                     {
-                        dt.Load(ds.CreateDataReader());
-
-                        if (dt.TableName == "Error")
-                        {
-                            string errors = "";
-
-                            for (int i = 0; i < dt.Rows.Count; i++)
-                            {
-                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
-
-                            }
-
-                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Editar. Error en consulta a Base de Datos");
-                            
-
-                            con.ClearListParameter();
-
-
-                        }
-
+                        MessageBox.Show("Ha surgido un error con sus datos ingresados. Intentelo nuevamente." +
+                       "Tenga en cuenta que: nombre deben tener menos de 63 caracteres", 
+                       "Validación. Error en campos");
+                        Limpiar();
                     }
                     else
                     {
-                        MessageBox.Show("Creación de datos exitosa!", "Editar");
+                        con.AddParameters("@idMatter", IdMatter.ToString(), SqlDbType.BigInt);
+                        con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@description", description, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
 
-                        Limpiar();
-                        con.ClearListParameter();
+                        ds = con.ExecuteQueryDS("EditAndCreateMatter", true, con.ConnectionStringdbUniversity());
+                        //VALIDAR RETURN SI ES LISTA DE ERRORES
 
+                        if (ds.Tables.Count > 0)
+                        {
+                            dt.Load(ds.CreateDataReader());
+
+                            if (dt.TableName == "Error")
+                            {
+                                string errors = "";
+
+                                for (int i = 0; i < dt.Rows.Count; i++)
+                                {
+                                    errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+                                }
+
+                                MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Editar. Error en consulta a Base de Datos");
+
+                                con.ClearListParameter();
+
+                            }
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Creación de datos exitosa!", "Editar");
+
+                            con.ClearListParameter();
+
+                        }
                     }
-
+                    
                 }
             }
             catch (Exception ex)
@@ -191,6 +209,18 @@ namespace UniversityWPF.Forms
         private void ClearBtn_Click(object sender, RoutedEventArgs e)
         {
             Limpiar();
+        }
+
+        private bool ValidateData(string name)
+        {
+            if (name.Length >= 63 || name == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }            
         }
     }
 }

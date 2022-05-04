@@ -81,11 +81,13 @@ namespace UniversityWPF.Views
 
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            errors = errors + dt.Rows[i]["messageError"] + "<->";
+                            errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
 
                         }
 
-                        MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+                        MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                        Limpiar();
+
                     }
                 }
                 else
@@ -97,13 +99,15 @@ namespace UniversityWPF.Views
                     dt.Load(ds.CreateDataReader());
                     persons = person.getPerson(dt);
                     datagridPerson.DataContext = persons;
-                    MessageBox.Show("ELIMINACION DE DATOS EXITOSA");
-                    Limpiar();
+                    MessageBox.Show("Eliminación de datos exitosa!", "Eliminar");
+
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("HA OCURRIDO ALGO NO ESPERADO: " + ex.Message);
+                MessageBox.Show("Ha sucedido el siguiente error: " + ex.Message, "Eliminar");
+                Limpiar();
+
             }
         }
 

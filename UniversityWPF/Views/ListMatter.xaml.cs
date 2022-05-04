@@ -59,7 +59,7 @@ namespace UniversityWPF.Views
 
                 int idM = mt.IdMatter;
 
-                con.AddParameters("@idDocumentType", idM.ToString(), SqlDbType.BigInt);
+                con.AddParameters("@id", idM.ToString(), SqlDbType.BigInt);
 
                 ds = con.ExecuteQueryDS("DeleteMatter", true, con.ConnectionStringdbUniversity());
 
@@ -73,29 +73,32 @@ namespace UniversityWPF.Views
 
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            errors = errors + dt.Rows[i]["messageError"] + "<->";
+                            errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
 
                         }
 
-                        MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+                        MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
                     }
                 }
                 else
                 {
                     Limpiar();
-                    ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+
+                    ds = con.ExecuteQueryDS("SelectAllMatter", true, con.ConnectionStringdbUniversity());
                     dt.Clear();
 
                     dt.Load(ds.CreateDataReader());
                     cursos = mt.getMatter(dt);
                     datagridMatter.DataContext = cursos;
-                    MessageBox.Show("ELIMINACION DE DATOS EXITOSA");
-                    Limpiar();
+                    MessageBox.Show("Eliminación de datos exitosa!", "Eliminar");
+
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("HA OCURRIDO ALGO NO ESPERADO: " + ex.Message);
+                MessageBox.Show("Ha sucedido el siguiente error: " + ex.Message, "Eliminar");
+                Limpiar();
+
             }
         }
 

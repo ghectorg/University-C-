@@ -44,7 +44,7 @@ namespace UniversityWPF.Views
             //pasar datos al formulario y guardar
 
             ins = (Class.Iscription)datagridInscription.SelectedItem;
-            Forms.FormInscription formIns = new Forms.FormInscription(ins.IdInscription, ins.IdMatter, ins.IdPerson, ins.NameMatter, ins.NamePerson);
+            Forms.FormInscription formIns = new Forms.FormInscription(ins.IdInscription, ins.IdMatter, ins.IdPerson, ins.NameMatter, ins.NamePerson, ins.IsActive);
             formIns.Owner = this;
             formIns.ShowDialog();
         }
@@ -60,7 +60,7 @@ namespace UniversityWPF.Views
 
                 int idI = ins.IdInscription;
 
-                con.AddParameters("@idIscription", idI.ToString(), SqlDbType.BigInt);
+                con.AddParameters("@id", idI.ToString(), SqlDbType.BigInt);
 
                 ds = con.ExecuteQueryDS("DeleteInscription", true, con.ConnectionStringdbUniversity());
 
@@ -74,11 +74,12 @@ namespace UniversityWPF.Views
 
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            errors = errors + dt.Rows[i]["messageError"] + "<->";
+                            errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
 
                         }
 
-                        MessageBox.Show("HA OCURRIDO UN ERROR: " + errors);
+                        MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                        Limpiar();
                     }
                 }
                 else
@@ -87,17 +88,17 @@ namespace UniversityWPF.Views
 
                     ds = con.ExecuteQueryDS("SelectAllInscription", true, con.ConnectionStringdbUniversity());
                     dt.Clear();
-
                     dt.Load(ds.CreateDataReader());
                     allIns = ins.getInscription(dt);
                     datagridInscription.DataContext = allIns;
-                    MessageBox.Show("ELIMINACION DE DATOS EXITOSA");
-                    Limpiar();
+                    MessageBox.Show("Eliminación de datos exitosa!", "Eliminar");
+
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("HA OCURRIDO ALGO NO ESPERADO: " + ex.Message);
+                MessageBox.Show("Ha sucedido el siguiente error: " + ex.Message, "Eliminar");
+                Limpiar();
             }
         }
 

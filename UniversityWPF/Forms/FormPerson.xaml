@@ -11,7 +11,7 @@
                 Click="CrearBtn_Click"/>
         <Button x:Name="editarBtn" Content="Editar Seleccionado" HorizontalAlignment="Left" Margin="315,325,0,0" VerticalAlignment="Top" Width="160" FontSize="14" FontWeight="Bold" Height="45"
                 Click="EditarBtn_Click"/>
-        <Label Content="Código Documento" HorizontalAlignment="Left" Margin="67,74,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label Content="Código Documento" HorizontalAlignment="Left" Margin="67,65,0,0" VerticalAlignment="Top" FontSize="14"/>
         <Label Content="Documento" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,130,0,0" FontSize="14"/>
         <Label Content="Primer Nombre" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="93,180,0,0" FontSize="14"/>
         <Label Content="Segundo Nombre" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="425,180,0,0" FontSize="14"/>
@@ -25,7 +25,8 @@
         <TextBox x:Name="doc_txt" HorizontalAlignment="Left" Height="23" Margin="230,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145"/>
         <TextBox x:Name="name1_txt" HorizontalAlignment="Left" Height="23" Margin="230,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145"/>
         <TextBox x:Name="lastname1_txt" HorizontalAlignment="Left" Height="23" Margin="230,229,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145"/>
-        <DatePicker x:Name="date_txt" HorizontalAlignment="Left" Margin="230,275,0,0" VerticalAlignment="Top"/>
+        <DatePicker x:Name="date_txt" 
+                    HorizontalAlignment="Left" Margin="230,275,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="name2_txt" HorizontalAlignment="Left" Height="23" Margin="570,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14"/>
         <TextBox x:Name="lastname2_txt" HorizontalAlignment="Left" Height="23" Margin="570,235,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14"/>
         <Button x:Name="LImpiarBtn" Click="LImpiarBtn_Click"

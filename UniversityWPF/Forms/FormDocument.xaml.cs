@@ -40,17 +40,19 @@ namespace UniversityWPF.Forms
 
         public FormDocument()
         {
-            InitializeComponent();            
+            InitializeComponent();       
+            EditBtn.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        public FormDocument(int id, string cd, string name, string decription)
+        public FormDocument(int id, string cd, string name, string decription, bool isActiv)
         {
             InitializeComponent();
             IdDocumentType = id;
             code_txt.Text = cd;
             name_txt.Text = name;
             description_txt.Text = decription;
-           
+            isActivo_Check.IsChecked = isActiv;
+            CrearBtn.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void EditBtn_Click(object sender, RoutedEventArgs e)
@@ -66,50 +68,57 @@ namespace UniversityWPF.Forms
                 }
                 else
                 {
-
-                    
                     code = code_txt.Text;
                     name = name_txt.Text;
                     description = description_txt.Text;
+                    isActive = (bool)isActivo_Check.IsChecked;
 
-                    con.AddParameters("@id", IdDocumentType.ToString(), SqlDbType.BigInt);
-                    con.AddParameters("@code", code, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@description", description, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
-
-                    ds = con.ExecuteQueryDS("EditAndCreateDocument", true, con.ConnectionStringdbUniversity());
-                    //VALIDAR RETURN SI ES LISTA DE ERRORES
-
-                    if (ds.Tables.Count > 0)
+                    if(!ValidateData(name, code))
                     {
-                        dt.Load(ds.CreateDataReader());
-
-                        if (dt.TableName == "Error")
-                        {
-                            string errors = "";
-
-                            for (int i = 0; i < dt.Rows.Count; i++)
-                            {
-                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
-
-                            }
-
-                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Editar. Error en consulta a Base de Datos");
-
-                            con.ClearListParameter();
-                            
-                        }
-
+                        MessageBox.Show("Ha surgido un error con sus datos ingresados. Intentelo nuevamente." +
+                       "Tenga en cuenta que: nombre deben tener menos de 63 caracteres y código debe tener 3 o menos caracteres",
+                       "Validación. Error en campos");
+                        Limpiar();
                     }
                     else
                     {
-                        MessageBox.Show("Creación de datos exitosa!", "Editar");
+                        con.AddParameters("@id", IdDocumentType.ToString(), SqlDbType.BigInt);
+                        con.AddParameters("@code", code, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@description", description, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
 
-                        con.ClearListParameter();
-                        
+                        ds = con.ExecuteQueryDS("EditAndCreateDocument", true, con.ConnectionStringdbUniversity());
+                        //VALIDAR RETURN SI ES LISTA DE ERRORES
+
+                        if (ds.Tables.Count > 0)
+                        {
+                            dt.Load(ds.CreateDataReader());
+
+                            if (dt.TableName == "Error")
+                            {
+                                string errors = "";
+
+                                for (int i = 0; i < dt.Rows.Count; i++)
+                                {
+                                    errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+
+                                }
+
+                                MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Editar. Error en consulta a Base de Datos");
+
+                                con.ClearListParameter();
+
+                            }
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Edición de datos exitosa!", "Editar");
+
+                            con.ClearListParameter();
+                        }
                     }
-
                 }
             }
             catch (Exception ex)
@@ -137,42 +146,55 @@ namespace UniversityWPF.Forms
                     code = code_txt.Text;
                     name = name_txt.Text;
                     description = description_txt.Text;
+                    isActive = (bool)isActivo_Check.IsChecked;
+                    
 
-                    con.AddParameters("@idDocumentType", idDocumentType.ToString(), SqlDbType.BigInt);
-                    con.AddParameters("@code", code, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@description", description, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
-
-                    ds = con.ExecuteQueryDS("EditAndCreateDocument", true, con.ConnectionStringdbUniversity());
-                    //VALIDAR RETURN SI ES LISTA DE ERRORES
-
-                    if (ds.Tables.Count > 0)
+                    if (!ValidateData(name, code))
                     {
-                        dt.Load(ds.CreateDataReader());
-
-                        if (dt.TableName == "Error")
-                        {
-                            string errors = "";
-
-                            for (int i = 0; i < dt.Rows.Count; i++)
-                            {
-                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
-
-                            }
-
-                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
-
-                            Limpiar();
-
-                        }
+                        MessageBox.Show("Ha surgido un error con sus datos ingresados. Intentelo nuevamente." +
+                        "Tenga en cuenta que: nombre deben tener menos de 63 caracteres y código debe tener 3 o menos caracteres",
+                        "Validación. Error en campos");
+                        Limpiar();
 
                     }
                     else
                     {
-                        MessageBox.Show("Creación de datos exitosa!", "Crear");
+                        con.AddParameters("@id", idDocumentType.ToString(), SqlDbType.BigInt);
+                        con.AddParameters("@code", code, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@description", description, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
 
-                        Limpiar();
+                        ds = con.ExecuteQueryDS("EditAndCreateDocument", true, con.ConnectionStringdbUniversity());
+                        //VALIDAR RETURN SI ES LISTA DE ERRORES
+
+                        if (ds.Tables.Count > 0)
+                        {
+                            dt.Load(ds.CreateDataReader());
+
+                            if (dt.TableName == "Error")
+                            {
+                                string errors = "";
+
+                                for (int i = 0; i < dt.Rows.Count; i++)
+                                {
+                                    errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+
+                                }
+
+                                MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+
+                                Limpiar();
+
+                            }
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Creación de datos exitosa!", "Crear");
+
+                            Limpiar();
+                        }
                     }
 
                 }
@@ -196,6 +218,22 @@ namespace UniversityWPF.Forms
         private void ClearBtn_Click(object sender, RoutedEventArgs e)
         {
             Limpiar();
+        }
+
+        private bool ValidateData(string name, string code)
+        {
+            MessageBox.Show(name.Length + "---" + code.Length);
+            if (name.Length > 63 || code.Length > 3 || name == null || code == null)
+            {
+                
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+            
         }
 
         

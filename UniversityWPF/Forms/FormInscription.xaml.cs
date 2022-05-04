@@ -60,10 +60,11 @@ namespace UniversityWPF.Forms
             namePersons_txt.ItemsSource = data;
             namePersons_txt.DisplayMemberPath = "name1";
             namePersons_txt.SelectedValuePath = "name1";
-            
+            editBtn.Visibility = System.Windows.Visibility.Collapsed;
+
         }
 
-        public FormInscription(int id, int idM, int idP, string nameM, string nameP)
+        public FormInscription(int id, int idM, int idP, string nameM, string nameP, bool isActi)
         {
 
             InitializeComponent();
@@ -76,7 +77,9 @@ namespace UniversityWPF.Forms
             //MessageBox.Show(nameP);
             nameCursos_txt.Text = nameM;
 
+            isActivo_Check.IsChecked = isActi;
 
+            CrearBtn.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void CrearBtn_Click(object sender, RoutedEventArgs e)
@@ -92,11 +95,13 @@ namespace UniversityWPF.Forms
                 else
                 {
                     IdInscription = -1;
+                    namePerson = namePersons_txt.Text;
+                    nameMatter = nameCursos_txt.Text;
+                    IdPerson = SearchIDTable(namePerson, -1, "Person");
+                    IdMatter = SearchIDTable(nameMatter, -1, "Matter");
+                    isActive = (bool)isActivo_Check.IsChecked;
 
-                    IdPerson = SearchIndexP(namePersons_txt.Text);
-                    IdMatter = SearchIndexM(nameCursos_txt.Text);
-
-                    con.AddParameters("@idIscription", IdInscription.ToString(), SqlDbType.BigInt);
+                    con.AddParameters("@id", IdInscription.ToString(), SqlDbType.BigInt);
                     con.AddParameters("@idMatter", IdMatter.ToString(), System.Data.SqlDbType.BigInt);
                     con.AddParameters("@idPerson", IdPerson.ToString(), System.Data.SqlDbType.BigInt);
                     con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
@@ -151,10 +156,11 @@ namespace UniversityWPF.Forms
                 }
                 else
                 {
-
-                    IdPerson= SearchIndexP(namePerson);
-                    IdMatter = SearchIndexM(nameCursos_txt.Text);
-
+                    //namePerson = namePersons_txt.Text;
+                    nameMatter = nameCursos_txt.Text;                   
+                    IdMatter = SearchIDTable(nameMatter, IdMatter, "Matter");
+                    isActive = (bool)isActivo_Check.IsChecked;
+                    
                     con.AddParameters("@id", IdInscription.ToString(), SqlDbType.BigInt);
                     con.AddParameters("@idMatter", IdMatter.ToString(), System.Data.SqlDbType.BigInt);
                     con.AddParameters("@idPerson", IdPerson.ToString(), System.Data.SqlDbType.BigInt);
@@ -215,59 +221,34 @@ namespace UniversityWPF.Forms
             con.ClearListParameter();
         }
 
-        public int SearchIndexM(string name)
+
+        private int SearchIDTable(string name, int id, string nameTable)
         {
-            int index;
-            con.AddParameters("name", name, SqlDbType.VarChar);
-            ds = con.ExecuteQueryDS("SearchName", true, con.ConnectionStringdbUniversity());
-
-            if (ds.Tables[0].TableName == "Error")
+            if (id == -1)
             {
-                index = -1;
+                dt.Clear();
+
+                con.AddParameters("@id", id.ToString(), SqlDbType.BigInt);
+                con.AddParameters("@name", name, SqlDbType.VarChar);
+                ds = con.ExecuteQueryDS("SelectAll" + nameTable, true, con.ConnectionStringdbUniversity());
+                dt.Load(ds.CreateDataReader());
+
                 con.ClearListParameter();
 
-                return index;
-            }
-            else if (ds.Tables[0].TableName == "Person")
-            {
-                index = Convert.ToInt32(ds.Tables[0].Rows[0]["idMatter"]);
-                MessageBox.Show("index: " + index);
-                con.ClearListParameter();
-                return index;
+                return Convert.ToInt32(dt.Rows[0]["id" + nameTable]);
             }
             else
             {
-                index = -2;
-                return index;
+                con.AddParameters("@id", id.ToString(), SqlDbType.BigInt);
+                con.AddParameters("@name", name, SqlDbType.VarChar);
+                ds = con.ExecuteQueryDS("SelectAll" + nameTable, true, con.ConnectionStringdbUniversity());
+                dt.Load(ds.CreateDataReader());
+
+                con.ClearListParameter();
+
+                return Convert.ToInt32(dt.Rows[0]["id" + nameTable]);
             }
             
-        }
-
-        public int SearchIndexP(string name)
-        {
-            int index;
-            con.AddParameters("name", name, SqlDbType.VarChar);
-            ds = con.ExecuteQueryDS("SearchNamePerson", true, con.ConnectionStringdbUniversity());
-
-            if (ds.Tables[0].TableName == "Error")
-            {
-                index = -1;
-                con.ClearListParameter();
-
-                return index;
-            }
-            else if (ds.Tables[0].TableName == "Person")
-            {
-                index = Convert.ToInt32(ds.Tables[0].Rows[0]["idPerson"]);
-                MessageBox.Show("index: " + index);
-                con.ClearListParameter();
-                return index;
-            }
-            else
-            {
-                index = -2;
-                return index;
-            }
         }
 
     }

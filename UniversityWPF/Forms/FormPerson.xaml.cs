@@ -36,6 +36,8 @@ namespace UniversityWPF.Forms
         private int id;
 
         private int idDoc;
+
+        private string codeDocType;
         
         private string doc;
         
@@ -60,7 +62,7 @@ namespace UniversityWPF.Forms
             id_txt.ItemsSource = dataIdDoc;
             id_txt.DisplayMemberPath = "code";
             id_txt.SelectedValuePath = "idDocumentType";
-
+            
             editarBtn.Visibility = System.Windows.Visibility.Collapsed;
         }
 
@@ -69,11 +71,11 @@ namespace UniversityWPF.Forms
             InitializeComponent();
             this.IdPerson = id;
             //buscar codigo de documento por su id
-            con.AddParameters("@id", idDocument.ToString(), SqlDbType.BigInt);
-            ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
-            dt.Load(ds.CreateDataReader());
+            //con.AddParameters("@id", idDocument.ToString(), SqlDbType.BigInt);
+            //ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+            //dt.Load(ds.CreateDataReader());
             //MessageBox.Show("code; " + dt.Rows[0]["code"].ToString());
-            id_txt.Text = idDocument.ToString();
+            //id_txt.Text = idDocument.ToString();
             doc_txt.Text = doc;
             name1_txt.Text = name1;
             name2_txt.Text = name2;
@@ -82,11 +84,12 @@ namespace UniversityWPF.Forms
             date_txt.Text = birth;
             isActivo_Check.IsChecked = isActi;
 
+            //llenar id_txt con los codigos segun los id de los documentos en DocumentType
             ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
             var dataIdDoc = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();
             id_txt.ItemsSource = dataIdDoc;
             id_txt.DisplayMemberPath = "code";
-            id_txt.SelectedValuePath = "idDocumentType";
+            id_txt.SelectedValuePath = "code";
 
             CrearBtn.Visibility = System.Windows.Visibility.Collapsed;
 
@@ -106,55 +109,77 @@ namespace UniversityWPF.Forms
                 } else
                 {
                     id = -1;
-                    idDoc = Convert.ToInt32(id_txt.Text);
+                    codeDocType = id_txt.Text;
+
+                    con.AddParameters("@id", id.ToString(), SqlDbType.BigInt);
+                    con.AddParameters("@cd", codeDocType, SqlDbType.VarChar);
+                    ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+                    dt.Load(ds.CreateDataReader());
+                    con.ClearListParameter();
+
+                    idDoc = Convert.ToInt32(dt.Rows[0]["idDocumentType"]);
                     doc = doc_txt.Text;
                     name1 = name1_txt.Text;
                     name2 = name2_txt.Text;
                     lastname1 = lastname1_txt.Text;
                     lastname2 = lastname2_txt.Text;
+
                     birthdayDate = date_txt.Text;
+
+                    MessageBox.Show("fecha: " + date_txt.Text);
+
                     isActive = (bool)isActivo_Check.IsChecked;
 
-                    con.AddParameters("@idPerson",id.ToString(), SqlDbType.BigInt);
-                    con.AddParameters("@idDoc", idDoc.ToString(), System.Data.SqlDbType.BigInt);
-                    con.AddParameters("@doc", doc, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@name1", name1, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@name2", name2, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@lastname1", lastname1, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@lastname2", lastname2, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@birthdayDate", birthdayDate, System.Data.SqlDbType.DateTime);
-                    con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
-
-                    ds = con.ExecuteQueryDS("InsertAnsEditR", true, con.ConnectionStringdbUniversity());
-                    //VALIDAR RETURN SI ES LISTA DE ERRORES
-
-                    if (ds.Tables.Count > 0)
+                    if (!ValidateData(doc, name1, lastname1, name2, lastname2, birthdayDate))
                     {
-                        dt.Load(ds.CreateDataReader());
+                        MessageBox.Show("Ha surgido un error con sus datos ingresados. Intentelo nuevamente." +
+                    "Tenga en cuenta que: Documento, nombres y apellidos deben tener menos de 63 caracteres",
+                    "Validación. Error en campos");
+                        Limpiar();
+                    }
+                    else
+                    {
+                        con.AddParameters("@idPerson", id.ToString(), SqlDbType.BigInt);
+                        con.AddParameters("@idDoc", idDoc.ToString(), System.Data.SqlDbType.BigInt);
+                        con.AddParameters("@doc", doc, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@name1", name1, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@name2", name2, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@lastname1", lastname1, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@lastname2", lastname2, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@birthdayDate", birthdayDate, System.Data.SqlDbType.DateTime);
+                        con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
 
-                        if (dt.TableName == "Error")
+                        ds = con.ExecuteQueryDS("InsertAnsEditR", true, con.ConnectionStringdbUniversity());
+                        //VALIDAR RETURN SI ES LISTA DE ERRORES
+
+                        if (ds.Tables.Count > 0)
                         {
-                            string errors = "";
+                            dt.Load(ds.CreateDataReader());
 
-                            for (int i = 0; i < dt.Rows.Count; i++)
+                            if (dt.TableName == "Error")
                             {
-                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+                                string errors = "";
+
+                                for (int i = 0; i < dt.Rows.Count; i++)
+                                {
+                                    errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+
+                                }
+
+                                MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+
+                                Limpiar();
 
                             }
 
-                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Creación de datos exitosa!", "Crear");
 
                             Limpiar();
-
                         }
-                        
-                    } else
-                    {
-                        MessageBox.Show("Creación de datos exitosa!", "Crear");
-
-                        Limpiar();
                     }
-
                 }
             }
             catch (Exception ex)
@@ -165,17 +190,6 @@ namespace UniversityWPF.Forms
             }
 
         }
-
-        /*public void Buscar(int id)
-        {
-            con.AddParameters("@id", id.ToString(), SqlDbType.BigInt);
-
-            ds = con.ExecuteQueryDS("SelectAllPerson", true, con.ConnectionStringdbUniversity());
-
-            dt.Load(ds.CreateDataReader());
-
-            persons = person.getPerson(dt);
-        }*/
 
         private void EditarBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -190,7 +204,15 @@ namespace UniversityWPF.Forms
                 else
                 {
                     id = IdPerson;
-                    idDoc = Convert.ToInt32(id_txt.Text);
+                    codeDocType = id_txt.Text;
+
+                    con.AddParameters("@id", id.ToString(), SqlDbType.BigInt);
+                    con.AddParameters("@cd", codeDocType, SqlDbType.VarChar);
+                    ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+                    dt.Load(ds.CreateDataReader());
+                    con.ClearListParameter();
+
+                    idDoc = Convert.ToInt32(dt.Rows[0]["idDocumentType"]);
                     doc = doc_txt.Text;
                     name1 = name1_txt.Text;
                     name2 = name2_txt.Text;
@@ -199,46 +221,56 @@ namespace UniversityWPF.Forms
                     birthdayDate = date_txt.Text;
                     isActive = (bool)isActivo_Check.IsChecked;
 
-                    con.AddParameters("@idPerson", id.ToString(), SqlDbType.BigInt);
-                    con.AddParameters("@idDoc", idDoc.ToString(), System.Data.SqlDbType.BigInt);
-                    con.AddParameters("@doc", doc, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@name1", name1, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@name2", name2, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@lastname1", lastname1, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@lastname2", lastname2, System.Data.SqlDbType.VarChar);
-                    con.AddParameters("@birthdayDate", birthdayDate, System.Data.SqlDbType.DateTime);
-                    con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
-
-                    ds = con.ExecuteQueryDS("InsertAnsEditR", true, con.ConnectionStringdbUniversity());
-                    //VALIDAR RETURN SI ES LISTA DE ERRORES
-
-                    if (ds.Tables.Count > 0)
+                    if(!ValidateData(doc, name1, lastname1, name2, lastname2, birthdayDate))
                     {
-                        dt.Load(ds.CreateDataReader());
+                        MessageBox.Show("Ha surgido un error con sus datos ingresados. Intentelo nuevamente." +
+                    "Tenga en cuenta que: Documento, nombres y apellidos deben tener menos de 63 caracteres",
+                    "Validación. Error en campos");
+                        Limpiar();
+                    }
+                    else
+                    {
+                        con.AddParameters("@idPerson", id.ToString(), SqlDbType.BigInt);
+                        con.AddParameters("@idDoc", idDoc.ToString(), System.Data.SqlDbType.BigInt);
+                        con.AddParameters("@doc", doc, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@name1", name1, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@name2", name2, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@lastname1", lastname1, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@lastname2", lastname2, System.Data.SqlDbType.VarChar);
+                        con.AddParameters("@birthdayDate", birthdayDate, System.Data.SqlDbType.DateTime);
+                        con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
 
-                        if (dt.TableName == "Error")
+                        ds = con.ExecuteQueryDS("InsertAnsEditR", true, con.ConnectionStringdbUniversity());
+                        //VALIDAR RETURN SI ES LISTA DE ERRORES
+
+                        if (ds.Tables.Count > 0)
                         {
-                            string errors = "";
+                            dt.Load(ds.CreateDataReader());
 
-                            for (int i = 0; i < dt.Rows.Count; i++)
+                            if (dt.TableName == "Error")
                             {
-                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+                                string errors = "";
+
+                                for (int i = 0; i < dt.Rows.Count; i++)
+                                {
+                                    errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+
+                                }
+
+                                MessageBox.Show("Se han conseguido los siguientes errores: " + errors, "Editar. Error!");
+
+                                con.ClearListParameter();
 
                             }
 
-                            MessageBox.Show("Se han conseguido los siguientes errores: " + errors, "Editar. Error!");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Proceso exitoso!", "Editar");
 
                             con.ClearListParameter();
 
                         }
-
-                    }
-                    else
-                    {
-                        MessageBox.Show("Proceso exitoso!", "Editar");
-
-                        con.ClearListParameter();
-
                     }
 
                 }
@@ -266,6 +298,25 @@ namespace UniversityWPF.Forms
         private void LImpiarBtn_Click(object sender, RoutedEventArgs e)
         {
             Limpiar();
+        }
+        private bool ValidateData(string doc, string name1, string lastname1, string name2, string lastname2, string cumple)
+        {
+            /*
+             * Return True si la validacion es exitosa
+             * falso sino lo es
+             */
+
+
+            if (doc.Length > 63 || name1.Length > 63 || name1 == null || lastname1.Length > 63 || lastname1 == null || name2.Length > 63 || lastname2.Length > 63 || cumple == null)
+            {
+                
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
         }
 
     }
