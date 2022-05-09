@@ -9,7 +9,7 @@
     <Grid>
         <Button x:Name="CrearBtn" Content="Crear Nuevo" HorizontalAlignment="Left" Margin="58,325,0,0" VerticalAlignment="Top" Width="160" FontSize="14" FontWeight="Bold" Height="45"
                 Click="CrearBtn_Click"/>
-        <Button x:Name="editarBtn" Content="Editar Seleccionado" HorizontalAlignment="Left" Margin="315,325,0,0" VerticalAlignment="Top" Width="160" FontSize="14" FontWeight="Bold" Height="45"
+        <Button x:Name="editarBtn" Content="Editar Seleccionado" HorizontalAlignment="Left" Margin="58,325,0,0" VerticalAlignment="Top" Width="160" FontSize="14" FontWeight="Bold" Height="45"
                 Click="EditarBtn_Click"/>
         <Label Content="Código Documento" HorizontalAlignment="Left" Margin="67,65,0,0" VerticalAlignment="Top" FontSize="14"/>
         <Label Content="Documento" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,130,0,0" FontSize="14"/>

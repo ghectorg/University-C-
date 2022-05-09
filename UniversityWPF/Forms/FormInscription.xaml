@@ -12,26 +12,32 @@
         <Button x:Name="CrearBtn" Click="CrearBtn_Click"
             Content="Crear" HorizontalAlignment="Left" Margin="59,197,0,0" VerticalAlignment="Top" Width="110" FontSize="14" FontWeight="Bold" Height="43"/>
         <Button x:Name="editBtn" Click="EditBtn_Click" 
-            Content="Editar" HorizontalAlignment="Left" Margin="279,197,0,0" VerticalAlignment="Top" Width="110" FontSize="14" FontWeight="Bold" Height="43"/>
+            Content="Editar" HorizontalAlignment="Left" Margin="59,197,0,0" VerticalAlignment="Top" Width="110" FontSize="14" FontWeight="Bold" Height="43"/>
         <Button x:Name="ClearBtn" Click="ClearBtn_Click" 
             Content="Limpiar" HorizontalAlignment="Left" Margin="519,197,0,0" VerticalAlignment="Top" Width="110" FontSize="14" FontWeight="Bold" Height="43"/>
         <ComboBox x:Name="namePersons_txt"
             HorizontalAlignment="Left" Margin="215,68,0,0" VerticalAlignment="Top" Width="320" FontSize="14">
-            
+
         </ComboBox>
         <ComboBox x:Name="nameCursos_txt"
             HorizontalAlignment="Left" Margin="215,134,0,0" VerticalAlignment="Top" Width="320" FontSize="14">
-            
+            <!--
             <ComboBoxItem>lenguaje1</ComboBoxItem>
             <ComboBoxItem>quimica1</ComboBoxItem>
             <ComboBoxItem>mate1</ComboBoxItem>
             <ComboBoxItem>fisica</ComboBoxItem>
             <ComboBoxItem>mate3</ComboBoxItem>
             <ComboBoxItem>fisica2</ComboBoxItem>
-            
-            
+            -->
+
+
+
         </ComboBox>
         <CheckBox x:Name="isActivo_Check"
             Content="Activo" HorizontalAlignment="Left" Margin="299,25,0,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="namePersonBlock_txt"
+            HorizontalAlignment="Left" Margin="215,68,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" Width="305" FontSize="14"/>
+        <TextBox x:Name="nameCursoSearch_txt"
+            HorizontalAlignment="Left" Height="23" Margin="215,136,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="305"/>
     </Grid>
 </Window>

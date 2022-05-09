@@ -213,6 +213,7 @@ namespace UniversityWPF.Forms
                     con.ClearListParameter();
 
                     idDoc = Convert.ToInt32(dt.Rows[0]["idDocumentType"]);
+                    
                     doc = doc_txt.Text;
                     name1 = name1_txt.Text;
                     name2 = name2_txt.Text;
@@ -245,6 +246,8 @@ namespace UniversityWPF.Forms
 
                         if (ds.Tables.Count > 0)
                         {
+                            //dt.Clear();
+
                             dt.Load(ds.CreateDataReader());
 
                             if (dt.TableName == "Error")

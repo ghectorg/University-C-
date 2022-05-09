@@ -17,7 +17,7 @@
         <Button Click="CrearBtn_Click"
             x:Name="CrearBtn" Content="Crear" HorizontalAlignment="Left" Margin="50,233,0,0" VerticalAlignment="Top" Width="102" FontSize="14" FontWeight="Bold" Height="38"/>
         <Button Click="EditBtn_Click"
-            x:Name="EditBtn" Content="Editar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="305,233,0,0" FontSize="14" FontWeight="Bold" Height="38"/>
+            x:Name="EditBtn" Content="Editar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="52,233,0,0" FontSize="14" FontWeight="Bold" Height="38"/>
         <Button Click="ClearBtn_Click"
             x:Name="ClearBtn" Content="Limpiar" HorizontalAlignment="Left" Margin="575,233,0,0" VerticalAlignment="Top" Width="100" FontSize="14" FontWeight="Bold" Height="38"/>
         <CheckBox x:Name="isActivo_Check"

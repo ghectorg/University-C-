@@ -57,13 +57,13 @@ namespace UniversityWPF.Views
             formIns.Owner = this;
             formIns.Show();
             formIns.Closed += new EventHandler(CloseFormIns);
-
         }
 
         void CloseFormIns(object sender, EventArgs e)
         {
             this.InitializeComponent();
             ds = con.ExecuteQueryDS("SelectAllInscription", true, con.ConnectionStringdbUniversity());
+            dt.Clear();
             dt.Load(ds.CreateDataReader());
             allIns = ins.getInscription(dt);
             datagridInscription.DataContext = allIns;
@@ -128,6 +128,166 @@ namespace UniversityWPF.Views
         {
 
             con.ClearListParameter();
+        }
+
+        private void BuscarBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (namePersonSearch_txt.Text == "" && nameMatterSearch_txt.Text == "")
+                {
+                    MessageBox.Show("No puede dejar los campos de busqueda en blanco. Debe rellenar al menos uno.", "Buscar");
+                }
+                else if (namePersonSearch_txt.Text != "" && nameMatterSearch_txt.Text == "")
+                {
+                    dt.Clear();
+                    con.AddParameters("@id", "-1", SqlDbType.BigInt);
+                    con.AddParameters("@namePerson", namePersonSearch_txt.Text, SqlDbType.VarChar);
+
+                    ds = con.ExecuteQueryDS("SelectAllInscription", true, con.ConnectionStringdbUniversity());
+
+                    if (ds.Tables.Count > 0)
+                    {
+                        dt.Load(ds.CreateDataReader());
+
+                        if (dt.TableName == "Error")
+                        {
+                            string errors = "";
+
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+
+                            }
+
+                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                            Limpiar();
+
+                        }
+
+                        else
+                        {
+
+                            allIns = ins.getInscription(dt);
+                            if (allIns.Count == 0)
+                            {
+                                MessageBox.Show("No existe una inscripción en algún curso por: " + namePersonSearch_txt.Text, "Buscar");
+                                Limpiar();
+                                namePersonSearch_txt.Text = "";
+                            }
+                            else
+                            {
+                                datagridInscription.DataContext = allIns;
+                                Limpiar();
+                                namePersonSearch_txt.Text = "";
+                            }
+
+                        }
+                    }
+                }
+                else if (namePersonSearch_txt.Text == "" && nameMatterSearch_txt.Text != "")
+                {
+                    dt.Clear();
+                    con.AddParameters("@id", "-1", SqlDbType.BigInt);
+                    con.AddParameters("@nameCurso", nameMatterSearch_txt.Text, SqlDbType.VarChar);
+                    ds = con.ExecuteQueryDS("SelectAllInscription", true, con.ConnectionStringdbUniversity());
+
+                    if (ds.Tables.Count > 0)
+                    {
+                        dt.Load(ds.CreateDataReader());
+
+                        if (dt.TableName == "Error")
+                        {
+                            string errors = "";
+
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+
+                            }
+
+                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                            Limpiar();
+
+                        }
+
+                        else
+                        {
+
+                            allIns = ins.getInscription(dt);
+                            if (allIns.Count == 0)
+                            {
+                                MessageBox.Show("No existe la materia: "+nameMatterSearch_txt.Text, "Buscar");
+                                Limpiar();
+                                nameMatterSearch_txt.Text = "";
+                            }
+                            else
+                            {
+                                datagridInscription.DataContext = allIns;
+                                Limpiar();
+                                nameMatterSearch_txt.Text = "";
+                            }
+
+                        }
+                    }
+                }
+                else
+                {
+                    dt.Clear();
+                    con.AddParameters("@id", "-1", SqlDbType.BigInt);
+                    con.AddParameters("@name", namePersonSearch_txt.Text, SqlDbType.VarChar);
+                    con.AddParameters("@cd", nameMatterSearch_txt.Text, SqlDbType.VarChar);
+                    ds = con.ExecuteQueryDS("SelectAllInscription", true, con.ConnectionStringdbUniversity());
+
+                    if (ds.Tables.Count > 0)
+                    {
+                        dt.Load(ds.CreateDataReader());
+
+                        if (dt.TableName == "Error")
+                        {
+                            string errors = "";
+
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+
+                            }
+
+                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                            Limpiar();
+
+                        }
+
+                        else
+                        {
+
+                            allIns = ins.getInscription(dt);
+                            if (allIns.Count == 0)
+                            {
+                                MessageBox.Show("No existe una inscripción en el curso: "+ nameMatterSearch_txt.Text 
+                                    +"hecha por: " + namePersonSearch_txt.Text , "Buscar");
+                                Limpiar();
+                                namePersonSearch_txt.Text = "";
+                                nameMatterSearch_txt.Text = "";
+                            }
+                            else
+                            {
+                                datagridInscription.DataContext = allIns;
+                                Limpiar();
+                                namePersonSearch_txt.Text = "";
+                                nameMatterSearch_txt.Text = "";
+                            }
+
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ha sucedido el siguiente error: " + ex.Message, "Buscar");
+                Limpiar();
+            }
         }
     }
 }

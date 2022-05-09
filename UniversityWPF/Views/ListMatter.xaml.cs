@@ -123,9 +123,66 @@ namespace UniversityWPF.Views
         {
             this.InitializeComponent();
             ds = con.ExecuteQueryDS("SelectAllMatter", true, con.ConnectionStringdbUniversity());
+            dt.Clear();
             dt.Load(ds.CreateDataReader());
             cursos = mt.getMatter(dt);
             datagridMatter.DataContext = cursos;
+        }
+
+        private void BuscarBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                dt.Clear();
+                con.AddParameters("@id", "-1", SqlDbType.BigInt);
+                con.AddParameters("@name", nameSearch_txt.Text, SqlDbType.VarChar);
+                ds = con.ExecuteQueryDS("SelectAllMatter", true, con.ConnectionStringdbUniversity());
+
+                if (ds.Tables.Count > 0)
+                {
+                    dt.Load(ds.CreateDataReader());
+
+                    if (dt.TableName == "Error")
+                    {
+                        string errors = "";
+
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+
+                        }
+
+                        MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                        Limpiar();
+
+                    }
+
+                    else
+                    {
+
+                        cursos = mt.getMatter(dt);
+                        if (cursos.Count == 0)
+                        {
+                            MessageBox.Show("No existe el curso con el nombre que ha ingresado.", "Buscar");
+                            Limpiar();
+                            nameSearch_txt.Text = "";
+                        }
+                        else
+                        {
+                            datagridMatter.DataContext = cursos;
+                            Limpiar();
+                            nameSearch_txt.Text = "";
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ha sucedido el siguiente error: " + ex.Message, "Buscar");
+                Limpiar();
+            }
         }
     }
 }

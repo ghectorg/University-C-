@@ -80,7 +80,7 @@ namespace UniversityWPF.Forms
                     }
                     else
                     {
-                        con.AddParameters("@idDocumentType", IdMatter.ToString(), SqlDbType.BigInt);
+                        con.AddParameters("@id", IdMatter.ToString(), SqlDbType.BigInt);
                         con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
                         con.AddParameters("@description", description, System.Data.SqlDbType.VarChar);
                         con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
@@ -151,7 +151,7 @@ namespace UniversityWPF.Forms
                     }
                     else
                     {
-                        con.AddParameters("@idMatter", IdMatter.ToString(), SqlDbType.BigInt);
+                        con.AddParameters("@id", IdMatter.ToString(), SqlDbType.BigInt);
                         con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
                         con.AddParameters("@description", description, System.Data.SqlDbType.VarChar);
                         con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
@@ -169,7 +169,7 @@ namespace UniversityWPF.Forms
 
                                 for (int i = 0; i < dt.Rows.Count; i++)
                                 {
-                                    errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+                                    errors = errors + (i+1).ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
                                 }
 
                                 MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Editar. Error en consulta a Base de Datos");
@@ -181,7 +181,7 @@ namespace UniversityWPF.Forms
                         }
                         else
                         {
-                            MessageBox.Show("Creación de datos exitosa!", "Editar");
+                            MessageBox.Show("Edición de datos exitosa!", "Editar");
 
                             con.ClearListParameter();
 

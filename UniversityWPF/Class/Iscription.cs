@@ -62,7 +62,9 @@ namespace UniversityWPF.Class
             {
                 Iscription ins = new Iscription();
                 ins.IdInscription = Convert.ToInt32(dt.Rows[i]["idIscription"]);
+                ins.IdMatter = Convert.ToInt32(dt.Rows[i]["idMatter"]);
                 ins.NameMatter = dt.Rows[i]["name"].ToString();
+                ins.IdPerson = Convert.ToInt32(dt.Rows[i]["idPerson"]);
                 ins.NamePerson = dt.Rows[i]["name1"].ToString();
                 ins.IsActive = Convert.ToBoolean(dt.Rows[i]["isActive"]);
 

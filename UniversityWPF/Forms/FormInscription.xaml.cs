@@ -56,37 +56,42 @@ namespace UniversityWPF.Forms
         {
             InitializeComponent();
             ds = con.ExecuteQueryDS("SelectAllPerson", true, con.ConnectionStringdbUniversity());
-            var data = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();
+            var data = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();       
             namePersons_txt.ItemsSource = data;
             namePersons_txt.DisplayMemberPath = "name1";
-            namePersons_txt.SelectedValuePath = "name1";
+            namePersons_txt.SelectedValuePath = "name1"; 
             editBtn.Visibility = System.Windows.Visibility.Collapsed;
+            namePersonBlock_txt.Visibility = System.Windows.Visibility.Collapsed;
 
         }
 
         public FormInscription(int id, int idM, int idP, string nameM, string nameP, bool isActi)
         {
-
             InitializeComponent();
             IdInscription = id;
             IdMatter = idM;
             IdPerson = idP;
-            namePersons_txt.Text = nameP;
+            namePersonBlock_txt.Text = nameP;
             namePerson = nameP;
             nameMatter = nameM;
-            //MessageBox.Show(nameP);
-            nameCursos_txt.Text = nameM;
+            
+            ds = con.ExecuteQueryDS("SelectAllMatter", true, con.ConnectionStringdbUniversity());
+            var data = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();
+            nameCursos_txt.ItemsSource = data;
+            nameCursos_txt.DisplayMemberPath = "name";
+            nameCursos_txt.SelectedValuePath = "name";
 
             isActivo_Check.IsChecked = isActi;
 
             CrearBtn.Visibility = System.Windows.Visibility.Collapsed;
+            namePersons_txt.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void CrearBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (namePersons_txt.Text == "" || nameCursos_txt.Text == "")
+                if (nameCursos_txt.Text == "")
                 {
                     MessageBox.Show("Los siguientes campos son obligatorios: Nombre de persona y nombre de curso. Por favor, complete los campos que le faltan.",
                         "Crear. Error! Campos incompletos.");
@@ -111,15 +116,17 @@ namespace UniversityWPF.Forms
 
                     if (ds.Tables.Count > 0)
                     {
-                        dt.Load(ds.CreateDataReader());
+                        DataTable tableError = new DataTable();
+                        tableError.Load(ds.CreateDataReader());
+                        
 
-                        if (dt.TableName == "Error")
+                        if (tableError.TableName == "Error")
                         {
                             string errors = "";
 
-                            for (int i = 0; i < dt.Rows.Count; i++)
+                            for (int i = 0; i < tableError.Rows.Count; i++)
                             {
-                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+                                errors = errors + (i+1).ToString() + " - " + tableError.Rows[i]["message"] + "\n";
 
                             }
 
@@ -149,41 +156,43 @@ namespace UniversityWPF.Forms
         {
             try
             {
-                if (namePersons_txt.Text == "" || nameCursos_txt.Text == "")
+                if (nameCursos_txt.Text == "")
                 {
-                    MessageBox.Show("Los siguientes campos son obligatorios: Nombre de persona y nombre de curso. Por favor, complete los campos que le faltan.",
+                    MessageBox.Show("Los siguientes campos son obligatorios: Nombre de curso. Por favor, complete los campos que le faltan.",
                         "Editar. Error! Campos incompletos.");
                 }
                 else
                 {
                     //namePerson = namePersons_txt.Text;
+                    //MessageBox.Show("id inscription: " + IdInscription);
                     nameMatter = nameCursos_txt.Text;                   
                     IdMatter = SearchIDTable(nameMatter, IdMatter, "Matter");
                     isActive = (bool)isActivo_Check.IsChecked;
                     
                     con.AddParameters("@id", IdInscription.ToString(), SqlDbType.BigInt);
-                    con.AddParameters("@idMatter", IdMatter.ToString(), System.Data.SqlDbType.BigInt);
-                    con.AddParameters("@idPerson", IdPerson.ToString(), System.Data.SqlDbType.BigInt);
-                    con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
+                    con.AddParameters("@idMatter", IdMatter.ToString(), SqlDbType.BigInt);
+                    con.AddParameters("@idPerson", IdPerson.ToString(), SqlDbType.BigInt);
+                    con.AddParameters("@isActive", isActive.ToString(), SqlDbType.Bit);
 
                     ds = con.ExecuteQueryDS("EditAndCreateInscription", true, con.ConnectionStringdbUniversity());
                     //VALIDAR RETURN SI ES LISTA DE ERRORES
 
                     if (ds.Tables.Count > 0)
                     {
-                        dt.Load(ds.CreateDataReader());
+                        DataTable tableError = new DataTable();
+                        tableError.Load(ds.CreateDataReader());
 
-                        if (dt.TableName == "Error")
+                        if (tableError.TableName == "Error")
                         {
                             string errors = "";
 
-                            for (int i = 0; i < dt.Rows.Count; i++)
+                            for (int i = 0; i < tableError.Rows.Count; i++)
                             {
-                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+                                errors = errors + (i+1).ToString() + " - " + tableError.Rows[i]["message"] + "\n";
 
                             }
 
-                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Editar. Error en consulta a Base de Datos");
+                            MessageBox.Show("Se detectaron los siguientes errores: \n" + errors, "Editar. Error en consulta a Base de Datos");
 
                             con.ClearListParameter();
 
@@ -192,7 +201,7 @@ namespace UniversityWPF.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Creación de datos exitosa!", "Editar");
+                        MessageBox.Show("Edición de datos exitosa!", "Editar");
 
                         con.ClearListParameter();
 
@@ -215,7 +224,6 @@ namespace UniversityWPF.Forms
 
         public void Limpiar()
         {
-            namePersons_txt.Text = "";
             nameCursos_txt.Text = "";
             
             con.ClearListParameter();

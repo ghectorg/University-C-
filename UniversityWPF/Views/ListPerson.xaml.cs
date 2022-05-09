@@ -35,9 +35,7 @@ namespace UniversityWPF.Views
             dt.Load(ds.CreateDataReader());
             persons = person.getPerson(dt);
             datagridPerson.DataContext = persons;
-            //NO MUESTRA LAS FECHAS EN LA TABLA
-            
-            
+
         }
 
         private void CrearBtn_Click_1(object sender, RoutedEventArgs e)
@@ -122,11 +120,69 @@ namespace UniversityWPF.Views
         void CloseFormPerson(object sender, EventArgs e)
         {
             this.InitializeComponent();
+            dt.Clear();
             ds = con.ExecuteQueryDS("SelectAllPerson", true, con.ConnectionStringdbUniversity());
             dt.Load(ds.CreateDataReader());
             persons = person.getPerson(dt);
             datagridPerson.DataContext = persons;
         }
 
+        private void BuscarBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                dt.Clear();
+                con.AddParameters("@id", "-1", SqlDbType.BigInt);
+                con.AddParameters("@name", nameSearch_txt.Text, SqlDbType.VarChar);
+                ds = con.ExecuteQueryDS("SelectAllPerson", true, con.ConnectionStringdbUniversity());
+
+                if (ds.Tables.Count > 0)
+                {
+                    dt.Load(ds.CreateDataReader());
+
+                    if (dt.TableName == "Error")
+                    {
+                        string errors = "";
+
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+
+                        }
+
+                        MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                        Limpiar();
+
+                    }
+                    
+                    else
+                    {
+                        
+                        persons = person.getPerson(dt);
+                        if (persons.Count == 0)
+                        {
+                            MessageBox.Show("No existe una persona con el nombre que ha ingresado.","Buscar");
+                            Limpiar();
+                            nameSearch_txt.Text = "";
+                        }
+                        else
+                        {
+                            datagridPerson.DataContext = persons;
+                            Limpiar();
+                            nameSearch_txt.Text = "";
+                        }
+                                               
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ha sucedido el siguiente error: " + ex.Message, "Buscar");
+                Limpiar();
+            }
+
+
+        }
     }
 }

@@ -127,7 +127,6 @@ namespace UniversityWPF.Forms
                 con.ClearListParameter();
 
             }
-
         }
 
         private void CrearBtn_Click(object sender, RoutedEventArgs e)
@@ -222,7 +221,7 @@ namespace UniversityWPF.Forms
 
         private bool ValidateData(string name, string code)
         {
-            MessageBox.Show(name.Length + "---" + code.Length);
+            //MessageBox.Show(name.Length + "---" + code.Length);
             if (name.Length > 63 || code.Length > 3 || name == null || code == null)
             {
                 

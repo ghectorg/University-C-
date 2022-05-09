@@ -65,6 +65,7 @@ namespace UniversityWPF.Views
         {
             this.InitializeComponent();
             ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+            dt.Clear();
             dt.Load(ds.CreateDataReader());
             documents = dc.getDocument(dt);
             datagridDocuments.DataContext = documents;
@@ -131,6 +132,166 @@ namespace UniversityWPF.Views
         {
 
             con.ClearListParameter();
+        }
+
+        private void BuscarBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (nameSearch_txt.Text == "" && codeSearch_txt.Text == "")
+                {
+                    MessageBox.Show("No puede dejar los campos de busqueda en blanco. Debe rellenar al menos uno.", "Buscar");
+                }
+                else if (nameSearch_txt.Text != "" && codeSearch_txt.Text == "")
+                {
+                    dt.Clear();
+                    con.AddParameters("@id", "-1", SqlDbType.BigInt);
+                    con.AddParameters("@name", nameSearch_txt.Text, SqlDbType.VarChar);
+                    
+                    ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+
+                    if (ds.Tables.Count > 0)
+                    {
+                        dt.Load(ds.CreateDataReader());
+
+                        if (dt.TableName == "Error")
+                        {
+                            string errors = "";
+
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+
+                            }
+
+                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                            Limpiar();
+
+                        }
+
+                        else
+                        {
+
+                            documents = dc.getDocument(dt);
+                            if (documents.Count == 0)
+                            {
+                                MessageBox.Show("No existe el documento con el nombre que ha ingresado.", "Buscar");
+                                Limpiar();
+                                nameSearch_txt.Text = "";
+                            }
+                            else
+                            {
+                                datagridDocuments.DataContext = documents;
+                                Limpiar();
+                                nameSearch_txt.Text = "";
+                            }
+
+                        }
+                    }
+                }
+                else if (nameSearch_txt.Text == "" && codeSearch_txt.Text != "")
+                {
+                    dt.Clear();
+                    con.AddParameters("@id", "-1", SqlDbType.BigInt);
+                    con.AddParameters("@cd", codeSearch_txt.Text, SqlDbType.VarChar);
+                    ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+
+                    if (ds.Tables.Count > 0)
+                    {
+                        dt.Load(ds.CreateDataReader());
+
+                        if (dt.TableName == "Error")
+                        {
+                            string errors = "";
+
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+
+                            }
+
+                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                            Limpiar();
+
+                        }
+
+                        else
+                        {
+
+                            documents = dc.getDocument(dt);
+                            if (documents.Count == 0)
+                            {
+                                MessageBox.Show("No existe el documento con el código que ha ingresado.", "Buscar");
+                                Limpiar();
+                                codeSearch_txt.Text = "";
+                            }
+                            else
+                            {
+                                datagridDocuments.DataContext = documents;
+                                Limpiar();
+                                codeSearch_txt.Text = "";
+                            }
+
+                        }
+                    }
+                }
+                else
+                {
+                    dt.Clear();
+                    con.AddParameters("@id", "-1", SqlDbType.BigInt);
+                    con.AddParameters("@name", nameSearch_txt.Text, SqlDbType.VarChar);
+                    con.AddParameters("@cd", nameSearch_txt.Text, SqlDbType.VarChar);
+                    ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+
+                    if (ds.Tables.Count > 0)
+                    {
+                        dt.Load(ds.CreateDataReader());
+
+                        if (dt.TableName == "Error")
+                        {
+                            string errors = "";
+
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+
+                            }
+
+                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                            Limpiar();
+
+                        }
+
+                        else
+                        {
+
+                            documents = dc.getDocument(dt);
+                            if (documents.Count == 0)
+                            {
+                                MessageBox.Show("No existe el curso con el nombre y código que ha ingresado.", "Buscar");
+                                Limpiar();
+                                nameSearch_txt.Text = "";
+                                codeSearch_txt.Text = "";
+                            }
+                            else
+                            {
+                                datagridDocuments.DataContext = documents;
+                                Limpiar();
+                                nameSearch_txt.Text = "";
+                                codeSearch_txt.Text = "";
+                            }
+
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ha sucedido el siguiente error: " + ex.Message, "Buscar");
+                Limpiar();
+            }
+
         }
     }
 }
