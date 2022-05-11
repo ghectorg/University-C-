@@ -209,8 +209,8 @@ namespace UniversityWPF.Forms
                     id = IdPerson;
                     codeDocType = id_txt.Text;
 
-                    con.AddParameters("@id", id.ToString(), SqlDbType.BigInt);
-                    con.AddParameters("@cd", codeDocType, SqlDbType.VarChar);
+                    con.AddParameters("@id", "-1", SqlDbType.BigInt);
+                    con.AddParameters("@code", codeDocType, SqlDbType.VarChar);
                     ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
                     dt.Load(ds.CreateDataReader());
                     con.ClearListParameter();
@@ -258,7 +258,7 @@ namespace UniversityWPF.Forms
 
                                 for (int i = 0; i < tableError.Rows.Count; i++)
                                 {
-                                    errors = errors + i.ToString() + " - " + tableError.Rows[i]["message"] + "\n";
+                                    errors = errors + (i+1).ToString() + " - " + tableError.Rows[i]["message"] + "\n";
 
                                 }
 

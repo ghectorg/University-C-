@@ -86,6 +86,7 @@ namespace UniversityWPF.Forms
 
             CrearBtn.Visibility = System.Windows.Visibility.Collapsed;
             namePersons_txt.Visibility = System.Windows.Visibility.Collapsed;
+            nameCursoSearch_txt.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void CrearBtn_Click(object sender, RoutedEventArgs e)
@@ -105,45 +106,54 @@ namespace UniversityWPF.Forms
                     nameMatter = nameCursoSearch_txt.Text;
                     IdPerson = SearchIDTable(namePerson, -1, "Person");
                     IdMatter = SearchIDTable(nameMatter, -1, "Matter");
-                    isActive = (bool)isActivo_Check.IsChecked;
-
-                    con.AddParameters("@id", IdInscription.ToString(), SqlDbType.BigInt);
-                    con.AddParameters("@idMatter", IdMatter.ToString(), System.Data.SqlDbType.BigInt);
-                    con.AddParameters("@idPerson", IdPerson.ToString(), System.Data.SqlDbType.BigInt);
-                    con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
-
-                    ds = con.ExecuteQueryDS("EditAndCreateInscription", true, con.ConnectionStringdbUniversity());
-                    //VALIDAR RETURN SI ES LISTA DE ERRORES
-
-                    if (ds.Tables.Count > 0)
+                    if (IdMatter == -1)
                     {
-                        DataTable tableError = new DataTable();
-                        tableError.Load(ds.CreateDataReader());
-                        
-
-                        if (tableError.TableName == "Error")
-                        {
-                            string errors = "";
-
-                            for (int i = 0; i < tableError.Rows.Count; i++)
-                            {
-                                errors = errors + (i+1).ToString() + " - " + tableError.Rows[i]["message"] + "\n";
-
-                            }
-
-                            MessageBox.Show("Se detectaron los siguientes errores: \n" + errors, "Crear. Error en consulta a Base de Datos");
-
-                            Limpiar();
-
-                        }
+                        MessageBox.Show("El curso ingresado no existe. Intentelo nuevamente!", "Crear. Error!");
 
                     }
                     else
                     {
-                        MessageBox.Show("Creación de datos exitosa!", "Crear");
+                        isActive = (bool)isActivo_Check.IsChecked;
 
-                        Limpiar();
+                        con.AddParameters("@id", IdInscription.ToString(), SqlDbType.BigInt);
+                        con.AddParameters("@idMatter", IdMatter.ToString(), System.Data.SqlDbType.BigInt);
+                        con.AddParameters("@idPerson", IdPerson.ToString(), System.Data.SqlDbType.BigInt);
+                        con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
+
+                        ds = con.ExecuteQueryDS("EditAndCreateInscription", true, con.ConnectionStringdbUniversity());
+                        //VALIDAR RETURN SI ES LISTA DE ERRORES
+
+                        if (ds.Tables.Count > 0)
+                        {
+                            DataTable tableError = new DataTable();
+                            tableError.Load(ds.CreateDataReader());
+
+
+                            if (tableError.TableName == "Error")
+                            {
+                                string errors = "";
+
+                                for (int i = 0; i < tableError.Rows.Count; i++)
+                                {
+                                    errors = errors + (i + 1).ToString() + " - " + tableError.Rows[i]["message"] + "\n";
+
+                                }
+
+                                MessageBox.Show("Se detectaron los siguientes errores: \n" + errors, "Crear. Error en consulta a Base de Datos");
+
+                                Limpiar();
+
+                            }
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Creación de datos exitosa!", "Crear");
+
+                            Limpiar();
+                        }
                     }
+                    
 
                 }
             }
@@ -243,12 +253,22 @@ namespace UniversityWPF.Forms
                 dt.Load(ds.CreateDataReader());
 
                 con.ClearListParameter();
-                MessageBox.Show("esto retorna si no existe el nombre del curso: " + dt.Rows[0]["id" + nameTable]);
 
-                return Convert.ToInt32(dt.Rows[0]["id" + nameTable]);
+                if (dt.Rows.Count != 0)
+                {
+                    return Convert.ToInt32(dt.Rows[0]["id" + nameTable]);
+
+                }
+                else
+                {
+                    return -1;
+                }
+                
             }
             else
             {
+                dt.Clear();
+
                 con.AddParameters("@id", id.ToString(), SqlDbType.BigInt);
                 con.AddParameters("@name", name, SqlDbType.VarChar);
                 ds = con.ExecuteQueryDS("SelectAll" + nameTable, true, con.ConnectionStringdbUniversity());
