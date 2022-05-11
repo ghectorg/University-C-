@@ -27,7 +27,5 @@
             Content="Activo" HorizontalAlignment="Left" Margin="282,28,0,0" VerticalAlignment="Top"/>
         <TextBlock x:Name="namePersonBlock_txt"
             HorizontalAlignment="Left" Margin="198,71,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" Width="305" FontSize="14"/>
-        <TextBox x:Name="nameCursoSearch_txt"
-            HorizontalAlignment="Left" Height="25" Margin="198,137,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="320"/>
     </Grid>
 </Window>

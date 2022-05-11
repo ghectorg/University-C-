@@ -55,15 +55,22 @@ namespace UniversityWPF.Forms
         public FormInscription()
         {
             InitializeComponent();
+
             ds = con.ExecuteQueryDS("SelectAllPerson", true, con.ConnectionStringdbUniversity());
-            var data = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();       
-            namePersons_txt.ItemsSource = data;
+            var dataPerson = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();       
+            namePersons_txt.ItemsSource = dataPerson;
             namePersons_txt.DisplayMemberPath = "name1";
-            namePersons_txt.SelectedValuePath = "name1"; 
+            namePersons_txt.SelectedValuePath = "idPerson";
+
+            ds = con.ExecuteQueryDS("SelectAllMatter", true, con.ConnectionStringdbUniversity());
+            var dataCursos = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();
+            nameCursos_txt.ItemsSource = dataCursos;
+            nameCursos_txt.DisplayMemberPath = "name";
+            nameCursos_txt.SelectedValuePath = "idMatter";
+
             editBtn.Visibility = System.Windows.Visibility.Collapsed;
             namePersonBlock_txt.Visibility = System.Windows.Visibility.Collapsed;
-            nameCursos_txt.Visibility = System.Windows.Visibility.Collapsed;
-
+                        
         }
 
         public FormInscription(int id, int idM, int idP, string nameM, string nameP, bool isActi)
@@ -77,23 +84,23 @@ namespace UniversityWPF.Forms
             nameMatter = nameM;
             
             ds = con.ExecuteQueryDS("SelectAllMatter", true, con.ConnectionStringdbUniversity());
-            var data = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();
-            nameCursos_txt.ItemsSource = data;
+            var dataCursos = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();
+            nameCursos_txt.ItemsSource = dataCursos;
             nameCursos_txt.DisplayMemberPath = "name";
-            nameCursos_txt.SelectedValuePath = "name";
+            nameCursos_txt.SelectedValuePath = "idMatter";
 
             isActivo_Check.IsChecked = isActi;
 
             CrearBtn.Visibility = System.Windows.Visibility.Collapsed;
             namePersons_txt.Visibility = System.Windows.Visibility.Collapsed;
-            nameCursoSearch_txt.Visibility = System.Windows.Visibility.Collapsed;
+            
         }
 
         private void CrearBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (nameCursoSearch_txt.Text == "" || namePersons_txt.Text == "")
+                if (nameCursos_txt.Text == "" || namePersons_txt.Text == "")
                 {
                     MessageBox.Show("Los siguientes campos son obligatorios: Nombre de persona y nombre de curso. Por favor, complete los campos que le faltan.",
                         "Crear. Error! Campos incompletos.");
@@ -103,9 +110,9 @@ namespace UniversityWPF.Forms
                 {
                     IdInscription = -1;
                     namePerson = namePersons_txt.Text;
-                    nameMatter = nameCursoSearch_txt.Text;
-                    IdPerson = SearchIDTable(namePerson, -1, "Person");
-                    IdMatter = SearchIDTable(nameMatter, -1, "Matter");
+                    nameMatter = nameCursos_txt.Text;
+                    IdPerson = Convert.ToInt32(namePersons_txt.SelectedValue);
+                    IdMatter = Convert.ToInt32(nameCursos_txt.SelectedValue);
                     if (IdMatter == -1)
                     {
                         MessageBox.Show("El curso ingresado no existe. Intentelo nuevamente!", "Crear. Error!");
@@ -176,8 +183,9 @@ namespace UniversityWPF.Forms
                 {
                     //namePerson = namePersons_txt.Text;
                     //MessageBox.Show("id inscription: " + IdInscription);
-                    nameMatter = nameCursos_txt.Text;                   
-                    IdMatter = SearchIDTable(nameMatter, IdMatter, "Matter");
+                    nameMatter = nameCursos_txt.Text;
+                    //IdMatter = SearchIDTable(nameMatter, IdMatter, "Matter");
+                    IdMatter = Convert.ToInt32(nameCursos_txt.SelectedValue);
                     isActive = (bool)isActivo_Check.IsChecked;
                     
                     con.AddParameters("@id", IdInscription.ToString(), SqlDbType.BigInt);
@@ -238,51 +246,6 @@ namespace UniversityWPF.Forms
             nameCursos_txt.Text = "";
             
             con.ClearListParameter();
-        }
-
-
-        private int SearchIDTable(string name, int id, string nameTable)
-        {
-            if (id == -1)
-            {
-                dt.Clear();
-
-                con.AddParameters("@id", id.ToString(), SqlDbType.BigInt);
-                con.AddParameters("@name", name, SqlDbType.VarChar);
-                ds = con.ExecuteQueryDS("SelectAll" + nameTable, true, con.ConnectionStringdbUniversity());
-                dt.Load(ds.CreateDataReader());
-
-                con.ClearListParameter();
-
-                if (dt.Rows.Count != 0)
-                {
-                    return Convert.ToInt32(dt.Rows[0]["id" + nameTable]);
-
-                }
-                else
-                {
-                    return -1;
-                }
-                
-            }
-            else
-            {
-                dt.Clear();
-
-                con.AddParameters("@id", id.ToString(), SqlDbType.BigInt);
-                con.AddParameters("@name", name, SqlDbType.VarChar);
-                ds = con.ExecuteQueryDS("SelectAll" + nameTable, true, con.ConnectionStringdbUniversity());
-                
-                dt.Load(ds.CreateDataReader());
-
-                
-                con.ClearListParameter();
-
-                MessageBox.Show("esto retorna si no existe el nombre del curso: "+ dt.Rows[0]["id" + nameTable]);
-
-                return Convert.ToInt32(dt.Rows[0]["id" + nameTable]);
-            }
-            
         }
 
     }

@@ -76,6 +76,13 @@ namespace UniversityWPF.Forms
             //dt.Load(ds.CreateDataReader());
             //MessageBox.Show("code; " + dt.Rows[0]["code"].ToString());
             //id_txt.Text = idDocument.ToString();
+            ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+
+            var dataIdDoc = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();
+            id_txt.ItemsSource = dataIdDoc;
+            id_txt.DisplayMemberPath = "code";
+            id_txt.SelectedValuePath = "idDocumentType";
+
             doc_txt.Text = doc;
             name1_txt.Text = name1;
             name2_txt.Text = name2;
@@ -83,13 +90,6 @@ namespace UniversityWPF.Forms
             lastname2_txt.Text = lname2;
             date_txt.Text = birth;
             isActivo_Check.IsChecked = isActi;
-
-            //llenar id_txt con los codigos segun los id de los documentos en DocumentType
-            ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
-            var dataIdDoc = (ds.Tables[0] as System.ComponentModel.IListSource).GetList();
-            id_txt.ItemsSource = dataIdDoc;
-            id_txt.DisplayMemberPath = "code";
-            id_txt.SelectedValuePath = "code";
 
             CrearBtn.Visibility = System.Windows.Visibility.Collapsed;
 
@@ -111,13 +111,14 @@ namespace UniversityWPF.Forms
                     id = -1;
                     codeDocType = id_txt.Text;
 
-                    con.AddParameters("@id", id.ToString(), SqlDbType.BigInt);
-                    con.AddParameters("@cd", codeDocType, SqlDbType.VarChar);
-                    ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
-                    dt.Load(ds.CreateDataReader());
-                    con.ClearListParameter();
 
-                    idDoc = Convert.ToInt32(dt.Rows[0]["idDocumentType"]);
+                    //con.AddParameters("@id", id.ToString(), SqlDbType.BigInt);
+                    //con.AddParameters("@cd", codeDocType, SqlDbType.VarChar);
+                    //ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
+                    //dt.Load(ds.CreateDataReader());
+                    //idDoc = Convert.ToInt32(dt.Rows[0]["idDocumentType"]);
+                    //con.ClearListParameter();
+                    idDoc = Convert.ToInt32(id_txt.SelectedValue);
                     doc = doc_txt.Text;
                     name1 = name1_txt.Text;
                     name2 = name2_txt.Text;
@@ -126,7 +127,7 @@ namespace UniversityWPF.Forms
 
                     birthdayDate = date_txt.Text;
 
-                    MessageBox.Show("fecha: " + date_txt.Text);
+                    //MessageBox.Show("fecha: " + date_txt.Text);
 
                     isActive = (bool)isActivo_Check.IsChecked;
 
@@ -209,14 +210,14 @@ namespace UniversityWPF.Forms
                     id = IdPerson;
                     codeDocType = id_txt.Text;
 
-                    con.AddParameters("@id", "-1", SqlDbType.BigInt);
+                    /*con.AddParameters("@id", "-1", SqlDbType.BigInt);
                     con.AddParameters("@code", codeDocType, SqlDbType.VarChar);
                     ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
                     dt.Load(ds.CreateDataReader());
                     con.ClearListParameter();
 
-                    idDoc = Convert.ToInt32(dt.Rows[0]["idDocumentType"]);
-                    
+                    idDoc = Convert.ToInt32(dt.Rows[0]["idDocumentType"]);*/
+                    idDoc = Convert.ToInt32(id_txt.SelectedValue);
                     doc = doc_txt.Text;
                     name1 = name1_txt.Text;
                     name2 = name2_txt.Text;

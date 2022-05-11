@@ -24,7 +24,9 @@
             </DataTemplate>
         </Grid.Resources>
 
-        <DataGrid x:Name="datagridInscription" ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="193" Margin="40,87,0,0" VerticalAlignment="Top" Width="685">
+        <DataGrid x:Name="datagridInscription"
+                  CanUserAddRows="False"
+                  ItemsSource="{Binding}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="193" Margin="40,87,0,0" VerticalAlignment="Top" Width="685">
 
             <DataGrid.Columns>
                 
