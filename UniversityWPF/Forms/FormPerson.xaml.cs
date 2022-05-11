@@ -154,21 +154,24 @@ namespace UniversityWPF.Forms
 
                         if (ds.Tables.Count > 0)
                         {
-                            dt.Load(ds.CreateDataReader());
+                            DataTable tableError = new DataTable();
+                            tableError.Load(ds.CreateDataReader());
 
-                            if (dt.TableName == "Error")
+                            if (tableError.TableName == "Error")
                             {
                                 string errors = "";
 
-                                for (int i = 0; i < dt.Rows.Count; i++)
+                                for (int i = 0; i < tableError.Rows.Count; i++)
                                 {
-                                    errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+                                    errors = errors + i.ToString() + " - " + tableError.Rows[i]["message"] + "\n";
 
                                 }
 
-                                MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                                MessageBox.Show("Se detectaron los siguientes errores: \n" + errors, "Crear. Error en consulta a Base de Datos");
 
                                 Limpiar();
+
+                                tableError.Clear();
 
                             }
 
@@ -246,21 +249,20 @@ namespace UniversityWPF.Forms
 
                         if (ds.Tables.Count > 0)
                         {
-                            //dt.Clear();
+                            DataTable tableError = new DataTable();
+                            tableError.Load(ds.CreateDataReader());
 
-                            dt.Load(ds.CreateDataReader());
-
-                            if (dt.TableName == "Error")
+                            if (tableError.TableName == "Error")
                             {
                                 string errors = "";
 
-                                for (int i = 0; i < dt.Rows.Count; i++)
+                                for (int i = 0; i < tableError.Rows.Count; i++)
                                 {
-                                    errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+                                    errors = errors + i.ToString() + " - " + tableError.Rows[i]["message"] + "\n";
 
                                 }
 
-                                MessageBox.Show("Se han conseguido los siguientes errores: " + errors, "Editar. Error!");
+                                MessageBox.Show("Se han conseguido los siguientes errores: \n" + errors, "Editar. Error!");
 
                                 con.ClearListParameter();
 

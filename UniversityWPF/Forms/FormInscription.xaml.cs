@@ -62,6 +62,7 @@ namespace UniversityWPF.Forms
             namePersons_txt.SelectedValuePath = "name1"; 
             editBtn.Visibility = System.Windows.Visibility.Collapsed;
             namePersonBlock_txt.Visibility = System.Windows.Visibility.Collapsed;
+            nameCursos_txt.Visibility = System.Windows.Visibility.Collapsed;
 
         }
 
@@ -91,7 +92,7 @@ namespace UniversityWPF.Forms
         {
             try
             {
-                if (nameCursos_txt.Text == "")
+                if (nameCursoSearch_txt.Text == "" || namePersons_txt.Text == "")
                 {
                     MessageBox.Show("Los siguientes campos son obligatorios: Nombre de persona y nombre de curso. Por favor, complete los campos que le faltan.",
                         "Crear. Error! Campos incompletos.");
@@ -101,7 +102,7 @@ namespace UniversityWPF.Forms
                 {
                     IdInscription = -1;
                     namePerson = namePersons_txt.Text;
-                    nameMatter = nameCursos_txt.Text;
+                    nameMatter = nameCursoSearch_txt.Text;
                     IdPerson = SearchIDTable(namePerson, -1, "Person");
                     IdMatter = SearchIDTable(nameMatter, -1, "Matter");
                     isActive = (bool)isActivo_Check.IsChecked;
@@ -130,7 +131,7 @@ namespace UniversityWPF.Forms
 
                             }
 
-                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                            MessageBox.Show("Se detectaron los siguientes errores: \n" + errors, "Crear. Error en consulta a Base de Datos");
 
                             Limpiar();
 
@@ -195,7 +196,7 @@ namespace UniversityWPF.Forms
                             MessageBox.Show("Se detectaron los siguientes errores: \n" + errors, "Editar. Error en consulta a Base de Datos");
 
                             con.ClearListParameter();
-
+                            tableError.Clear();
                         }
 
                     }
@@ -242,6 +243,7 @@ namespace UniversityWPF.Forms
                 dt.Load(ds.CreateDataReader());
 
                 con.ClearListParameter();
+                MessageBox.Show("esto retorna si no existe el nombre del curso: " + dt.Rows[0]["id" + nameTable]);
 
                 return Convert.ToInt32(dt.Rows[0]["id" + nameTable]);
             }
@@ -250,9 +252,13 @@ namespace UniversityWPF.Forms
                 con.AddParameters("@id", id.ToString(), SqlDbType.BigInt);
                 con.AddParameters("@name", name, SqlDbType.VarChar);
                 ds = con.ExecuteQueryDS("SelectAll" + nameTable, true, con.ConnectionStringdbUniversity());
+                
                 dt.Load(ds.CreateDataReader());
 
+                
                 con.ClearListParameter();
+
+                MessageBox.Show("esto retorna si no existe el nombre del curso: "+ dt.Rows[0]["id" + nameTable]);
 
                 return Convert.ToInt32(dt.Rows[0]["id" + nameTable]);
             }

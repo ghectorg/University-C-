@@ -5,22 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UniversityWPF.Forms"
         mc:Ignorable="d"
-        Title="Inscripciones" Height="312" Width="689">
+        Title="Inscripciones" Height="312" Width="622">
     <Grid>
-        <Label Content="Curso" HorizontalAlignment="Left" Margin="134,130,0,0" VerticalAlignment="Top" FontSize="14"/>
-        <Label Content="Persona" HorizontalAlignment="Left" Margin="134,71,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label Content="Curso" HorizontalAlignment="Left" Margin="117,133,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label Content="Persona" HorizontalAlignment="Left" Margin="117,74,0,0" VerticalAlignment="Top" FontSize="14"/>
         <Button x:Name="CrearBtn" Click="CrearBtn_Click"
-            Content="Crear" HorizontalAlignment="Left" Margin="59,197,0,0" VerticalAlignment="Top" Width="110" FontSize="14" FontWeight="Bold" Height="43"/>
+            Content="Crear" HorizontalAlignment="Left" Margin="117,208,0,0" VerticalAlignment="Top" Width="110" FontSize="14" FontWeight="Bold" Height="43"/>
         <Button x:Name="editBtn" Click="EditBtn_Click" 
-            Content="Editar" HorizontalAlignment="Left" Margin="59,197,0,0" VerticalAlignment="Top" Width="110" FontSize="14" FontWeight="Bold" Height="43"/>
+            Content="Editar" HorizontalAlignment="Left" Margin="117,208,0,0" VerticalAlignment="Top" Width="110" FontSize="14" FontWeight="Bold" Height="43"/>
         <Button x:Name="ClearBtn" Click="ClearBtn_Click" 
-            Content="Limpiar" HorizontalAlignment="Left" Margin="519,197,0,0" VerticalAlignment="Top" Width="110" FontSize="14" FontWeight="Bold" Height="43"/>
+            Content="Limpiar" HorizontalAlignment="Left" Margin="408,208,0,0" VerticalAlignment="Top" Width="110" FontSize="14" FontWeight="Bold" Height="43"/>
         <ComboBox x:Name="namePersons_txt"
-            HorizontalAlignment="Left" Margin="215,68,0,0" VerticalAlignment="Top" Width="320" FontSize="14">
+            HorizontalAlignment="Left" Margin="198,71,0,0" VerticalAlignment="Top" Width="320" FontSize="14">
 
         </ComboBox>
         <ComboBox x:Name="nameCursos_txt"
-            HorizontalAlignment="Left" Margin="215,134,0,0" VerticalAlignment="Top" Width="320" FontSize="14">
+            HorizontalAlignment="Left" Margin="198,137,0,0" VerticalAlignment="Top" Width="320" FontSize="14">
             <!--
             <ComboBoxItem>lenguaje1</ComboBoxItem>
             <ComboBoxItem>quimica1</ComboBoxItem>
@@ -34,10 +34,10 @@
 
         </ComboBox>
         <CheckBox x:Name="isActivo_Check"
-            Content="Activo" HorizontalAlignment="Left" Margin="299,25,0,0" VerticalAlignment="Top"/>
+            Content="Activo" HorizontalAlignment="Left" Margin="282,28,0,0" VerticalAlignment="Top"/>
         <TextBlock x:Name="namePersonBlock_txt"
-            HorizontalAlignment="Left" Margin="215,68,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" Width="305" FontSize="14"/>
+            HorizontalAlignment="Left" Margin="198,71,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" Width="305" FontSize="14"/>
         <TextBox x:Name="nameCursoSearch_txt"
-            HorizontalAlignment="Left" Height="23" Margin="215,136,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="305"/>
+            HorizontalAlignment="Left" Height="25" Margin="198,137,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="320"/>
     </Grid>
 </Window>

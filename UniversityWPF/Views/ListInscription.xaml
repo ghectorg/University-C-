@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UniversityWPF.Views"
         mc:Ignorable="d"
-        Title="Inscripciones" Height="462" Width="800">
+        Title="Inscripciones" Height="472.016" Width="800">
     <Grid>
         <Grid.Resources>
             <DataTemplate x:Key="ActionTemplate">
