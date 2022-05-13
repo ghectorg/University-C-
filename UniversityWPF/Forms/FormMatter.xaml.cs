@@ -213,6 +213,7 @@ namespace UniversityWPF.Forms
             
             name_txt.Text = "";
             description_txt.Text = "";
+            isActivo_Check.IsChecked = false;
             con.ClearListParameter();
         }
 

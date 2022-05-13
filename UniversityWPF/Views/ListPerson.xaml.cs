@@ -86,7 +86,7 @@ namespace UniversityWPF.Views
                         }
 
                         MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");*/
-                        MessageBox.Show("Ha ocurrido un error en la consulta a base de datos", "Eliminar");
+                        MessageBox.Show("Ha ocurrido al intentar eliminar un registro.", "Eliminar");
 
                         Limpiar();
 
@@ -115,7 +115,6 @@ namespace UniversityWPF.Views
 
         public void Limpiar()
         {
-            
             con.ClearListParameter();
         }
 
@@ -133,52 +132,67 @@ namespace UniversityWPF.Views
         {
             try
             {
-                dt.Clear();
-                con.AddParameters("@id", "-1", SqlDbType.BigInt);
-                con.AddParameters("@name", nameSearch_txt.Text, SqlDbType.VarChar);
-                ds = con.ExecuteQueryDS("SelectAllPerson", true, con.ConnectionStringdbUniversity());
-
-                if (ds.Tables.Count > 0)
+                if (nameSearch_txt.Text == "")
                 {
+                    MessageBox.Show("El campo de busqueda no puede estar vacio. Intentelo de nuevo.", "Buscar");
+                    //mostrar tabla completa
+                    ds = con.ExecuteQueryDS("SelectAllPerson", true, con.ConnectionStringdbUniversity());
                     dt.Load(ds.CreateDataReader());
+                    persons = person.getPerson(dt);
+                    datagridPerson.DataContext = persons;
 
-                    if (dt.TableName == "Error")
+                }
+                else
+                {
+                    dt.Clear();
+                    con.AddParameters("@id", "-1", SqlDbType.BigInt);
+                    con.AddParameters("@name", nameSearch_txt.Text, SqlDbType.VarChar);
+                    ds = con.ExecuteQueryDS("SelectAllPerson", true, con.ConnectionStringdbUniversity());
+
+                    if (ds.Tables.Count > 0)
                     {
-                        /*string errors = "";
+                        dt.Load(ds.CreateDataReader());
 
-                        for (int i = 0; i < dt.Rows.Count; i++)
+                        if (dt.TableName == "Error")
                         {
-                            errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+                            /*string errors = "";
 
-                        }
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
 
-                        MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");*/
-                        MessageBox.Show("Ha ocurrido un error en la consulta a base de datos", "Buscar");
+                            }
 
-                        Limpiar();
+                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");*/
+                            MessageBox.Show("Ha ocurrido un error al buscar un registro.", "Buscar");
 
-                    }
-                    
-                    else
-                    {
-                        
-                        persons = person.getPerson(dt);
-                        if (persons.Count == 0)
-                        {
-                            MessageBox.Show("No existe una persona con el nombre que ha ingresado.","Buscar");
                             Limpiar();
-                            nameSearch_txt.Text = "";
+
                         }
+
                         else
                         {
-                            datagridPerson.DataContext = persons;
-                            Limpiar();
-                            nameSearch_txt.Text = "";
+
+                            persons = person.getPerson(dt);
+                            if (persons.Count == 0)
+                            {
+                                MessageBox.Show("No existe una persona con el nombre que ha ingresado.", "Buscar");
+                                dt.Clear();
+                                datagridPerson.DataContext = dt.DefaultView;
+                                Limpiar();
+                                nameSearch_txt.Text = "";
+
+                            }
+                            else
+                            {
+                                datagridPerson.DataContext = persons;
+                                Limpiar();
+                                nameSearch_txt.Text = "";
+                            }
+
                         }
-                                               
                     }
-                }
-                
+                }   
             }
             catch (Exception ex)
             {

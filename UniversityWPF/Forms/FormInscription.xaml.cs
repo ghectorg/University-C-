@@ -248,7 +248,7 @@ namespace UniversityWPF.Forms
         public void Limpiar()
         {
             nameCursos_txt.Text = "";
-            
+            isActivo_Check.IsChecked = false;            
             con.ClearListParameter();
         }
 
