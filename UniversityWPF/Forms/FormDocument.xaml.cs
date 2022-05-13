@@ -23,6 +23,7 @@ namespace UniversityWPF.Forms
     {
         DataBase.Connection con = new DataBase.Connection();
         DataSet ds = new DataSet();
+
         DataTable dt = new DataTable();
         Class.Document doc = new Class.Document();
         ObservableCollection<Class.Document> docs = new ObservableCollection<Class.Document>();
@@ -57,7 +58,7 @@ namespace UniversityWPF.Forms
 
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
-            
+
             try
             {
                 if (code_txt.Text == "" || name_txt.Text == "")
@@ -76,12 +77,13 @@ namespace UniversityWPF.Forms
                     if(!ValidateData(name, code))
                     {
                         MessageBox.Show("Ha surgido un error con sus datos ingresados. Intentelo nuevamente." +
-                       "Tenga en cuenta que: nombre deben tener menos de 63 caracteres y código debe tener 3 o menos caracteres",
+                       " Tenga en cuenta que: nombre deben tener menos de 63 caracteres y código debe tener 3 o menos caracteres",
                        "Validación. Error en campos");
                         Limpiar();
                     }
                     else
                     {
+
                         con.AddParameters("@id", IdDocumentType.ToString(), SqlDbType.BigInt);
                         con.AddParameters("@code", code, System.Data.SqlDbType.VarChar);
                         con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
@@ -100,16 +102,25 @@ namespace UniversityWPF.Forms
                             {
                                 string errors = "";
 
-                                for (int i = 0; i < tableError.Rows.Count; i++)
-                                {
-                                    errors = errors + i.ToString() + " - " + tableError.Rows[i]["message"] + "\n";
+                                /* for (int i = 0; i < tableError.Rows.Count; i++)
+                                 {
+                                     errors = errors + (i+1).ToString() + " - " + tableError.Rows[i]["message"] + "\n";
 
+                                 }*/
+                                if (tableError.Rows[0]["message"].ToString().Contains("The duplicate key value is (" + code + ")"))
+                                {
+                                    errors += "No puede duplicar un código ya existente, debe crear uno nuevo.";
+                                }
+                                else
+                                {
+                                    errors += "Error: Ha salido mal la consulta a base de datos";
                                 }
 
-                                MessageBox.Show("Se detectaron los siguientes errores: \n" + errors, "Editar. Error en consulta a Base de Datos");
+
+                                MessageBox.Show("Error: " + errors, "Crear. Error Base de Datos");
 
                                 con.ClearListParameter();
-
+                                ds.Clear();
                                 tableError.Clear();
 
                             }
@@ -118,6 +129,7 @@ namespace UniversityWPF.Forms
                         else
                         {
                             MessageBox.Show("Edición de datos exitosa!", "Editar");
+                            ds.Clear();
 
                             con.ClearListParameter();
                         }
@@ -127,6 +139,8 @@ namespace UniversityWPF.Forms
             catch (Exception ex)
             {
                 MessageBox.Show("Ha sucedido el siguiente error: "+ ex.Message, "Editar. Error!");
+                ds.Clear();
+
                 con.ClearListParameter();
 
             }
@@ -154,19 +168,21 @@ namespace UniversityWPF.Forms
                     if (!ValidateData(name, code))
                     {
                         MessageBox.Show("Ha surgido un error con sus datos ingresados. Intentelo nuevamente." +
-                        "Tenga en cuenta que: nombre deben tener menos de 63 caracteres y código debe tener 3 o menos caracteres",
+                        " Tenga en cuenta que: nombre deben tener menos de 63 caracteres y código debe tener 3 o menos caracteres",
                         "Validación. Error en campos");
                         Limpiar();
 
                     }
                     else
                     {
-                        con.AddParameters("@id", idDocumentType.ToString(), SqlDbType.BigInt);
-                        con.AddParameters("@code", code, System.Data.SqlDbType.VarChar);
-                        con.AddParameters("@name", name, System.Data.SqlDbType.VarChar);
-                        con.AddParameters("@description", description, System.Data.SqlDbType.VarChar);
-                        con.AddParameters("@isActive", isActive.ToString(), System.Data.SqlDbType.Bit);
+                        con.ClearListParameter();
 
+                        con.AddParameters("@id", idDocumentType.ToString(), SqlDbType.BigInt);
+                        con.AddParameters("@code", code, SqlDbType.VarChar);
+                        con.AddParameters("@name", name, SqlDbType.VarChar);
+                        con.AddParameters("@description", description, SqlDbType.VarChar);
+                        con.AddParameters("@isActive", isActive.ToString(), SqlDbType.Bit);
+                        
                         ds = con.ExecuteQueryDS("EditAndCreateDocument", true, con.ConnectionStringdbUniversity());
                         //VALIDAR RETURN SI ES LISTA DE ERRORES
 
@@ -179,15 +195,33 @@ namespace UniversityWPF.Forms
                             {
                                 string errors = "";
 
-                                for (int i = 0; i < tableError.Rows.Count; i++)
+                                /*for (int i = 0; i < tableError.Rows.Count; i++)
                                 {
-                                    errors = errors + i.ToString() + " - " + tableError.Rows[i]["message"] + "\n";
-
+                                    //errors = errors + (i+1).ToString() + " - " + tableError.Rows[i]["message"] + "\n";
+                                    if (tableError.Rows[i]["message"].ToString().Contains("The duplicate key value is (" + code + ")"))
+                                    {
+                                        errors += "No puede duplicar un código ya existente, debe crear uno nuevo.";
+                                    }
+                                    else
+                                    {
+                                        errors = errors + (i+1).ToString() + " - " + tableError.Rows[i]["message"] + "\n";
+                                    }
+                                }*/
+                                if (tableError.Rows[0]["message"].ToString().Contains("The duplicate key value is (" + code + ")"))
+                                {
+                                    errors += "No puede duplicar un código ya existente, debe crear uno nuevo.";
+                                }
+                                else
+                                {
+                                    errors += "Error: Ha salido mal la consulta a base de datos";
                                 }
 
-                                MessageBox.Show("Se detectaron los siguientes errores: \n" + errors, "Crear. Error en consulta a Base de Datos");
+                                
+                                MessageBox.Show("Error: " + errors, "Crear. Error Base de Datos");
 
                                 Limpiar();
+                                con.ClearListParameter();
+                                ds.Clear();
                                 tableError.Clear();
 
                             }
@@ -196,6 +230,8 @@ namespace UniversityWPF.Forms
                         else
                         {
                             MessageBox.Show("Creación de datos exitosa!", "Crear");
+                            con.ClearListParameter();
+                            ds.Clear();
 
                             Limpiar();
                         }
@@ -206,6 +242,8 @@ namespace UniversityWPF.Forms
             catch (Exception ex)
             {
                 MessageBox.Show("Ha sucedido el siguiente error: "+ ex.Message, "Crear. Error!");
+                ds.Clear();
+                con.ClearListParameter();
                 Limpiar();
             }
 
@@ -216,12 +254,13 @@ namespace UniversityWPF.Forms
             code_txt.Text = "";
             name_txt.Text = "";
             description_txt.Text = "";
-            con.ClearListParameter();
+
         }
 
         private void ClearBtn_Click(object sender, RoutedEventArgs e)
         {
             Limpiar();
+            con.ClearListParameter();
         }
 
         private bool ValidateData(string name, string code)

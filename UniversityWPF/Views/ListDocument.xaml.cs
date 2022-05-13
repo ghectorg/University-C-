@@ -44,7 +44,7 @@ namespace UniversityWPF.Views
         {
             //enviar datos al formulario para editar y guardar cambios
             dc = (Class.Document)datagridDocuments.SelectedItem;
-            //VALIDAR DATOS
+            
             Forms.FormDocument formularioDocumentType = new Forms.FormDocument(dc.IdDocument, dc.Code, dc.Name, dc.Description, dc.IsActive);
             formularioDocumentType.Owner = this;
             formularioDocumentType.Show();
@@ -95,15 +95,19 @@ namespace UniversityWPF.Views
 
                     if (dt.TableName == "Error")
                     {
-                        string errors = "";
+                        //string errors = "";
 
-                        for (int i = 0; i < dt.Rows.Count; i++)
+                        /*for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+                            errors = errors + i.ToString() + "<->" + dt.Rows[i]["message"] + "\n";
 
                         }
 
-                        MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                        errors += dt.Rows[0]["message"].ToString();
+
+                        MessageBox.Show("Error: " + errors, "Crear. Error Base de Datos");*/
+                        MessageBox.Show("Ha ocurrido un error en la consulta a base de datos", "Eliminar");
+
                     }
                 }
                 else
@@ -156,15 +160,20 @@ namespace UniversityWPF.Views
 
                         if (dt.TableName == "Error")
                         {
-                            string errors = "";
+                            //string errors = "";
 
-                            for (int i = 0; i < dt.Rows.Count; i++)
+                            /*for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["message"] + "\n";
 
                             }
 
-                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                            errors += dt.Rows[0]["message"].ToString();
+
+                            MessageBox.Show("Error en Base de Datos: " + errors, "Buscar");*/
+
+                            MessageBox.Show("Ha ocurrido un error en la consulta a base de datos", "Buscar");
+                            
                             Limpiar();
 
                         }
@@ -193,7 +202,7 @@ namespace UniversityWPF.Views
                 {
                     dt.Clear();
                     con.AddParameters("@id", "-1", SqlDbType.BigInt);
-                    con.AddParameters("@cd", codeSearch_txt.Text, SqlDbType.VarChar);
+                    con.AddParameters("@code", codeSearch_txt.Text, SqlDbType.VarChar);
                     ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
 
                     if (ds.Tables.Count > 0)
@@ -202,15 +211,19 @@ namespace UniversityWPF.Views
 
                         if (dt.TableName == "Error")
                         {
-                            string errors = "";
+                            /*string errors = "";
 
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["message"] + "\n";
 
                             }
 
-                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                            errors += dt.Rows[0]["message"].ToString();
+
+                            MessageBox.Show("Error en Base de Datos: " + errors, "Buscar");*/
+                            MessageBox.Show("Ha ocurrido un error en la consulta a base de datos", "Buscar");
+
                             Limpiar();
 
                         }
@@ -240,7 +253,7 @@ namespace UniversityWPF.Views
                     dt.Clear();
                     con.AddParameters("@id", "-1", SqlDbType.BigInt);
                     con.AddParameters("@name", nameSearch_txt.Text, SqlDbType.VarChar);
-                    con.AddParameters("@cd", nameSearch_txt.Text, SqlDbType.VarChar);
+                    con.AddParameters("@code", nameSearch_txt.Text, SqlDbType.VarChar);
                     ds = con.ExecuteQueryDS("SelectAllDocuments", true, con.ConnectionStringdbUniversity());
 
                     if (ds.Tables.Count > 0)
@@ -249,15 +262,19 @@ namespace UniversityWPF.Views
 
                         if (dt.TableName == "Error")
                         {
-                            string errors = "";
+                            /*string errors = "";
 
-                            for (int i = 0; i < dt.Rows.Count; i++)
-                            {
-                                errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+                             for (int i = 0; i < dt.Rows.Count; i++)
+                             {
+                                 errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
 
-                            }
+                             }
 
-                            MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                            errors += dt.Rows[0]["message"].ToString();
+
+                            MessageBox.Show("Error en Base de Datos: " + errors, "Buscar");*/
+                            MessageBox.Show("Ha ocurrido un error en la consulta a base de datos", "Buscar");
+
                             Limpiar();
 
                         }

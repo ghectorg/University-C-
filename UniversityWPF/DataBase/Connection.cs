@@ -210,6 +210,8 @@ namespace UniversityWPF.DataBase
                     if (_ds == null)
                         _ds = new DataSet();
                     _ds.Tables.Add(dt);
+
+                    _errors.Clear();
                 }
 
                 if (_closeConnection)

@@ -138,15 +138,17 @@ namespace UniversityWPF.Forms
 
                             if (tableError.TableName == "Error")
                             {
-                                string errors = "";
+                                /* string errors = "";
 
-                                for (int i = 0; i < tableError.Rows.Count; i++)
-                                {
-                                    errors = errors + (i + 1).ToString() + " - " + tableError.Rows[i]["message"] + "\n";
+                                 for (int i = 0; i < tableError.Rows.Count; i++)
+                                 {
+                                     errors = errors + (i + 1).ToString() + " - " + tableError.Rows[i]["message"] + "\n";
 
-                                }
+                                 }
 
-                                MessageBox.Show("Se detectaron los siguientes errores: \n" + errors, "Crear. Error en consulta a Base de Datos");
+                                 MessageBox.Show("Se detectaron los siguientes errores: \n" + errors, "Crear. Error en consulta a Base de Datos");*/
+                                MessageBox.Show("Ha ocurrido un error en la consulta a base de datos", "Crear");
+
 
                                 Limpiar();
 
@@ -203,7 +205,7 @@ namespace UniversityWPF.Forms
 
                         if (tableError.TableName == "Error")
                         {
-                            string errors = "";
+                            /*string errors = "";
 
                             for (int i = 0; i < tableError.Rows.Count; i++)
                             {
@@ -212,6 +214,8 @@ namespace UniversityWPF.Forms
                             }
 
                             MessageBox.Show("Se detectaron los siguientes errores: \n" + errors, "Editar. Error en consulta a Base de Datos");
+                            */
+                            MessageBox.Show("Ha ocurrido un error en la consulta a base de datos", "Editar");
 
                             con.ClearListParameter();
                             tableError.Clear();

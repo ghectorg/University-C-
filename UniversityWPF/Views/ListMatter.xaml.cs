@@ -71,7 +71,7 @@ namespace UniversityWPF.Views
 
                     if (dt.TableName == "Error")
                     {
-                        string errors = "";
+                        /*string errors = "";
 
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
@@ -79,7 +79,9 @@ namespace UniversityWPF.Views
 
                         }
 
-                        MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                        MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");*/
+                        MessageBox.Show("Ha ocurrido un error en la consulta a base de datos", "Eliminar");
+
                     }
                 }
                 else
@@ -144,7 +146,7 @@ namespace UniversityWPF.Views
 
                     if (dt.TableName == "Error")
                     {
-                        string errors = "";
+                        /*string errors = "";
 
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
@@ -152,7 +154,9 @@ namespace UniversityWPF.Views
 
                         }
 
-                        MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");
+                        MessageBox.Show("Se detectaron los siguientes errores: " + errors, "Crear. Error en consulta a Base de Datos");*/
+                        MessageBox.Show("Ha ocurrido un error en la consulta a base de datos", "Buscar");
+
                         Limpiar();
 
                     }
