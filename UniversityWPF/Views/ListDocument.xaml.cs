@@ -266,7 +266,7 @@ namespace UniversityWPF.Views
 
                              for (int i = 0; i < dt.Rows.Count; i++)
                              {
-                                 errors = errors + i.ToString() + "<->" + dt.Rows[i]["messageError"] + "\n";
+                                 errors = errors + i.ToString() + "<->" + dt.Rows[i]["message"] + "\n";
 
                              }
 
