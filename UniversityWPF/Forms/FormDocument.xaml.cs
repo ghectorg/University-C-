@@ -254,6 +254,7 @@ namespace UniversityWPF.Forms
             code_txt.Text = "";
             name_txt.Text = "";
             description_txt.Text = "";
+            isActivo_Check.IsChecked = false;
 
         }
 

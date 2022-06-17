@@ -302,6 +302,7 @@ namespace UniversityWPF.Forms
             lastname1_txt.Text = "";
             lastname2_txt.Text = "";
             date_txt.Text = "";
+            isActivo_Check.IsChecked = false;
             con.ClearListParameter();
         }
 
